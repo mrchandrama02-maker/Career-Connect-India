@@ -8,7 +8,8 @@ import { createRoot } from "react-dom/client";
 import { User, Company, Job, Application } from "./types";
 import { initLocalStorage } from "./data/mockData";
 import AdminDashboard from "./components/AdminDashboard";
-import { Landmark, Lock, Mail, ShieldAlert, CheckCircle2, LogOut, ArrowLeft, Sparkles, ShieldCheck, HelpCircle } from "lucide-react";
+import CareerConnectLogo from "./components/CareerConnectLogo";
+import { Lock, Mail, ShieldAlert, CheckCircle2, LogOut, ArrowLeft, Sparkles, ShieldCheck, HelpCircle, Sun, Moon } from "lucide-react";
 import "./index.css";
 
 // Interface for rich admin session
@@ -88,6 +89,27 @@ function AdminApp() {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 4500);
   };
+
+  // Dark Mode state initialization & handlers for unified theme sync
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    return localStorage.getItem("cci_dark_mode") === "true";
+  });
+
+  const handleToggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newVal = !prev;
+      localStorage.setItem("cci_dark_mode", String(newVal));
+      return newVal;
+    });
+  };
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   // Load and hydrate database on mount
   const reloadData = () => {
@@ -358,8 +380,17 @@ function AdminApp() {
                 </div>
 
                 <div className="flex items-center gap-2.5">
+                  <button
+                    onClick={handleToggleDarkMode}
+                    className="p-2 text-gray-500 hover:text-[#3B82F6] hover:bg-gray-100 rounded-xl transition-colors cursor-pointer border border-gray-200 bg-white"
+                    title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                    id="admin-dark-mode-toggle"
+                  >
+                    {isDarkMode ? <Sun size={14} /> : <Moon size={14} />}
+                  </button>
+
                   <a
-                    href="/index.html"
+                    href="/"
                     className="text-xs font-semibold text-gray-600 hover:text-[#3B82F6] flex items-center gap-1 bg-gray-50 hover:bg-blue-50 px-3.5 py-2 rounded-xl transition-all border border-gray-200"
                   >
                     <ArrowLeft size={14} /> Back to Live Web
@@ -400,13 +431,22 @@ function AdminApp() {
           <div className="min-h-[90vh] flex flex-col justify-center items-center px-4 py-8">
             
             <div className="mb-6 text-center">
-              <a href="/index.html" className="inline-flex items-center gap-1 text-xs font-bold text-[#3B82F6] hover:underline mb-4 bg-blue-50 hover:bg-blue-100 transition-all rounded-full px-4 py-1.5 border border-blue-200">
-                <ArrowLeft size={12} /> Return to Seekers Board
-              </a>
+              <div className="flex items-center justify-between gap-4 w-full max-w-md mx-auto mb-4">
+                <a href="/" className="inline-flex items-center gap-1 text-xs font-bold text-[#3B82F6] hover:underline bg-blue-50 hover:bg-blue-100 transition-all rounded-full px-4 py-1.5 border border-blue-200">
+                  <ArrowLeft size={12} /> Return to Seekers Board
+                </a>
+                <button
+                  type="button"
+                  onClick={handleToggleDarkMode}
+                  className="p-1 px-2.5 text-xs text-gray-500 hover:text-[#3B82F6] bg-white border border-gray-200 rounded-full flex items-center gap-1 cursor-pointer"
+                  title="Toggle Site Theme"
+                  id="admin-login-dark-mode-toggle"
+                >
+                  {isDarkMode ? <Sun size={12} /> : <Moon size={12} />} Theme
+                </button>
+              </div>
               <div className="flex items-center justify-center space-x-2.5">
-                <div className="bg-[#3B82F6] p-2.5 rounded-2xl text-white shadow-sm flex items-center justify-center">
-                  <Landmark size={24} />
-                </div>
+                <CareerConnectLogo className="h-12 w-12" />
                 <span className="font-extrabold text-2xl text-[#1F293A] tracking-wider font-sans">
                   CAREER CONNECT <span className="text-[#3B82F6]">INDIA</span>
                 </span>
@@ -489,26 +529,6 @@ function AdminApp() {
                   <ShieldCheck size={14} /> Validate Credentials & Login
                 </button>
               </form>
-
-              {/* Demo matrix panel dropdown disclosure */}
-              <div className="bg-[#EFF6FF]/60 border border-blue-100 rounded-2xl p-3 text-left space-y-2">
-                <span className="text-[10px] text-blue-800 font-bold block uppercase tracking-wider">Demo Administration Personas:</span>
-                
-                <div className="grid grid-cols-1 gap-1.5 text-[10px] font-mono text-gray-500">
-                  <div className="border-b border-blue-50/50 pb-1">
-                    <span className="text-purple-600 font-extrabold font-sans">🔑 Super Admin (Full Read/Write):</span>
-                    <div className="mt-0.5 select-all">superadmin@careerconnectindia.com / Super@123</div>
-                  </div>
-                  <div className="border-b border-blue-50/50 pb-1">
-                    <span className="text-blue-600 font-extrabold font-sans">🛡️ Regular Admin (Standard Operations):</span>
-                    <div className="mt-0.5 select-all">admin@careerconnectindia.com / Admin@123</div>
-                  </div>
-                  <div>
-                    <span className="text-amber-600 font-extrabold font-sans">👁️ Viewer Analyst (Strict Read-Only):</span>
-                    <div className="mt-0.5 select-all">viewer@careerconnectindia.com / Viewer@123</div>
-                  </div>
-                </div>
-              </div>
 
             </div>
           </div>

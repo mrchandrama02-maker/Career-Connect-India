@@ -20,6 +20,9 @@ export interface User {
   profilePhotoEmoji?: string;
   blocked?: boolean;
   companyId?: string; // Connected only for company role users
+  companyName?: string; // Only for recruiters/companies
+  createdAt?: string;
+  profile?: { skills: string; experience: string; resume: string }; // Initial empty profile values
 }
 
 export interface Company {

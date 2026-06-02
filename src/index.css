@@ -20,24 +20,24 @@ body {
 /* Premium Dark Mode Selectors */
 html.dark,
 html.dark body {
-  background-color: #1F2937 !important;
-  color: #F9FAFB !important;
+  background-color: #0B0F19 !important; /* Premium Midnight Dark */
+  color: #F3F4F6 !important;
 }
 
 html.dark #cci-master-root {
-  background-color: #1F2937 !important;
-  color: #F9FAFB !important;
+  background-color: #0B0F19 !important;
+  color: #F3F4F6 !important;
 }
 
 /* Header overlays */
 html.dark nav#cci-navbar {
-  background-color: #1F2937 !important;
-  border-color: #374151 !important;
+  background-color: #0E1322 !important;
+  border-color: #1F293D !important;
 }
 
 html.dark nav#cci-navbar button,
 html.dark nav#cci-navbar span {
-  color: #F9FAFB !important;
+  color: #F3F4F6 !important;
 }
 
 html.dark nav#cci-navbar button[id^="nav-tab-"] {
@@ -46,31 +46,36 @@ html.dark nav#cci-navbar button[id^="nav-tab-"] {
 
 html.dark nav#cci-navbar button[id^="nav-tab-"].text-\[\#3B82F6\] {
   color: #60A5FA !important;
-  background-color: #374151 !important;
+  background-color: #1E293B !important;
 }
 
 html.dark nav#cci-navbar .bg-white {
-  background-color: #374151 !important;
-  border-color: #4B5563 !important;
+  background-color: #1E293B !important;
+  border-color: #334155 !important;
 }
 
 /* General containers & cards */
 html.dark .bg-white {
-  background-color: #374151 !important;
-  color: #F9FAFB !important;
+  background-color: #141B2D !important; /* Premium Dark Navy-Gray */
+  color: #F3F4F6 !important;
 }
 
 html.dark .border,
 html.dark .border-t,
 html.dark .border-b,
+html.dark .border-r,
+html.dark .border-l,
 html.dark .border-[#E5E7EB],
 html.dark .border-gray-100,
+html.dark .border-gray-150,
 html.dark .border-gray-200 {
-  border-color: #4B5563 !important;
+  border-color: #1F293D !important;
 }
 
 html.dark .text-\[\#1F293A\],
 html.dark .text-gray-800,
+html.dark .text-gray-850,
+html.dark .text-gray-900,
 html.dark .text-gray-950 {
   color: #F9FAFB !important;
 }
@@ -85,13 +90,16 @@ html.dark .text-gray-400 {
   color: #9CA3AF !important;
 }
 
-/* Light blue overlays */
+/* Light blue overlays - converting to dark navy/slate accents */
 html.dark .bg-\[\#EFF6FF\],
+html.dark .bg-\[\#EFF6FF\]\/60,
+html.dark .bg-[#EFF6FF],
 html.dark .bg-blue-50,
 html.dark .bg-blue-50\/30,
 html.dark .bg-blue-50\/10 {
-  background-color: #2F3E52 !important;
+  background-color: #131E35 !important;
   color: #E2E8F0 !important;
+  border-color: #1E3A70 !important;
 }
 
 html.dark .text-\[\#3B82F6\],
@@ -100,42 +108,46 @@ html.dark .text-sky-500 {
   color: #60A5FA !important;
 }
 
-/* Gray sections */
+/* Gray sections - background to darker gray block */
 html.dark .bg-gray-50,
 html.dark .bg-slate-50,
 html.dark .bg-gray-100,
 html.dark .bg-slate-100 {
-  background-color: #4B5563 !important;
-  color: #F9FAFB !important;
+  background-color: #0E1322 !important;
+  color: #F3F4F6 !important;
 }
 
 /* Tables */
 html.dark table thead tr {
-  background-color: #1F2937 !important;
+  background-color: #0E1322 !important;
+}
+
+html.dark tbody tr {
+  border-color: #1F293D !important;
 }
 
 html.dark tbody tr:hover {
-  background-color: #2D3748 !important;
+  background-color: #1B243B !important;
 }
 
 /* Forms & inputs */
 html.dark input,
 html.dark select,
 html.dark textarea {
-  background-color: #1F2937 !important;
+  background-color: #0B0F19 !important;
   color: #F9FAFB !important;
-  border-color: #4B5563 !important;
+  border-color: #1F293D !important;
 }
 
 html.dark input::placeholder,
 html.dark textarea::placeholder {
-  color: #6B7280 !important;
+  color: #4B5563 !important;
 }
 
 /* Admin elements */
 html.dark .bg-amber-50\/20,
 html.dark .bg-amber-50\/10 {
-  background-color: #2F3223 !important;
+  background-color: #2D2310 !important;
   border-color: #78350F !important;
 }
 
@@ -157,7 +169,7 @@ html.dark .bg-emerald-50 {
 }
 
 html.dark .bg-emerald-100 {
-  background-color: rgb(4, 120, 8 emerald) !important;
+  background-color: rgb(4, 120, 87) !important;
 }
 
 html.dark .bg-red-50 {
@@ -167,6 +179,7 @@ html.dark .bg-red-50 {
 }
 
 html.dark .bg-blue-50 {
+  background-color: rgb(13, 148, 136) / rgb(30, 58, 138) !important;
   background-color: rgb(30, 58, 138) !important;
   color: rgb(219, 234, 254) !important;
   border-color: rgb(29, 78, 216) !important;

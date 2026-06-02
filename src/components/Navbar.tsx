@@ -4,8 +4,9 @@
  */
 
 import React, { useState } from "react";
-import { Briefcase, User as UserIcon, LogOut, Shield, Building, Menu, X, Landmark, Sun, Moon } from "lucide-react";
+import { Briefcase, User as UserIcon, LogOut, Shield, Building, Menu, X, Sun, Moon } from "lucide-react";
 import { User } from "../types";
+import CareerConnectLogo from "./CareerConnectLogo";
 
 interface NavbarProps {
   currentUser: User | null;
@@ -44,9 +45,7 @@ export default function Navbar({
               className="flex items-center space-x-2 text-left focus:outline-none group cursor-pointer"
               id="nav-logo-btn"
             >
-              <div className="bg-[#3B82F6] p-2 rounded-xl text-white group-hover:scale-105 transition-transform">
-                <Landmark size={20} />
-              </div>
+              <CareerConnectLogo className="h-10 w-10 group-hover:scale-105 transition-transform" />
               <div>
                 <span className="font-bold text-lg text-[#1F293A] tracking-tight block">
                   Career Connect <span className="text-[#3B82F6]">India</span>

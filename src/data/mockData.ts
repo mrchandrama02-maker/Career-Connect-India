@@ -116,6 +116,61 @@ export const INITIAL_COMPANIES: Company[] = [
     location: "Delhi",
     companySize: "5000-10,000 employees",
     verified: true
+  },
+  {
+    id: "comp_4",
+    name: "Tata Consultancy Services",
+    description: "A purpose-led organization that is building a meaningful future through innovation.",
+    website: "https://www.tcs.com",
+    logoEmoji: "🏆",
+    industry: "Technology",
+    location: "Mumbai",
+    companySize: "10,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_5",
+    name: "Wipro Technologies",
+    description: "A leading global information technology, consulting and business process services company.",
+    website: "https://www.wipro.com",
+    logoEmoji: "🌐",
+    industry: "Technology",
+    location: "Bangalore",
+    companySize: "10,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_6",
+    name: "HDFC Bank Hub",
+    description: "India's leading private sector bank offering comprehensive financial architectures.",
+    website: "https://www.hdfcbank.com",
+    logoEmoji: "🏦",
+    industry: "Banking & Finance",
+    location: "Mumbai",
+    companySize: "10,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_7",
+    name: "Flipkart Commerce",
+    description: "India's customer-focused e-commerce marketplace driving digital shopping revolutions.",
+    website: "https://www.flipkart.com",
+    logoEmoji: "🛍️",
+    industry: "E-commerce",
+    location: "Bangalore",
+    companySize: "5000-10,000 employees",
+    verified: true
+  },
+  {
+    id: "comp_8",
+    name: "Swiggy Delivery Tech",
+    description: "India's top on-demand delivery network powering hyper-local food and grocery deliveries.",
+    website: "https://www.swiggy.com",
+    logoEmoji: "🍔",
+    industry: "E-commerce",
+    location: "Bangalore",
+    companySize: "1000-5000 employees",
+    verified: true
   }
 ];
 
@@ -148,6 +203,56 @@ export const INITIAL_COMPANY_USERS: User[] = [
     name: "Mukesh recruiter",
     companyId: "comp_3",
     profilePhotoEmoji: "👨‍💼",
+    blocked: false
+  },
+  {
+    id: "user_comp_4",
+    email: "recruiter4@tcs.com",
+    password: "password123",
+    role: "company",
+    name: "Anjali Sen",
+    companyId: "comp_4",
+    profilePhotoEmoji: "👩‍💼",
+    blocked: false
+  },
+  {
+    id: "user_comp_5",
+    email: "recruiter5@wipro.com",
+    password: "password123",
+    role: "company",
+    name: "Rohan Das",
+    companyId: "comp_5",
+    profilePhotoEmoji: "👨‍💼",
+    blocked: false
+  },
+  {
+    id: "user_comp_6",
+    email: "recruiter6@hdfc.com",
+    password: "password123",
+    role: "company",
+    name: "Karan Saxena",
+    companyId: "comp_6",
+    profilePhotoEmoji: "💼",
+    blocked: false
+  },
+  {
+    id: "user_comp_7",
+    email: "recruiter7@flipkart.com",
+    password: "password123",
+    role: "company",
+    name: "Kirti Malhotra",
+    companyId: "comp_7",
+    profilePhotoEmoji: "👩‍💻",
+    blocked: false
+  },
+  {
+    id: "user_comp_8",
+    email: "recruiter8@swiggy.com",
+    password: "password123",
+    role: "company",
+    name: "Rohit Verma",
+    companyId: "comp_8",
+    profilePhotoEmoji: "🙋‍♂️",
     blocked: false
   }
 ];
@@ -296,6 +401,114 @@ export const INITIAL_JOBS: Job[] = [
     ],
     datePosted: "2026-05-29",
     active: true
+  },
+  {
+    id: "job_9",
+    title: "Cloud Solutions Architect",
+    companyId: "comp_4",
+    companyName: "Tata Consultancy Services",
+    location: "Mumbai",
+    salaryRange: "18-25 LPA",
+    jobType: "Full-time",
+    experienceLevel: 5,
+    description: "Lead the cloud design division to design enterprise architecture scaling mechanisms, secure multi-region backup systems and disaster recovery architectures.",
+    requirements: [
+      "5+ years in Enterprise Cloud Orchestration on AWS, Azure, or Google Cloud",
+      "Certifications in Cloud Architecture (Google Cloud PCA, AWS Solution Architect Pro)",
+      "Vast knowledge in microservices routing patterns and API gateways"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_10",
+    title: "Cybersecurity Analyst",
+    companyId: "comp_5",
+    companyName: "Wipro Technologies",
+    location: "Bangalore",
+    salaryRange: "9-14 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Proactively monitor network operations, perform vulnerability scans, and implement robust digital threat identification protocols for modern FinTech partners.",
+    requirements: [
+      "3+ years managing standard SOC procedures or performing red-team penetration checks",
+      "Robust knowledge of Kali Linux, Wireshark, Splunk, or Metasploit",
+      "Industry certifications like CEH (Certified Ethical Hacker) or CompTIA Security+"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_11",
+    title: "Full-Stack Engineer (Node.js & React)",
+    companyId: "comp_7",
+    companyName: "Flipkart Commerce",
+    location: "Bangalore",
+    salaryRange: "14-22 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Design state-of-the-art e-commerce pathways, constructing rapid payment integrations, dynamic shopping cards, and high-performance server microservices.",
+    requirements: [
+      "4+ years deploying high-scale Node.js backends and complex React frontends",
+      "Extensive experience working with Redis, Kafka, and PostgreSQL queries",
+      "Prior exposure to high-load digital retail deployments"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_12",
+    title: "Financial Risk Manager",
+    companyId: "comp_6",
+    companyName: "HDFC Bank Hub",
+    location: "Mumbai",
+    salaryRange: "12-16 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Formulate strategic asset evaluations, analyze portfolio risk indexes, and outline strict credit compliance configurations to protect digital banking assets.",
+    requirements: [
+      "4+ years modeling credit/market risk parameters in commercial banks",
+      "Professional credentials like FRM certificate or CFA designation valued",
+      "Expert skills in quantitative spreadsheet modeling and Python finance suites"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_13",
+    title: "Product Lead - Logistics Systems",
+    companyId: "comp_8",
+    companyName: "Swiggy Delivery Tech",
+    location: "Remote",
+    salaryRange: "20-28 LPA",
+    jobType: "Contract",
+    experienceLevel: 6,
+    description: "Take command of Swiggy's logistics dispatcher systems, implementing AI-driven routing heuristics and dynamic supply-demand models to minimize delivery intervals.",
+    requirements: [
+      "6+ years directing product management efforts for heavy delivery services or maps",
+      "Excellent technical communications skills translating maps APIs into visual structures",
+      "Outstanding analytical framework with a solid background in data-driven decision making"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_14",
+    title: "Machine Learning Specialist",
+    companyId: "comp_4",
+    companyName: "Tata Consultancy Services",
+    location: "Bangalore",
+    salaryRange: "14-20 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Integrate LLMs, semantic text recognition engines, and image processing tools into smart workflow software for national utility providers.",
+    requirements: [
+      "3+ years programming production-ready neural networks (PyTorch/TensorFlow)",
+      "Expert knowledge of vector embedding layouts, Pinecone, and langchain models",
+      "Master's Degree in Computer Science, Applied Mathematics, or similar fields"
+    ],
+    datePosted: "2026-06-02",
+    active: true
   }
 ];
 
@@ -360,33 +573,109 @@ export const INITIAL_APPLICATIONS: Application[] = [
 export function initLocalStorage() {
   if (typeof window === "undefined") return;
 
-  // Check and seed Users
-  if (!localStorage.getItem("cci_users")) {
-    const defaultUsers = [
-      ADMIN_ACCOUNT,
-      ...INITIAL_SEEKERS,
-      ...INITIAL_COMPANY_USERS
-    ];
+  const defaultUsers = [
+    ADMIN_ACCOUNT,
+    ...INITIAL_SEEKERS,
+    ...INITIAL_COMPANY_USERS
+  ];
+
+  // 1. Seed & Merge Users
+  const existingUsersStr = localStorage.getItem("cci_users");
+  if (!existingUsersStr) {
     localStorage.setItem("cci_users", JSON.stringify(defaultUsers));
+  } else {
+    try {
+      const currentUsers: User[] = JSON.parse(existingUsersStr);
+      const updatedUsers = [...currentUsers];
+      let changed = false;
+      for (const u of defaultUsers) {
+        if (!currentUsers.some((existing) => existing.id === u.id)) {
+          updatedUsers.push(u);
+          changed = true;
+        }
+      }
+      if (changed) {
+        localStorage.setItem("cci_users", JSON.stringify(updatedUsers));
+      }
+    } catch (e) {
+      localStorage.setItem("cci_users", JSON.stringify(defaultUsers));
+    }
   }
 
-  // Check and seed Companies
-  if (!localStorage.getItem("cci_companies")) {
+  // 2. Seed & Merge Companies
+  const existingCompaniesStr = localStorage.getItem("cci_companies");
+  if (!existingCompaniesStr) {
     localStorage.setItem("cci_companies", JSON.stringify(INITIAL_COMPANIES));
+  } else {
+    try {
+      const currentCompanies: Company[] = JSON.parse(existingCompaniesStr);
+      const updatedCompanies = [...currentCompanies];
+      let changed = false;
+      for (const c of INITIAL_COMPANIES) {
+        if (!currentCompanies.some((existing) => existing.id === c.id)) {
+          updatedCompanies.push(c);
+          changed = true;
+        }
+      }
+      if (changed) {
+        localStorage.setItem("cci_companies", JSON.stringify(updatedCompanies));
+      }
+    } catch (e) {
+      localStorage.setItem("cci_companies", JSON.stringify(INITIAL_COMPANIES));
+    }
   }
 
-  // Check and seed Jobs
-  if (!localStorage.getItem("cci_jobs")) {
+  // 3. Seed & Merge Jobs
+  const existingJobsStr = localStorage.getItem("cci_jobs");
+  if (!existingJobsStr) {
     localStorage.setItem("cci_jobs", JSON.stringify(INITIAL_JOBS));
+  } else {
+    try {
+      const currentJobs: Job[] = JSON.parse(existingJobsStr);
+      const updatedJobs = [...currentJobs];
+      let changed = false;
+      for (const j of INITIAL_JOBS) {
+        if (!currentJobs.some((existing) => existing.id === j.id)) {
+          updatedJobs.push(j);
+          changed = true;
+        }
+      }
+      if (changed) {
+        localStorage.setItem("cci_jobs", JSON.stringify(updatedJobs));
+      }
+    } catch (e) {
+      localStorage.setItem("cci_jobs", JSON.stringify(INITIAL_JOBS));
+    }
   }
 
-  // Check and seed Applications
+  // 4. Seed Applications
   if (!localStorage.getItem("cci_applications")) {
     localStorage.setItem("cci_applications", JSON.stringify(INITIAL_APPLICATIONS));
   }
 
-  // Check and seed Saved Jobs
+  // 5. Seed Saved Jobs
   if (!localStorage.getItem("cci_saved_jobs")) {
     localStorage.setItem("cci_saved_jobs", JSON.stringify([]));
+  }
+
+  // 6. Synchronize cci_users to the custom users key with requested schema
+  const updatedCciUsers = localStorage.getItem("cci_users");
+  if (updatedCciUsers) {
+    try {
+      const parsedUsers = JSON.parse(updatedCciUsers);
+      const mappedForUsersKey = parsedUsers.map((u: any) => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        password: u.password,
+        role: u.role === "company" ? "recruiter" : u.role,
+        companyName: u.companyName || (u.companyId ? "Verified Recruiter" : undefined),
+        createdAt: u.createdAt || "2026-06-02",
+        profile: u.profile || { skills: "", experience: "", resume: "" }
+      }));
+      localStorage.setItem("users", JSON.stringify(mappedForUsersKey));
+    } catch (e) {
+      // ignore
+    }
   }
 }

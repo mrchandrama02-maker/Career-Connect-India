@@ -347,48 +347,103 @@ export default function HomeHero({
         </div>
       </section>
 
-      {/* 5. Indian Professional Guidelines Section */}
-      <section className="bg-slate-50 border-t border-b border-[#E5E7EB] py-14 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div>
-            <span className="text-xs font-bold bg-[#3B82F6] text-white px-2.5 py-1 rounded-sm tracking-wider uppercase">
-              LOCAL STORAGE REVOLUTION
-            </span>
-            <h2 className="text-2xl font-bold text-[#1F293A] mt-3">
-              Fast, Private, and Instant Local Testing Workspace
+      {/* 5. How It Works Section (3 steps) */}
+      <section className="bg-slate-50 border-t border-b border-[#E5E7EB] py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl font-extrabold text-[#1F293A]">
+              How Career Connect India Works
             </h2>
-            <p className="text-sm text-gray-500 mt-2 leading-relaxed">
-              CCI features zero backend overhead because all configurations, resumes, candidates, and job posts are processed locally in your web explorer. You can switch between candidate roles, add recruiter positions, update status codes instantly, and reset mock data with absolute ease.
+            <p className="text-sm text-gray-505 max-w-2xl mx-auto">
+              Get matched and hired with India's premier organizations in a secure, efficient 3-step recruitment workflow.
             </p>
-            <div className="flex gap-4 mt-6">
-              <div className="flex items-center gap-1 text-xs font-bold text-[#3B82F6]">
-                <Compass size={14} /> 100% Functional Mockups
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xs text-center space-y-4">
+              <div className="mx-auto w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-[#3B82F6] font-bold text-lg font-mono">
+                1
               </div>
-              <div className="flex items-center gap-1 text-xs font-bold text-emerald-600">
-                <CheckCircle2 size={14} /> No Sign-Up Blockers
+              <h3 className="font-bold text-[#1F293A] text-lg">Create Professional Profile</h3>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Build your professional presence, add your core tech stack, and share your experience to attract active recruiters.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xs text-center space-y-4">
+              <div className="mx-auto w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 font-bold text-lg font-mono">
+                2
+              </div>
+              <h3 className="font-bold text-[#1F293A] text-lg">Search Verified Positions</h3>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Filter through verified jobs matched directly with top Indian employers across multiple technology domains.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white p-8 rounded-2xl border border-gray-200 shadow-xs text-center space-y-4">
+              <div className="mx-auto w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-purple-600 font-bold text-lg font-mono">
+                3
+              </div>
+              <h3 className="font-bold text-[#1F293A] text-lg">Apply Instantly with One Click</h3>
+              <p className="text-xs text-gray-500 leading-relaxed">
+                Apply directly to employers, track application status markers in real-time, and easily schedule direct interviews.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Professional Testimonials Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold text-[#1F293A]">
+            Hired Through Career Connect India
+          </h2>
+          <p className="text-xs text-gray-400 uppercase font-mono tracking-widest">
+            Success Stories From Top Technologists Across the Nation
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-2xl border border-[#E5E7EB] shadow-xs hover:shadow-md transition-all space-y-4">
+            <p className="text-gray-500 text-xs italic leading-relaxed">
+              "After completing my project portfolios, Career Connect India matched my profile with Tech Mahindra. The process was completely seamless and I signed my offer letter in two weeks!"
+            </p>
+            <div className="flex items-center gap-2.5 pt-2 border-t border-gray-100">
+              <span className="text-xl bg-blue-50 p-1.5 rounded-lg">👨‍💻</span>
+              <div>
+                <span className="font-bold text-gray-805 text-xs block">Rajesh Sharma</span>
+                <span className="text-[10px] text-gray-400 font-mono">Frontend Developer, Mumbai</span>
               </div>
             </div>
           </div>
-          <div className="bg-white p-6 rounded-2xl border border-[#E5E7EB] shadow-xs space-y-4">
-            <h3 className="font-bold text-[#1F293A] text-sm flex items-center gap-1 text-amber-600">
-              ⚡ Sandbox Simulation Info
-            </h3>
-            <p className="text-xs text-gray-500 leading-relaxed font-mono">
-              - Default Admin Log: admin@careerconnectindia.com
-              <br />
-              - Password: admin123
-              <br />
-              - Seeker Log: rajesh@gmail.com / password123
-              <br />
-              - Recruiter Log: recruiter1@techmahindra.com / password123
+
+          <div className="bg-white p-6 rounded-2xl border border-[#E5E7EB] shadow-xs hover:shadow-md transition-all space-y-4">
+            <p className="text-gray-500 text-xs italic leading-relaxed">
+              "Direct recruitment clarity is amazing here. Standard portal tracking status updates let me follow the recruiter's exact actions. Highly recommended platform!"
             </p>
-            <div className="flex justify-end pt-2">
-              <button
-                onClick={onOpenAuth}
-                className="text-xs bg-[#3B82F6] hover:bg-[#2563EB] text-white font-bold py-1.5 px-4 rounded-lg cursor-pointer"
-              >
-                Access Account Panel
-              </button>
+            <div className="flex items-center gap-2.5 pt-2 border-t border-gray-100">
+              <span className="text-xl bg-purple-50 p-1.5 rounded-lg">👩‍💻</span>
+              <div>
+                <span className="font-bold text-gray-805 text-xs block">Priya Gopalan</span>
+                <span className="text-[10px] text-gray-400 font-mono">Senior Data Analyst, Bangalore</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl border border-[#E5E7EB] shadow-xs hover:shadow-md transition-all space-y-4">
+            <p className="text-gray-500 text-xs italic leading-relaxed">
+              "An extremely fast portal. It has zero clutter and matches you directly with certified positions. Recruiting staff reached out to me on my profile credentials instantly."
+            </p>
+            <div className="flex items-center gap-2.5 pt-2 border-t border-gray-100">
+              <span className="text-xl bg-emerald-50 p-1.5 rounded-lg">👨‍💻</span>
+              <div>
+                <span className="font-bold text-gray-805 text-xs block">Amit Kumar</span>
+                <span className="text-[10px] text-gray-400 font-mono">Full Stack Engineer, New Delhi</span>
+              </div>
             </div>
           </div>
         </div>

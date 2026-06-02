@@ -1408,6 +1408,66 @@ export default function AdminDashboard({
                 </div>
               </div>
 
+              {/* System Security Status & Simulation Coordinates Panel */}
+              <div className="pt-4 border-t border-gray-150 space-y-3">
+                <div className="bg-slate-50 border border-gray-200 rounded-xl p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] bg-blue-100 text-blue-700 font-extrabold px-2 py-0.5 rounded-md font-mono">CC_SYS_NODE_OK</span>
+                    <span className="text-[10px] text-gray-400 font-mono">v2.6.1-enterprise</span>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                    <div className="bg-white p-2.5 rounded-lg border border-gray-150">
+                      <span className="text-[10px] text-gray-400 block uppercase">Users Key</span>
+                      <span className="text-xs font-mono font-bold text-gray-700">cci_users</span>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-gray-150">
+                      <span className="text-[10px] text-gray-400 block uppercase">Jobs Key</span>
+                      <span className="text-xs font-mono font-bold text-gray-700">cci_jobs</span>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-gray-150">
+                      <span className="text-[10px] text-gray-400 block uppercase">Comps Key</span>
+                      <span className="text-xs font-mono font-bold text-gray-700">cci_companies</span>
+                    </div>
+                    <div className="bg-white p-2.5 rounded-lg border border-gray-150">
+                      <span className="text-[10px] text-gray-400 block uppercase">Registry</span>
+                      <span className="text-xs font-mono font-bold text-emerald-600">Local Storage</span>
+                    </div>
+                  </div>
+
+                  {/* Collapsible Secure Guidelines & Credentials */}
+                  <details className="group border border-gray-200 rounded-lg bg-white overflow-hidden text-xs">
+                    <summary className="p-2.5 font-bold text-gray-700 hover:bg-gray-50 flex items-center justify-between cursor-pointer select-none">
+                      <span>🔒 View Simulation Access Tokens & Credentials</span>
+                      <span className="text-[10px] bg-gray-100 text-gray-500 py-0.5 px-2 rounded-full group-open:hidden">Expand</span>
+                      <span className="text-[10px] bg-blue-100 text-blue-600 py-0.5 px-2 rounded-full hidden group-open:inline">Hide</span>
+                    </summary>
+                    <div className="p-3 border-t border-gray-100 bg-[#FBFDFE] space-y-2.5">
+                      <p className="text-[10px] text-gray-400">These mock accounts are seeded in local storage for testing purposes. Simply type them manually on the respective login forms:</p>
+                      
+                      <div className="grid grid-cols-1 gap-2 border border-gray-150 rounded-lg p-2.5 font-mono text-[10px] text-gray-600 bg-white">
+                        <div className="border-b border-gray-50 pb-1 flex justify-between">
+                          <span className="font-sans font-bold text-[#3B82F6]">🛡️ Super Admin</span>
+                          <span>superadmin@careerconnectindia.com / Super@123</span>
+                        </div>
+                        <div className="border-b border-gray-50 pb-1 flex justify-between">
+                          <span className="font-sans font-bold text-[#3B82F6]">🛡️ Admin</span>
+                          <span>admin@careerconnectindia.com / Admin@123</span>
+                        </div>
+                        <div className="border-b border-gray-50 pb-1 flex justify-between">
+                          <span className="font-sans font-bold text-emerald-600">👤 Job Seeker</span>
+                          <span>rajesh@gmail.com / password123</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-sans font-bold text-purple-600">💼 Recruiter</span>
+                          <span>recruiter1@techmahindra.com / password123</span>
+                        </div>
+                      </div>
+                    </div>
+                  </details>
+                </div>
+              </div>
+
             </div>
           )}
 

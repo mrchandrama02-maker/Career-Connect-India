@@ -4,8 +4,9 @@
  */
 
 import React, { useState } from "react";
-import { X, Mail, Lock, User as UserIcon, Phone, Briefcase, Award, GraduationCap, Building, Link, Users, Landmark } from "lucide-react";
+import { X, Mail, Lock, User as UserIcon, Building } from "lucide-react";
 import { User, Company } from "../types";
+import CareerConnectLogo from "./CareerConnectLogo";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -27,38 +28,19 @@ export default function AuthModal({
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Common Form Fields
+  // Fields
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // User full name or Recruiter name
-
-  // Seeker Specifics
-  const [mobile, setMobile] = useState("");
-  const [skills, setSkills] = useState("");
-  const [experience, setExperience] = useState("");
-  const [education, setEducation] = useState("");
-
-  // Company Specifics
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
   const [companyName, setCompanyName] = useState("");
-  const [companyDesc, setCompanyDesc] = useState("");
-  const [companyWeb, setCompanyWeb] = useState("");
-  const [companyLocation, setCompanyLocation] = useState("");
-  const [companyIndustry, setCompanyIndustry] = useState("");
-  const [companySize, setCompanySize] = useState("1-10 employees");
 
   const resetForm = () => {
     setEmail("");
     setPassword("");
+    setConfirmPassword("");
     setName("");
-    setMobile("");
-    setSkills("");
-    setExperience("");
-    setEducation("");
     setCompanyName("");
-    setCompanyDesc("");
-    setCompanyWeb("");
-    setCompanyLocation("");
-    setCompanyIndustry("");
     setErrorMsg("");
     setSuccessMsg("");
   };
@@ -71,126 +53,219 @@ export default function AuthModal({
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
+    setSuccessMsg("");
 
     if (!email || !password) {
-      setErrorMsg("Please provide your email and password.");
+      setErrorMsg("Please provide both email and password.");
       return;
     }
 
-    const storedUsersRaw = localStorage.getItem("cci_users");
-    const users: User[] = storedUsersRaw ? JSON.parse(storedUsersRaw) : [];
+    // Try finding the registered account in either users list
+    const storedCciOriginal = localStorage.getItem("cci_users");
+    const storedUsersCustom = localStorage.getItem("users");
 
-    const matchedUser = users.find(
-      (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+    let parsedUsers: User[] = [];
+    if (storedCciOriginal) {
+      try { parsedUsers = JSON.parse(storedCciOriginal); } catch (e) {}
+    }
+    if (parsedUsers.length === 0 && storedUsersCustom) {
+      try { parsedUsers = JSON.parse(storedUsersCustom); } catch (e) {}
+    }
+
+    // Standard fallback synchronization if stores got disjoint
+    if (storedUsersCustom && parsedUsers.length === 0) {
+      try {
+        const customList = JSON.parse(storedUsersCustom);
+        parsedUsers = customList.map((u: any) => ({
+          ...u,
+          role: u.role === "recruiter" ? "company" : u.role
+        }));
+      } catch (e) {}
+    }
+
+    const matchedUser = parsedUsers.find(
+      (u) => u.email.toLowerCase() === email.trim().toLowerCase() && u.password === password
     );
 
     if (!matchedUser) {
-      setErrorMsg("Invalid credentials. Please attempt again.");
-      return;
-    }
-
-    if (matchedUser.role === "admin" || matchedUser.email.toLowerCase() === "admin@careerconnectindia.com") {
-      setErrorMsg("Administrative accounts are restricted to the separate Admin Portal webpage. Please use admin.html.");
+      setErrorMsg("Error: Invalid email or password credentials.");
       return;
     }
 
     if (matchedUser.blocked) {
-      setErrorMsg("This account has been temporarily blocked by administration. Please contact support@careerconnectindia.com.");
+      setErrorMsg("This account has been temporarily blocked by administration.");
       return;
     }
 
-    setSuccessMsg("Logged in successfully! Re-directing dashboard...");
+    // Ensure the role is standardized to internal dashboard expectations
+    const normalizedUser = {
+      ...matchedUser,
+      role: (matchedUser.role as string) === "recruiter" ? ("company" as const) : matchedUser.role
+    };
+
+    setSuccessMsg("Success: Logged in successfully! Directing you to your dashboard...");
+    
+    // Write session tokens to both currentUser and cci_current_user variables
+    localStorage.setItem("currentUser", JSON.stringify(normalizedUser));
+    localStorage.setItem("cci_current_user", JSON.stringify(normalizedUser));
+
     setTimeout(() => {
-      onLoginSuccess(matchedUser);
+      onLoginSuccess(normalizedUser);
       onClose();
       resetForm();
-    }, 800);
+    }, 1000);
   };
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
+    setSuccessMsg("");
 
-    if (!email || !password || !name) {
-      setErrorMsg("Full name, email and password are all required.");
+    // 1. Basic sanitization and validations
+    const userEmail = email.trim();
+    const userPassword = password;
+    const userName = name.trim();
+    const recruiterCompName = companyName.trim();
+
+    if (!userName) {
+      setErrorMsg("Full Name is required.");
       return;
     }
 
-    // Check if email already in use
-    const storedUsersRaw = localStorage.getItem("cci_users");
-    const users: User[] = storedUsersRaw ? JSON.parse(storedUsersRaw) : [];
-    const emailExists = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
+    if (!userEmail) {
+      setErrorMsg("Email address is required.");
+      return;
+    }
+
+    // Valid format regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userEmail)) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+
+    // Password length validation (minimum 6 characters)
+    if (userPassword.length < 6) {
+      setErrorMsg("Password must be at least 6 characters in length.");
+      return;
+    }
+
+    // Password confirmation validation
+    if (userPassword !== confirmPassword) {
+      setErrorMsg("Confirm password does not match original password.");
+      return;
+    }
+
+    // Role conditional company name validation
+    if (role === "company" && !recruiterCompName) {
+      setErrorMsg("Company Name is required for Recruiter registration.");
+      return;
+    }
+
+    // Retrieve storage list and perform uniqueness check
+    const storedCci = localStorage.getItem("cci_users");
+    let existingCciUsers: User[] = [];
+    if (storedCci) {
+      try { existingCciUsers = JSON.parse(storedCci); } catch (e) {}
+    }
+
+    const emailExists = existingCciUsers.some(
+      (u) => u.email.toLowerCase() === userEmail.toLowerCase()
+    );
 
     if (emailExists) {
       setErrorMsg("This email address is already registered.");
       return;
     }
 
+    // Construct profile database entries for both stores
     let createdUser: User;
     let createdCompany: Company | undefined;
 
     if (role === "seeker") {
-      const formattedSkills = skills
-        ? skills.split(",").map((s) => s.trim()).filter((s) => s.length > 0)
-        : [];
-
       createdUser = {
         id: "seeker_" + Date.now(),
-        email: email,
-        password: password,
+        email: userEmail,
+        password: userPassword,
         role: "seeker",
-        name: name,
-        mobile: mobile || undefined,
-        skills: formattedSkills,
-        experience: experience ? parseInt(experience) : 0,
-        education: education || "Not Provided",
+        name: userName,
+        skills: [],
+        experience: 0,
+        education: "Not Provided",
         profilePhotoEmoji: ["👨‍💻", "👩‍💼", "👨‍💼", "👩‍💻", "✨"][Math.floor(Math.random() * 5)],
         blocked: false,
+        createdAt: "2026-06-02",
+        profile: { skills: "", experience: "", resume: "" }
       };
     } else {
-      // Registrar Recruiter + Company
-      if (!companyName || !companyLocation || !companyIndustry) {
-        setErrorMsg("Company Name, industry and location are required.");
-        return;
-      }
-
+      // Recruiter registration
       const newCompId = "comp_" + Date.now();
       createdCompany = {
         id: newCompId,
-        name: companyName,
-        description: companyDesc || "A growing Indian enterprise focused on technical progress.",
-        website: companyWeb || "https://careerconnectindia.com",
+        name: recruiterCompName,
+        description: `Premium national technology firm operations headed by ${userName}.`,
+        website: "https://careerconnectindia.com",
         logoEmoji: ["🏢", "🚀", "🛒", "🩺", "📈", "⚙️"][Math.floor(Math.random() * 6)],
-        industry: companyIndustry,
-        location: companyLocation,
-        companySize: companySize,
-        verified: false, // Unverified initially. Admin must verify.
+        industry: "IT Services / Technology",
+        location: "Mumbai, India",
+        companySize: "11-50 employees",
+        verified: false,
       };
 
       createdUser = {
         id: "recruiter_" + Date.now(),
-        email: email,
-        password: password,
+        email: userEmail,
+        password: userPassword,
         role: "company",
-        name: name, // Recruiter name
+        name: userName,
         companyId: newCompId,
+        companyName: recruiterCompName,
         profilePhotoEmoji: "👔",
         blocked: false,
+        createdAt: "2026-06-02",
+        profile: { skills: "", experience: "", resume: "" }
       };
     }
 
-    // Save outputs
-    const updatedUsers = [...users, createdUser];
-    localStorage.setItem("cci_users", JSON.stringify(updatedUsers));
+    // Update cci-original store
+    const updatedCciUsers = [...existingCciUsers, createdUser];
+    localStorage.setItem("cci_users", JSON.stringify(updatedCciUsers));
 
     if (createdCompany) {
       const storedCompRaw = localStorage.getItem("cci_companies");
-      const companies: Company[] = storedCompRaw ? JSON.parse(storedCompRaw) : [];
-      const updatedComp = [...companies, createdCompany];
-      localStorage.setItem("cci_companies", JSON.stringify(updatedComp));
+      let companies: Company[] = [];
+      if (storedCompRaw) {
+        try { companies = JSON.parse(storedCompRaw); } catch (e) {}
+      }
+      localStorage.setItem("cci_companies", JSON.stringify([...companies, createdCompany]));
     }
 
-    setSuccessMsg("Account registered successfully! Directing you...");
+    // Synchronize to the user-requested custom 'users' localStorage key
+    const currentUsersCustomRaw = localStorage.getItem("users");
+    let customUsersList: any[] = [];
+    if (currentUsersCustomRaw) {
+      try { customUsersList = JSON.parse(currentUsersCustomRaw); } catch (e) {}
+    }
+
+    const customUserRepresentation = {
+      id: createdUser.id,
+      name: createdUser.name,
+      email: createdUser.email,
+      password: createdUser.password,
+      role: createdUser.role === "company" ? "recruiter" : "seeker",
+      companyName: role === "company" ? recruiterCompName : undefined,
+      createdAt: "2026-06-02",
+      profile: { skills: "", experience: "", resume: "" }
+    };
+
+    localStorage.setItem("users", JSON.stringify([...customUsersList, customUserRepresentation]));
+
+    setSuccessMsg("Success: Account registered successfully! Processing login...");
+
+    // Auto-login session keys setting
+    localStorage.setItem("currentUser", JSON.stringify(createdUser));
+    localStorage.setItem("cci_current_user", JSON.stringify(createdUser));
+
     setTimeout(() => {
       onSignupSuccess(createdUser, createdCompany);
       onClose();
@@ -199,357 +274,231 @@ export default function AuthModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto" id="auth-modal-overlay">
-      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden relative border border-[#E5E7EB] my-8 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 overflow-y-auto" id="auth-modal-overlay">
+      <div className="bg-white dark:bg-[#141B2D] w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden relative border border-gray-200 dark:border-gray-850 my-6 animate-in fade-in zoom-in-95 duration-200">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 p-1 bg-gray-50 rounded-full transition-colors cursor-pointer"
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 bg-gray-50 dark:bg-slate-800 rounded-full transition-colors cursor-pointer border border-gray-100 dark:border-gray-700"
           id="auth-close-btn"
+          aria-label="Close authentication gateway"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
         {/* Modal Header */}
-        <div className="bg-[#EFF6FF] px-6 py-8 text-center border-b border-[#E5E7EB]">
-          <div className="inline-flex bg-[#3B82F6] p-2 rounded-xl text-white mb-2">
-            <Landmark size={22} />
-          </div>
-          <h3 className="text-xl font-bold text-[#1F293A]">
+        <div className="bg-slate-55 dark:bg-[#0E1322] px-6 py-8 text-center border-b border-gray-150 dark:border-[#1F293D] flex flex-col items-center">
+          <CareerConnectLogo className="h-12 w-12 mb-3" />
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
             Career Connect India Hub
           </h3>
-          <p className="text-xs text-gray-500 font-mono tracking-wider mt-1 uppercase">
-            {isLogin ? "Session Entrance Gateway" : "Create New Professional Profile"}
+          <p className="text-[10px] text-gray-500 font-mono tracking-widest mt-1 uppercase">
+            {isLogin ? "SECURE ACCOUNT PORTAL" : "CREATE NEW PROFILE GATEWAY"}
           </p>
         </div>
 
-        {/* Tab Toggle */}
-        <div className="flex border-b border-[#E5E7EB]">
-          <button
-            onClick={() => { setIsLogin(true); setErrorMsg(""); }}
-            className={`flex-1 py-3 text-center text-sm font-semibold transition-colors cursor-pointer ${
-              isLogin ? "text-[#3B82F6] border-b-2 border-[#3B82F6] bg-[#EFF6FF]/30" : "text-gray-500 hover:text-gray-800"
-            }`}
-            id="auth-tab-login"
-          >
-            Sign In Account
-          </button>
-          <button
-            onClick={() => { setIsLogin(false); setErrorMsg(""); }}
-            className={`flex-1 py-3 text-center text-sm font-semibold transition-colors cursor-pointer ${
-              !isLogin ? "text-[#3B82F6] border-b-2 border-[#3B82F6] bg-[#EFF6FF]/30" : "text-gray-500 hover:text-gray-800"
-            }`}
-            id="auth-tab-signup"
-          >
-            Create New Account
-          </button>
-        </div>
-
-        {/* Form Content */}
-        <form onSubmit={isLogin ? handleLogin : handleSignup} className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-          
+        {/* Alert Notifications */}
+        <div className="px-6 pt-5">
           {errorMsg && (
-            <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl border border-red-100 font-medium">
+            <div className="p-3 bg-red-50 dark:bg-red-950/40 text-red-650 dark:text-red-400 text-xs rounded-xl border border-red-100 dark:border-red-900/50 font-semibold leading-relaxed">
               ⚠️ {errorMsg}
             </div>
           )}
           {successMsg && (
-            <div className="p-3 bg-emerald-50 text-emerald-600 text-sm rounded-xl border border-emerald-100 font-semibold">
+            <div className="p-3 bg-emerald-55 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 text-xs rounded-xl border border-emerald-100 dark:border-emerald-900/50 font-bold leading-relaxed">
               🎉 {successMsg}
             </div>
           )}
+        </div>
 
-          {/* Core Credentials */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-semibold text-[#1F293A] uppercase tracking-wider mb-1">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" size={16} />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@gmail.com"
-                  className="w-full pl-9 pr-3 py-2 border border-[#E5E7EB] rounded-xl text-sm focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6]"
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-[#1F293A] uppercase tracking-wider mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" size={16} />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full pl-9 pr-3 py-2 border border-[#E5E7EB] rounded-xl text-sm focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6]"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Registrars Segment */}
-          {!isLogin && (
-            <>
-              {/* Role Selection */}
-              <div className="py-2">
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                  I wish to register as a:
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setRole("seeker")}
-                    className={`p-3 rounded-xl border text-center text-sm font-semibold transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
-                      role === "seeker"
-                        ? "border-[#3B82F6] bg-[#EFF6FF] text-[#3B82F6]"
-                        : "border-[#E5E7EB] bg-white text-gray-600 hover:border-gray-300"
-                    }`}
-                  >
-                    <Briefcase size={20} />
-                    <span>Job Seeker Candidate</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRole("company")}
-                    className={`p-3 rounded-xl border text-center text-sm font-semibold transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
-                      role === "company"
-                        ? "border-[#3B82F6] bg-[#EFF6FF] text-[#3B82F6]"
-                        : "border-[#E5E7EB] bg-white text-gray-600 hover:border-gray-300"
-                    }`}
-                  >
-                    <Building size={20} />
-                    <span>Company / Recruiter</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Common Name */}
+        {/* Form Content */}
+        <form onSubmit={isLogin ? handleLogin : handleSignup} className="p-6 space-y-4">
+          
+          {isLogin ? (
+            /* ================= LOGIN VIEW ================= */
+            <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-[#1F293A] uppercase tracking-wider mb-1">
-                  {role === "seeker" ? "Candidate Full Name" : "Recruiter Full Name"}
+                <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  Email Address
                 </label>
                 <div className="relative">
-                  <UserIcon className="absolute left-3 top-3 text-gray-400" size={16} />
+                  <Mail className="absolute left-3 top-3 text-gray-400" size={14} />
                   <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={role === "seeker" ? "e.g. Rajesh Sharma" : "e.g. Anil Goel"}
-                    className="w-full pl-9 pr-3 py-2 border border-[#E5E7EB] rounded-xl text-sm focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6]"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400"
                     required
                   />
                 </div>
               </div>
 
-              {/* Seeker Profile Section */}
-              {role === "seeker" && (
-                <div className="space-y-3 p-4 bg-[#EFF6FF]/50 rounded-xl border border-[#EFF6FF]">
-                  <h4 className="text-xs font-bold text-gray-600 uppercase tracking-widest border-b border-gray-200 pb-1 flex items-center gap-1.5">
-                    <UserIcon size={14} /> Seeker Profile Parameters
-                  </h4>
+              <div>
+                <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  Secure Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 text-gray-400" size={14} />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400"
+                    required
+                  />
+                </div>
+              </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                        Mobile Number
-                      </label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-2 text-gray-400" size={14} />
-                        <input
-                          type="text"
-                          value={mobile}
-                          onChange={(e) => setMobile(e.target.value)}
-                          placeholder="e.g. 9876543210"
-                          className="w-full pl-8 pr-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                        />
-                      </div>
-                    </div>
+              <button
+                type="submit"
+                className="w-full mt-2 bg-[#0A66C2] hover:bg-[#004182] text-white font-bold py-2.5 px-4 rounded-xl text-sm transition-all duration-200 cursor-pointer text-center shadow-xs hover:shadow-md"
+                id="auth-submit-login-btn"
+              >
+                Sign In
+              </button>
 
-                    <div>
-                      <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                        Work Experience (Years)
-                      </label>
-                      <div className="relative">
-                        <Award className="absolute left-3 top-2 text-gray-400" size={14} />
-                        <input
-                          type="number"
-                          value={experience}
-                          onChange={(e) => setExperience(e.target.value)}
-                          placeholder="e.g. 3"
-                          min="0"
-                          className="w-full pl-8 pr-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                        />
-                      </div>
-                    </div>
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={handleToggleMode}
+                  className="text-xs text-slate-500 hover:text-[#0A66C2] transition-colors focus:outline-none"
+                >
+                  Don't have an account? <span className="font-bold underline text-[#0A66C2]">Register</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* ================= REGISTER VIEW ================= */
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <UserIcon className="absolute left-3 top-3 text-gray-400" size={14} />
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 text-gray-400" size={14} />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. name@domain.com"
+                    className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                    Password (min. 6 chars)
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 text-gray-400" size={14} />
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400"
+                      required
+                    />
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                      Completed Education
-                    </label>
-                    <div className="relative">
-                      <GraduationCap className="absolute left-3 top-2.5 text-gray-400" size={14} />
-                      <input
-                        type="text"
-                        value={education}
-                        onChange={(e) => setEducation(e.target.value)}
-                        placeholder="e.g. MCA or B.Tech Computer Science"
-                        className="w-full pl-8 pr-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                      />
-                    </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                    Confirm Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 text-gray-400" size={14} />
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400"
+                      required
+                    />
                   </div>
+                </div>
+              </div>
 
-                  <div>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                      Expertise Skills (comma separated)
-                    </label>
+              {/* Role Selection Dropdown */}
+              <div>
+                <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                  Registration Category
+                </label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as "seeker" | "company")}
+                  className="w-full px-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] text-gray-900 dark:text-gray-100 font-medium cursor-pointer"
+                  required
+                >
+                  <option value="seeker">Job Seeker</option>
+                  <option value="company">Company/Recruiter</option>
+                </select>
+              </div>
+
+              {/* Conditionally Rendered Company Name Input */}
+              {role === "company" && (
+                <div className="p-3.5 bg-blue-50/40 dark:bg-blue-950/10 rounded-xl border border-blue-100 dark:border-[#1F293D] animate-in slide-in-from-top-1.5 duration-150">
+                  <label className="block text-[11px] font-bold text-gray-750 dark:text-gray-300 uppercase tracking-wider mb-1.5">
+                    Company Name
+                  </label>
+                  <div className="relative">
+                    <Building className="absolute left-3 top-3 text-gray-400" size={14} />
                     <input
                       type="text"
-                      value={skills}
-                      onChange={(e) => setSkills(e.target.value)}
-                      placeholder="React, CSS, SQL, Python"
-                      className="w-full px-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                    />
-                    <span className="text-[10px] text-gray-400 block mt-0.5">
-                      Separate each entry with a single comma.
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              {/* Company Profile Section */}
-              {role === "company" && (
-                <div className="space-y-3 p-4 bg-[#EFF6FF]/50 rounded-xl border border-[#EFF6FF]">
-                  <h4 className="text-xs font-bold text-gray-600 uppercase tracking-widest border-b border-gray-200 pb-1 flex items-center gap-1.5">
-                    <Building size={14} /> Company Corporate Profile Setup
-                  </h4>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                        Company Name
-                      </label>
-                      <input
-                        type="text"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                        placeholder="e.g. Tech Mahindra Solutions"
-                        className="w-full px-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                        required={role === "company"}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                        Core Industry
-                      </label>
-                      <input
-                        type="text"
-                        value={companyIndustry}
-                        onChange={(e) => setCompanyIndustry(e.target.value)}
-                        placeholder="e.g. IT Services / Technology"
-                        className="w-full px-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                        required={role === "company"}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                        Headquarters City
-                      </label>
-                      <input
-                        type="text"
-                        value={companyLocation}
-                        onChange={(e) => setCompanyLocation(e.target.value)}
-                        placeholder="e.g. Mumbai, Bangalore"
-                        className="w-full px-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                        required={role === "company"}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                        Company Employee Size
-                      </label>
-                      <select
-                        value={companySize}
-                        onChange={(e) => setCompanySize(e.target.value)}
-                        className="w-full px-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                      >
-                        <option value="1-10 Employees">1-10 Employees</option>
-                        <option value="11-50 Employees">11-50 Employees</option>
-                        <option value="51-200 Employees">51-200 Employees</option>
-                        <option value="201-1000 Employees">201-1000 Employees</option>
-                        <option value="1,000+ Employees">1,000+ Employees</option>
-                        <option value="10,000+ Employees">10,000+ Employees</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                      Website URL
-                    </label>
-                    <div className="relative">
-                      <Link className="absolute left-3 top-2.5 text-gray-400" size={14} />
-                      <input
-                        type="url"
-                        value={companyWeb}
-                        onChange={(e) => setCompanyWeb(e.target.value)}
-                        placeholder="https://company.com"
-                        className="w-full pl-8 pr-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold text-gray-500 uppercase mb-0.5">
-                      Corporate Mission / Description
-                    </label>
-                    <textarea
-                      value={companyDesc}
-                      onChange={(e) => setCompanyDesc(e.target.value)}
-                      placeholder="Briefly state key activities and culture..."
-                      rows={2}
-                      className="w-full px-3 py-1.5 border border-[#E5E7EB] bg-white rounded-lg text-xs resize-none"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                      placeholder="e.g. Tata Consultancy Services"
+                      className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-[#0B0F19] border border-gray-200 dark:border-[#1F293D] rounded-xl text-sm focus:outline-none focus:border-[#0A66C2] focus:ring-1 focus:ring-[#0A66C2] text-gray-900 dark:text-gray-100 placeholder-gray-400 font-semibold"
+                      required={role === "company"}
                     />
                   </div>
                 </div>
               )}
-            </>
+
+              <button
+                type="submit"
+                className="w-full mt-2 bg-[#0A66C2] hover:bg-[#004182] text-white font-bold py-2.5 px-4 rounded-xl text-sm transition-all duration-200 cursor-pointer text-center shadow-xs hover:shadow-md"
+                id="auth-submit-register-btn"
+              >
+                Register
+              </button>
+
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={handleToggleMode}
+                  className="text-xs text-slate-500 hover:text-[#0A66C2] transition-colors focus:outline-none"
+                >
+                  Already have an account? <span className="font-bold underline text-[#0A66C2]">Login</span>
+                </button>
+              </div>
+            </div>
           )}
 
-          {/* Actions */}
-          <div className="pt-4 border-t border-[#E5E7EB] flex items-center justify-between">
-            <button
-              type="button"
-              onClick={handleToggleMode}
-              className="text-xs text-[#3B82F6] hover:underline font-semibold cursor-pointer"
-            >
-              {isLogin
-                ? "First time seeker or recruiter? Sign Up"
-                : "Already have credentials? Sign In"}
-            </button>
-            <button
-              type="submit"
-              className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-bold py-2 px-6 rounded-xl text-sm transition-all shadow-xs hover:shadow-md cursor-pointer"
-              id="auth-submit-btn"
-            >
-              {isLogin ? "Authenticate Now" : "Register Account"}
-            </button>
-          </div>
         </form>
       </div>
     </div>
