@@ -73,13 +73,24 @@ export default function SeekerDashboard({
   const processFile = (file: File) => {
     if (!file) return;
 
-    // File size validation (Max 2MB = 2097152 bytes)
-    const MAX_SIZE = 2 * 1024 * 1024;
-    if (file.size > MAX_SIZE) {
+    // Format validation: Must be PDF format
+    const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+    if (!isPdf) {
       if (showToast) {
-        showToast("Error: Uploaded resume exceeds the maximum 2MB size limit!", "error");
+        showToast("Error: Only PDF files (.pdf) are allowed for CV / Resume uploads!", "error");
       } else {
-        alert("Error: Uploaded resume exceeds the maximum 2MB size limit!");
+        alert("Error: Only PDF files (.pdf) are allowed for CV / Resume uploads!");
+      }
+      return;
+    }
+
+    // File size validation (Max less than 5MB = 5 * 1024 * 1024 bytes)
+    const MAX_SIZE = 5 * 1024 * 1024;
+    if (file.size >= MAX_SIZE) {
+      if (showToast) {
+        showToast("Error: Uploaded resume must be less than 5MB in size!", "error");
+      } else {
+        alert("Error: Uploaded resume must be less than 5MB in size!");
       }
       return;
     }
@@ -451,7 +462,7 @@ export default function SeekerDashboard({
                     ref={fileInputRef}
                     type="file"
                     className="hidden"
-                    accept=".pdf,.doc,.docx"
+                    accept=".pdf"
                     onChange={handleFileChange}
                   />
 
@@ -468,8 +479,8 @@ export default function SeekerDashboard({
                         choose file to browse
                       </span>
                     </p>
-                    <p className="text-[10px] text-gray-400">
-                      Supports PDF, DOC, DOCX up to 5MB size
+                    <p className="text-[10px] text-gray-400 font-medium">
+                      Supports PDF format under 5MB size
                     </p>
                   </div>
                 </div>
