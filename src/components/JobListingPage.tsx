@@ -20,6 +20,8 @@ import {
   AlertCircle, 
   SlidersHorizontal,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ArrowRight,
   ExternalLink,
   Award
@@ -63,6 +65,10 @@ export default function JobListingPage({
   const [selectedExp, setSelectedExp] = useState<string>("all");
   const [sortOrder, setSortOrder] = useState<string>("recent");
 
+  // Pagination States
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10); // user requested 10 to 15 jobs pagination
+
   // State to inspect a job's details when clicking "View Details"
   const [inspectingJob, setInspectingJob] = useState<Job | null>(null);
 
@@ -83,6 +89,11 @@ export default function JobListingPage({
       setIsFiltering(false);
     }, 200);
     return () => clearTimeout(timer);
+  }, [searchKeyword, selectedJobTypes, selectedSalaries, selectedExp, sortOrder]);
+
+  // Reset pagination on filter update
+  useEffect(() => {
+    setCurrentPage(1);
   }, [searchKeyword, selectedJobTypes, selectedSalaries, selectedExp, sortOrder]);
 
   // Clear or reset all filters
@@ -201,6 +212,13 @@ export default function JobListingPage({
     }
     return 0;
   });
+
+  // Pagination calculations
+  const totalItems = sortedJobs.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+  const paginatedJobs = sortedJobs.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
 
   // Automatically open the inspecting modal for the active prop-selected job if any
   useEffect(() => {
@@ -735,18 +753,44 @@ export default function JobListingPage({
             {/* Summary statistics line & sorting bar */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 px-1 py-1">
               <span className="text-xs sm:text-sm text-gray-600 font-medium">
-                Showing <strong className="text-gray-900 font-extrabold">{sortedJobs.length}</strong> results
+                {totalItems > 0 ? (
+                  <>
+                    Showing <strong className="text-gray-900 font-extrabold">{startIndex + 1}–{endIndex}</strong> of <strong className="text-gray-900 font-extrabold">{totalItems}</strong> results
+                  </>
+                ) : (
+                  <>
+                    Showing <strong className="text-gray-900 font-extrabold">0</strong> results
+                  </>
+                )}
               </span>
 
-              {/* Sorting trigger */}
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs text-gray-400">Sort by:</span>
-                <div className="relative inline-block">
-                  <select
-                    value={sortOrder}
-                    onChange={(e) => setSortOrder(e.target.value)}
-                    className="appearance-none bg-white border border-[#E2E8F0] text-xs font-semibold text-gray-700 py-1.5 pl-3 pr-8 rounded-lg cursor-pointer hover:border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  >
+              {/* Controls and Sorting triggers */}
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Per page selector */}
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-gray-400">Show:</span>
+                  <div className="relative inline-block">
+                    <select
+                      value={itemsPerPage}
+                      onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                      className="appearance-none bg-white border border-[#E2E8F0] text-xs font-semibold text-gray-700 py-1.5 pl-3 pr-8 rounded-lg cursor-pointer hover:border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    >
+                      <option value={10}>10 jobs</option>
+                      <option value={15}>15 jobs</option>
+                    </select>
+                    <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Sorting trigger */}
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-gray-400">Sort by:</span>
+                  <div className="relative inline-block">
+                    <select
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value)}
+                      className="appearance-none bg-white border border-[#E2E8F0] text-xs font-semibold text-gray-700 py-1.5 pl-3 pr-8 rounded-lg cursor-pointer hover:border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    >
                     <option value="recent">Recent first</option>
                     <option value="salary_desc">Highest salary</option>
                     <option value="experience_asc">Entry level first</option>
@@ -755,6 +799,8 @@ export default function JobListingPage({
                 </div>
               </div>
             </div>
+
+          </div>
 
             {/* Listing feed of Jobs */}
             <div className="space-y-4">
@@ -775,7 +821,7 @@ export default function JobListingPage({
                   </button>
                 </div>
               ) : (
-                sortedJobs.map((job) => {
+                paginatedJobs.map((job) => {
                   const companyObj = companies.find(c => c.id === job.companyId) || {
                     logoUrl: job.id === "job_1" ? "https://companieslogo.com/img/orig/TCS.NS_r-a7fc190a.png" : undefined,
                     logoEmoji: "🏢",
@@ -905,6 +951,79 @@ export default function JobListingPage({
                 })
               )}
             </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-[#E2E8F0] mt-6 bg-[#FAFBFD]/50 p-4 rounded-2xl border border-[#E2E8F0]/80">
+                <span className="text-xs text-gray-500 font-medium">
+                  Showing page <span className="font-bold text-[#2563EB]">{currentPage}</span> of <span className="font-semibold text-gray-700">{totalPages}</span> ({totalItems} total jobs matching)
+                </span>
+
+                <div className="flex items-center gap-1.5">
+                  {/* Prev button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currentPage > 1) {
+                        setCurrentPage((prev) => prev - 1);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    disabled={currentPage === 1}
+                    className={`flex items-center justify-center p-2 rounded-lg border text-xs font-semibold select-none transition-all ${
+                      currentPage === 1
+                        ? "bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed"
+                        : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 cursor-pointer shadow-2xs"
+                    }`}
+                    title="Previous Page"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+
+                  {/* Individual page buttons */}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                    const isSelected = p === currentPage;
+                    return (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => {
+                          setCurrentPage(p);
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className={`w-9 h-9 flex items-center justify-center rounded-lg border text-xs font-bold transition-all ${
+                          isSelected
+                            ? "bg-[#2563EB] text-white border-[#2563EB] shadow-xs"
+                            : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50 cursor-pointer shadow-2xs"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    );
+                  })}
+
+                  {/* Next button */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currentPage < totalPages) {
+                        setCurrentPage((prev) => prev + 1);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      }
+                    }}
+                    disabled={currentPage === totalPages}
+                    className={`flex items-center justify-center p-2 rounded-lg border text-xs font-semibold select-none transition-all ${
+                      currentPage === totalPages
+                        ? "bg-gray-50 text-gray-300 border-gray-100 cursor-not-allowed"
+                        : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 cursor-pointer shadow-2xs"
+                    }`}
+                    title="Next Page"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
 
           </div>
 
