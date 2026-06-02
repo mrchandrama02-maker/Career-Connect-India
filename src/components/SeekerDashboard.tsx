@@ -170,7 +170,7 @@ export default function SeekerDashboard({
       </div>
 
       {/* Sub Tabs */}
-      <div className="flex border-b border-[#E5E7EB]" id="seeker-tabs-row">
+      <div className="flex border-b border-[#E5E7EB] overflow-x-auto scrollbar-none whitespace-nowrap" id="seeker-tabs-row">
         {[
           { key: "overview", label: "Overview", icon: CheckSquare },
           { key: "profile", label: "My Profile Details", icon: UserIcon },

@@ -90,6 +90,7 @@ export default function AdminDashboard({
   const [activeTab, setActiveTab] = useState<
     "stats" | "seekers" | "companies" | "jobs" | "reports" | "analytics" | "settings" | "broadcasts" | "security" | "monetization" | "mobile" | "cms"
   >("stats");
+  const [adminMenuCollapsed, setAdminMenuCollapsed] = useState(true);
 
   // Search filter and pagination states
   const [searchQuery, setSearchQuery] = useState("");
@@ -582,11 +583,20 @@ export default function AdminDashboard({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Side Sidebar Tab Switcher */}
-        <div className="lg:col-span-3 bg-white border border-[#E5E7EB] rounded-2xl p-4 space-y-1.5 shadow-sm">
-          <div className="px-3 py-2 border-b border-gray-105 mb-3 flex items-center justify-between">
+        <div className="lg:col-span-3 bg-white border border-[#E5E7EB] rounded-2xl p-4 shadow-sm">
+          <div className="px-3 py-2 border-b border-gray-100 mb-3 flex items-center justify-between">
             <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400 block">CCI System Nav</span>
-            <span className="bg-[#EFF6FF] text-[#3B82F6] text-[9px] px-2 py-0.5 rounded-full font-bold">12 Tabs</span>
+            <button
+              type="button"
+              onClick={() => setAdminMenuCollapsed(!adminMenuCollapsed)}
+              className="lg:hidden bg-blue-50 text-blue-700 text-[10px] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 cursor-pointer hover:bg-blue-100 transition-colors"
+            >
+              <span>{adminMenuCollapsed ? "SHOW MENU ▾" : "HIDE MENU ▴"}</span>
+            </button>
+            <span className="hidden lg:inline bg-[#EFF6FF] text-[#3B82F6] text-[9px] px-2 py-0.5 rounded-full font-bold">12 Tabs</span>
           </div>
+
+          <div className={`${adminMenuCollapsed ? "hidden lg:block space-y-1.5" : "block space-y-1.5 animate-in slide-in-from-top duration-200"}`}>
 
           <button
             onClick={() => { setActiveTab("stats"); setSearchQuery(""); }}
@@ -708,6 +718,7 @@ export default function AdminDashboard({
             12. Editorial CMS FAQs
           </button>
 
+          </div>
         </div>
 
         {/* Right Side Main Active Screen Panel */}

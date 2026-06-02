@@ -212,7 +212,7 @@ export default function RecruiterDashboard({
       </div>
 
       {/* Workspace Tabs */}
-      <div className="flex border-b border-[#E5E7EB]" id="recruiter-tabs">
+      <div className="flex border-b border-[#E5E7EB] overflow-x-auto scrollbar-none whitespace-nowrap" id="recruiter-tabs">
         {[
           { key: "overview", label: "Dashboard Hub" },
           { key: "post", label: "Post New Position" },

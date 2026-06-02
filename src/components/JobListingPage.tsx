@@ -64,6 +64,7 @@ export default function JobListingPage({
   const [selectedSalaries, setSelectedSalaries] = useState<string[]>([]);
   const [selectedExp, setSelectedExp] = useState<string>("all");
   const [sortOrder, setSortOrder] = useState<string>("recent");
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Pagination States
   const [currentPage, setCurrentPage] = useState(1);
@@ -334,7 +335,7 @@ export default function JobListingPage({
 
     return (
       <div className="bg-[#FAFBFD] min-h-screen">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-24 lg:pb-10">
           
           {/* Back Action button trigger */}
           <button
@@ -603,6 +604,38 @@ export default function JobListingPage({
 
           </div>
 
+          {/* Sticky Mobile CTA Bar */}
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200/80 p-4 z-40 shadow-[0_-10px_20px_rgba(0,0,0,0.04)] flex items-center justify-between gap-3 animate-in slide-in-from-bottom duration-250">
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest truncate">{inspectingJob.companyName}</p>
+              <p className="text-[#0D1525] text-xs sm:text-sm font-extrabold truncate">{inspectingJob.title}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (!currentUser) {
+                  onOpenAuth();
+                } else {
+                  onApplyJob(inspectingJob.id);
+                }
+              }}
+              disabled={isApplied}
+              className={`px-5 py-3 font-extrabold rounded-xl text-xs text-center flex items-center justify-center gap-1.5 transition-all duration-200 shrink-0 ${
+                isApplied
+                  ? "bg-emerald-50 border border-emerald-150 text-emerald-700 cursor-not-allowed"
+                  : "bg-[#2563EB] text-white hover:bg-[#1D4ED8]"
+              }`}
+            >
+              {isApplied ? (
+                <>
+                  <CheckCircle2 size={13} /> Applied
+                </>
+              ) : (
+                "Apply Now"
+              )}
+            </button>
+          </div>
+
         </div>
       </div>
     );
@@ -630,7 +663,7 @@ export default function JobListingPage({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT COLUMN: Clean Sidebar Filters */}
-          <div className="lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-xs space-y-6">
+          <div className="hidden lg:block lg:col-span-3 bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-xs space-y-6">
             <div className="flex items-center justify-between pb-4 border-b border-gray-100">
               <span className="text-xs font-bold text-gray-800 uppercase tracking-wider flex items-center gap-1.5 font-sans">
                 <SlidersHorizontal size={14} className="text-gray-400" /> Filters
@@ -730,24 +763,41 @@ export default function JobListingPage({
           <div className="lg:col-span-9 space-y-5">
             
             {/* Search Input Bar with vector icon */}
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input
-                type="text"
-                value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-                placeholder="Search by role or company..."
-                className="w-full pl-11 pr-4 py-3 border border-[#E2E8F0] rounded-xl shadow-xs focus:ring-2 focus:ring-blue-500 bg-white font-medium text-xs sm:text-sm text-gray-800 focus:outline-none transition-shadow"
-              />
-              {searchKeyword && (
-                <button
-                  type="button"
-                  onClick={() => setSearchKeyword("")}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-900 transition-colors text-xs font-semibold"
-                >
-                  Clear
-                </button>
-              )}
+            <div className="flex flex-row gap-2">
+              <div className="relative flex-grow">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input
+                  type="text"
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  placeholder="Search by role or company..."
+                  className="w-full pl-11 pr-4 py-3 border border-[#E2E8F0] rounded-xl shadow-xs focus:ring-2 focus:ring-blue-500 bg-white font-medium text-xs sm:text-sm text-gray-800 focus:outline-none transition-shadow"
+                />
+                {searchKeyword && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchKeyword("")}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-900 transition-colors text-xs font-semibold"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+
+              {/* Mobile Filter Toggle Trigger Button */}
+              <button
+                type="button"
+                onClick={() => setMobileFiltersOpen(true)}
+                className="lg:hidden flex items-center gap-1.5 px-4 py-3 bg-white border border-[#E2E8F0] rounded-xl text-xs sm:text-sm font-bold text-gray-600 hover:text-gray-900 active:bg-slate-50 active:scale-95 transition-all shadow-xs shrink-0 cursor-pointer"
+              >
+                <SlidersHorizontal size={15} />
+                <span className="hidden xs:inline">Filters</span>
+                {(selectedJobTypes.length + selectedSalaries.length + (selectedExp !== "all" ? 1 : 0)) > 0 && (
+                  <span className="flex items-center justify-center min-w-5 h-5 px-1 bg-[#2563EB] text-white rounded-full text-[9px] font-extrabold">
+                    {selectedJobTypes.length + selectedSalaries.length + (selectedExp !== "all" ? 1 : 0)}
+                  </span>
+                )}
+              </button>
             </div>
 
             {/* Summary statistics line & sorting bar */}
@@ -1216,6 +1266,141 @@ export default function JobListingPage({
 
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Filters Drawer Modal (Dynamic sliding bottom sheet / side over) */}
+      {mobileFiltersOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex justify-end">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity animate-in fade-in"
+            onClick={() => setMobileFiltersOpen(false)}
+          />
+
+          {/* Sliding Content panel */}
+          <div className="relative w-full max-w-sm h-full bg-white shadow-2xl flex flex-col z-10 animate-in slide-in-from-right duration-250">
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-[#FAFBFD]">
+              <span className="text-sm font-extrabold text-gray-800 uppercase tracking-wider flex items-center gap-1.5 font-sans">
+                <SlidersHorizontal size={15} className="text-gray-500" /> Filters
+              </span>
+              <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetFilters();
+                    setMobileFiltersOpen(false);
+                  }}
+                  className="text-xs font-bold text-[#2563EB] hover:text-[#1D4ED8]"
+                >
+                  RESET
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMobileFiltersOpen(false)}
+                  className="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 cursor-pointer"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Scrollable Filters Inner Content */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-6">
+              {/* Filter Group: JOB TYPE */}
+              <div>
+                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  JOB TYPE
+                </h4>
+                <div className="space-y-3">
+                  {jobFormatOptions.map((type) => {
+                    const isChecked = selectedJobTypes.includes(type);
+                    return (
+                      <label
+                        key={type}
+                        className="flex items-center gap-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer select-none font-medium"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => handleJobTypeToggle(type)}
+                          className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-blue-500 w-4 h-4 cursor-pointer transition-all"
+                        />
+                        <span>{type}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Filter Group: SALARY RANGE */}
+              <div>
+                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  SALARY RANGE
+                </h4>
+                <div className="space-y-3">
+                  {salaryRangeOptions.map((range) => {
+                    const isChecked = selectedSalaries.includes(range);
+                    return (
+                      <label
+                        key={range}
+                        className="flex items-center gap-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer select-none font-medium"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => handleSalaryToggle(range)}
+                          className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-blue-500 w-4 h-4 cursor-pointer transition-all"
+                        />
+                        <span>{range}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Extra filter: EXPERIENCE LEVEL */}
+              <div className="pt-4 border-t border-gray-100">
+                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  EXPERIENCE LEVEL
+                </h4>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { key: "all", label: "Any Exp" },
+                    { key: "0-1", label: "0-1 Yr" },
+                    { key: "1-3", label: "1-3 Yrs" },
+                    { key: "3-5", label: "3-5 Yrs" },
+                    { key: "5+", label: "5+ Yrs" },
+                  ].map((btn) => (
+                    <button
+                      key={btn.key}
+                      type="button"
+                      onClick={() => setSelectedExp(btn.key)}
+                      className={`text-[11px] py-1.5 px-2.5 rounded-lg border font-semibold transition-all cursor-pointer ${
+                        selectedExp === btn.key
+                          ? "bg-[#2563EB] text-white border-[#2563EB]"
+                          : "bg-white text-gray-600 border-[#E2E8F0] hover:border-gray-350"
+                      }`}
+                    >
+                      {btn.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Sticky bottom Apply button inside the drawer */}
+            <div className="p-4 bg-gray-50 border-t border-gray-100">
+              <button
+                type="button"
+                onClick={() => setMobileFiltersOpen(false)}
+                className="w-full bg-[#2563EB] text-white font-bold py-3 rounded-xl text-xs sm:text-sm transition-colors hover:bg-blue-700 cursor-pointer text-center block shadow-xs"
+              >
+                View {totalItems} Matching Jobs
+              </button>
+            </div>
           </div>
         </div>
       )}
