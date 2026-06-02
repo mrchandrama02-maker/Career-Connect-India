@@ -90,7 +90,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "Leading IT services and business consulting Solutions provider globally.",
     website: "https://www.techmahindra.com",
     logoEmoji: "🏢",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tech_Mahindra_New_Logo.svg/512px-Tech_Mahindra_New_Logo.svg.png",
+    logoUrl: "https://cdn.corenexis.com/files/c/2156823720.webp",
     industry: "IT Services",
     location: "Mumbai",
     companySize: "10,000+ employees",

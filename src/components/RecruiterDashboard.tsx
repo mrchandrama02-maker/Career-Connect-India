@@ -77,6 +77,63 @@ export default function RecruiterDashboard({
   const fileInputRefForHeaderLogo = React.useRef<HTMLInputElement>(null);
   const fileInputRefForSettingsLogo = React.useRef<HTMLInputElement>(null);
 
+  const processLogoFile = (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      setLogoError("Please upload an image file (PNG, JPG, WebP, SVG).");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) { // 2MB limit
+      setLogoError("Image size should be less than 2MB.");
+      return;
+    }
+    setLogoError("");
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result && typeof event.target.result === "string") {
+        setCompLogoUrl(event.target.result);
+      }
+    };
+    reader.onerror = () => {
+      setLogoError("Could not read file. Please try a different image.");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleLogoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processLogoFile(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingLogo(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingLogo(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDraggingLogo(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      processLogoFile(file);
+    }
+  };
+
+  const handleLogoUpdateCompleted = (newLogoUrl: string) => {
+    setCompLogoUrl(newLogoUrl);
+    const updatedCompany: Company = {
+      ...company,
+      logoUrl: newLogoUrl,
+    };
+    onUpdateCompany(updatedCompany);
+  };
+
   // Sync state variables with original company prop if updated externally
   React.useEffect(() => {
     if (company) {
@@ -188,12 +245,19 @@ export default function RecruiterDashboard({
       {/* Recruiter Header Banner */}
       <div className="bg-gradient-to-r from-blue-50/50 via-white to-blue-50 border border-[#E5E7EB] rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-20 h-20 bg-white p-2 rounded-2xl border border-[#E5E7EB] shadow-xs flex items-center justify-center overflow-hidden">
+          <div 
+            onClick={() => {
+              setLogoError("");
+              setLogoModalOpen(true);
+            }}
+            title="Click to update corporate logo"
+            className="group relative w-20 h-20 bg-white p-2 rounded-2xl border border-[#E5E7EB] hover:border-blue-400 shadow-xs flex items-center justify-center overflow-hidden cursor-pointer transition-all shrink-0"
+          >
             {company.logoUrl ? (
               <img
                 src={company.logoUrl}
                 alt={`${company.name} logo`}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain group-hover:scale-95 transition-transform"
                 referrerPolicy="no-referrer"
                 onError={(e) => {
                   e.currentTarget.style.display = "none";
@@ -207,8 +271,12 @@ export default function RecruiterDashboard({
                 }}
               />
             ) : (
-              <span className="text-4xl">{company.logoEmoji || "🏢"}</span>
+              <span className="text-4xl group-hover:scale-95 transition-transform">{company.logoEmoji || "🏢"}</span>
             )}
+            <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity duration-150">
+              <Camera size={18} className="animate-bounce" />
+              <span className="text-[9px] font-bold uppercase tracking-wider mt-1 scale-90">Edit Logo</span>
+            </div>
           </div>
           <div>
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -956,37 +1024,109 @@ Figma responsive layouts transition"
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">
-              Select Logo symbol preference fallback
-            </label>
-            <div className="flex gap-2">
-              {["🏢", "🚀", "🔬", "🛒", "🩺", "🏦", "⚡", "🤖"].map(em => (
-                <button
-                  key={em}
-                  type="button"
-                  onClick={() => setCompEmoji(em)}
-                  className={`p-2.5 bg-gray-50 text-lg rounded-xl border cursor-pointer hover:bg-gray-100 ${
-                    compEmoji === em ? "border-[#3B82F6] scale-110" : "border-transparent"
+          <div className="bg-slate-50 border border-gray-200 rounded-2xl p-4.5 space-y-4">
+            <h3 className="text-xs font-bold text-gray-600 uppercase tracking-wider flex items-center gap-1.5 pb-2 border-b border-gray-200">
+              <Image size={14} className="text-blue-500" /> Corporate Brand Identity & Logo
+            </h3>
+            
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              {/* Left Side: Current Workspace Preview */}
+              <div className="flex flex-col items-center gap-1.5 shrink-0">
+                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Brand Preview</span>
+                <div className="w-24 h-24 bg-white p-2 rounded-2xl border border-gray-200 shadow-xs flex items-center justify-center overflow-hidden relative group">
+                  {compLogoUrl ? (
+                    <img 
+                      src={compLogoUrl} 
+                      alt="Brand preview" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        const parent = e.currentTarget.parentElement;
+                        if (parent && !parent.querySelector(".preview-fallback-emoji")) {
+                          const fallback = document.createElement("span");
+                          fallback.className = "text-4xl preview-fallback-emoji";
+                          fallback.innerText = compEmoji || "🏢";
+                          parent.appendChild(fallback);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <span className="text-4xl">{compEmoji || "🏢"}</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Side: Upload and input details */}
+              <div className="flex-1 w-full space-y-3">
+                <span className="text-xs font-semibold text-gray-500 block">Update your corporate logo</span>
+                
+                {/* Method A: Upload & Drag/Drop */}
+                <div 
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRefForSettingsLogo.current?.click()}
+                  className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${
+                    isDraggingLogo 
+                      ? "border-blue-500 bg-blue-50/50" 
+                      : "border-gray-200 hover:border-blue-400 bg-white"
                   }`}
                 >
-                  {em}
-                </button>
-              ))}
-            </div>
-          </div>
+                  <input 
+                    type="file" 
+                    ref={fileInputRefForSettingsLogo}
+                    onChange={handleLogoFileChange}
+                    accept="image/*"
+                    className="hidden"
+                  />
+                  <Upload size={20} className="mx-auto text-gray-400 mb-1.5" />
+                  <p className="text-xs font-bold text-gray-700">Click to select image file or drag here</p>
+                  <p className="text-[10px] text-gray-400 mt-0.5">Supports PNG, JPG, WebP (Max 2MB)</p>
+                </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">
-              Logo Image URL (Original Company Website Logo)
-            </label>
-            <input
-              type="url"
-              value={compLogoUrl}
-              onChange={e => setCompLogoUrl(e.target.value)}
-              placeholder="e.g. https://logo.clearbit.com/tcs.com or another website asset link"
-              className="w-full p-2.5 border border-[#E5E7EB] rounded-xl text-sm focus:outline-none"
-            />
+                {logoError && (
+                  <p className="text-xs text-red-500 font-mono font-medium">{logoError}</p>
+                )}
+
+                {/* Method B: Direct URL Input */}
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1">
+                    Or specify direct Image asset URL
+                  </label>
+                  <input
+                    type="url"
+                    value={compLogoUrl}
+                    onChange={e => {
+                      setLogoError("");
+                      setCompLogoUrl(e.target.value);
+                    }}
+                    placeholder="e.g. https://logo.clearbit.com/techmahindra.com"
+                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-blue-400"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1.5">
+                Select fallback backup symbol
+              </label>
+              <div className="flex gap-2">
+                {["🏢", "🚀", "🔬", "🛒", "🩺", "🏦", "⚡", "🤖"].map(em => (
+                  <button
+                    key={em}
+                    type="button"
+                    onClick={() => setCompEmoji(em)}
+                    className={`p-2 bg-white text-md rounded-xl border cursor-pointer hover:bg-gray-50 transition-all ${
+                      compEmoji === em ? "border-[#3B82F6] scale-110 shadow-xs" : "border-gray-200"
+                    }`}
+                  >
+                    {em}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div>
@@ -1011,6 +1151,131 @@ Figma responsive layouts transition"
             </button>
           </div>
         </form>
+      )}
+
+      {/* Interactive Quick Logo Overlay Modal */}
+      {logoModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm overflow-y-auto" id="logo-change-modal">
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-150 space-y-5">
+            <div className="flex items-center justify-between border-b pb-3">
+              <div className="flex items-center gap-2">
+                <Camera size={18} className="text-blue-500" />
+                <h3 className="font-extrabold text-sm text-[#1F293A]">Change Corporate Logo</h3>
+              </div>
+              <button 
+                type="button"
+                onClick={() => setLogoModalOpen(false)}
+                className="p-1 rounded-lg text-gray-400 hover:bg-gray-100 cursor-pointer"
+              >
+                <XCircle size={18} />
+              </button>
+            </div>
+
+            {/* Drag & Drop Visual Box */}
+            <div 
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={(e) => {
+                e.preventDefault();
+                setIsDraggingLogo(false);
+                const file = e.dataTransfer.files?.[0];
+                if (file) {
+                  processLogoFile(file);
+                }
+              }}
+              onClick={() => fileInputRefForHeaderLogo.current?.click()}
+              className={`border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all ${
+                isDraggingLogo 
+                  ? "border-blue-500 bg-blue-50/50" 
+                  : "border-gray-200 hover:border-blue-400 bg-slate-50/55"
+              }`}
+            >
+              <input 
+                type="file" 
+                ref={fileInputRefForHeaderLogo}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    processLogoFile(file);
+                  }
+                }}
+                accept="image/*"
+                className="hidden"
+              />
+              {compLogoUrl ? (
+                <div className="w-16 h-16 mx-auto bg-white p-1 rounded-xl border border-gray-200 shadow-xs flex items-center justify-center overflow-hidden mb-2">
+                  <img src={compLogoUrl} alt="Quick preview" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                </div>
+              ) : (
+                <Upload size={24} className="mx-auto text-gray-400 mb-2 animate-pulse" />
+              )}
+              <span className="text-xs font-bold text-gray-700 block">Drag & drop your new logo here</span>
+              <span className="text-[10px] text-gray-400 block mt-0.5">Or tap to choose storage file (PNG, JPG, WebP)</span>
+            </div>
+
+            {logoError && (
+              <p className="text-xs text-red-500 font-mono font-medium text-center">{logoError}</p>
+            )}
+
+            {/* Quick prefilled link option */}
+            <div className="space-y-3">
+              <div className="bg-slate-50 p-2.5 rounded-xl border border-gray-100 space-y-1">
+                <span className="text-[9px] font-extrabold text-blue-600 font-mono block uppercase tracking-wide">Quick Presets</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCompLogoUrl("https://cdn.corenexis.com/files/c/2156823720.webp");
+                    setLogoError("");
+                  }}
+                  className="w-full text-left text-xs text-gray-600 hover:text-blue-600 font-medium flex items-center justify-between cursor-pointer"
+                >
+                  <span className="font-bold">Use Tech Mahindra WebP Vector logo</span>
+                  <span className="text-[9px] bg-blue-50 text-blue-600 py-0.5 px-1.5 rounded font-mono font-extrabold">Select</span>
+                </button>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1">
+                  Or input custom logo website URL
+                </label>
+                <input
+                  type="url"
+                  value={compLogoUrl}
+                  onChange={e => {
+                    setLogoError("");
+                    setCompLogoUrl(e.target.value);
+                  }}
+                  placeholder="e.g. https://logo.clearbit.com/techmahindra.com"
+                  className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-blue-400 font-mono"
+                />
+              </div>
+            </div>
+
+            {/* Control buttons */}
+            <div className="pt-3 border-t flex justify-end gap-2 font-mono">
+              <button
+                type="button"
+                onClick={() => {
+                  setLogoModalOpen(false);
+                }}
+                className="text-[10px] font-bold text-gray-500 hover:bg-gray-100 py-1.5 px-3 rounded-lg border border-gray-200 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleLogoUpdateCompleted(compLogoUrl);
+                  setLogoModalOpen(false);
+                  alert("Corporate Brand logo updated successfully!");
+                }}
+                className="text-[10px] font-bold bg-blue-500 hover:bg-blue-600 text-white py-1.5 px-3 rounded-lg cursor-pointer"
+              >
+                Apply Logo
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>
