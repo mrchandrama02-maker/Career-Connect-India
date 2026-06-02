@@ -68,6 +68,7 @@ export default function RecruiterDashboard({
   const [compLocation, setCompLocation] = useState(company?.location || "");
   const [compSize, setCompSize] = useState(company?.companySize || "");
   const [compEmoji, setCompEmoji] = useState(company?.logoEmoji || "🏢");
+  const [compLogoUrl, setCompLogoUrl] = useState(company?.logoUrl || "");
 
   if (!company) {
     return (
@@ -154,6 +155,7 @@ export default function RecruiterDashboard({
       location: compLocation,
       companySize: compSize,
       logoEmoji: compEmoji,
+      logoUrl: compLogoUrl,
     };
     onUpdateCompany(updatedCompany);
     setActiveTab("overview");
@@ -165,8 +167,27 @@ export default function RecruiterDashboard({
       {/* Recruiter Header Banner */}
       <div className="bg-gradient-to-r from-blue-50/50 via-white to-blue-50 border border-[#E5E7EB] rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="text-5xl bg-white p-4 rounded-2xl border border-[#E5E7EB] shadow-xs">
-            {company.logoEmoji || "🏢"}
+          <div className="w-20 h-20 bg-white p-2 rounded-2xl border border-[#E5E7EB] shadow-xs flex items-center justify-center overflow-hidden">
+            {company.logoUrl ? (
+              <img
+                src={company.logoUrl}
+                alt={`${company.name} logo`}
+                className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                  const parent = e.currentTarget.parentElement;
+                  if (parent && !parent.querySelector(".fallback-emoji")) {
+                    const fallback = document.createElement("span");
+                    fallback.className = "text-4xl fallback-emoji";
+                    fallback.innerText = company.logoEmoji || "🏢";
+                    parent.appendChild(fallback);
+                  }
+                }}
+              />
+            ) : (
+              <span className="text-4xl">{company.logoEmoji || "🏢"}</span>
+            )}
           </div>
           <div>
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -905,7 +926,7 @@ Figma responsive layouts transition"
 
           <div>
             <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">
-              Select Logo symbol preference
+              Select Logo symbol preference fallback
             </label>
             <div className="flex gap-2">
               {["🏢", "🚀", "🔬", "🛒", "🩺", "🏦", "⚡", "🤖"].map(em => (
@@ -921,6 +942,19 @@ Figma responsive layouts transition"
                 </button>
               ))}
             </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">
+              Logo Image URL (Original Company Website Logo)
+            </label>
+            <input
+              type="url"
+              value={compLogoUrl}
+              onChange={e => setCompLogoUrl(e.target.value)}
+              placeholder="e.g. https://logo.clearbit.com/tcs.com or another website asset link"
+              className="w-full p-2.5 border border-[#E5E7EB] rounded-xl text-sm focus:outline-none"
+            />
           </div>
 
           <div>

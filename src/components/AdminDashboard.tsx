@@ -1033,7 +1033,28 @@ export default function AdminDashboard({
                         paginatedCompanies.map(c => (
                           <tr key={c.id} className="hover:bg-slate-50/50">
                             <td className="p-4 flex items-center gap-2">
-                              <span className="text-2xl bg-[#EFF6FF] p-2 rounded-xl border border-blue-50">{c.logoEmoji || "🏢"}</span>
+                              <div className="w-10 h-10 shrink-0 bg-white p-1 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden">
+                                {c.logoUrl ? (
+                                  <img
+                                    src={c.logoUrl}
+                                    alt={`${c.name} logo`}
+                                    className="w-full h-full object-contain"
+                                    referrerPolicy="no-referrer"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = "none";
+                                      const parent = e.currentTarget.parentElement;
+                                      if (parent && !parent.querySelector(".fallback-emoji")) {
+                                        const fallback = document.createElement("span");
+                                        fallback.className = "text-xl fallback-emoji";
+                                        fallback.innerText = c.logoEmoji || "🏢";
+                                        parent.appendChild(fallback);
+                                      }
+                                    }}
+                                  />
+                                ) : (
+                                  <span className="text-xl">{c.logoEmoji || "🏢"}</span>
+                                )}
+                              </div>
                               <div>
                                 <span className="font-extrabold text-gray-800 text-sm block">{c.name}</span>
                                 <span className="text-[10px] text-gray-400 font-mono block">Size: {c.companySize}</span>
@@ -1926,9 +1947,30 @@ export default function AdminDashboard({
               <X size={18} />
             </button>
 
-            <div className="text-center space-y-2 border-b border-gray-100 pb-4">
-              <span className="text-5xl bg-blue-50 p-4 rounded-3xl inline-block border border-blue-105">{selectedCompany.logoEmoji || "🏢"}</span>
-              <h4 className="text-base font-black text-gray-900 tracking-tight">{selectedCompany.name}</h4>
+            <div className="text-center space-y-2 border-b border-gray-100 pb-4 flex flex-col items-center">
+              <div className="w-20 h-20 bg-white p-2 rounded-3xl inline-flex items-center justify-center border border-gray-300 overflow-hidden shrink-0">
+                {selectedCompany.logoUrl ? (
+                  <img
+                    src={selectedCompany.logoUrl}
+                    alt={`${selectedCompany.name} logo`}
+                    className="w-full h-full object-contain"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                      const parent = e.currentTarget.parentElement;
+                      if (parent && !parent.querySelector(".fallback-emoji")) {
+                        const fallback = document.createElement("span");
+                        fallback.className = "text-5xl fallback-emoji";
+                        fallback.innerText = selectedCompany.logoEmoji || "🏢";
+                        parent.appendChild(fallback);
+                      }
+                    }}
+                  />
+                ) : (
+                  <span className="text-5xl">{selectedCompany.logoEmoji || "🏢"}</span>
+                )}
+              </div>
+              <h4 className="text-base font-black text-gray-900 tracking-tight mt-2">{selectedCompany.name}</h4>
               <span className="text-[10px] text-blue-600 font-mono font-bold bg-[#EFF6FF] border border-blue-100 rounded-full px-3 py-0.5 inline-block uppercase">
                 Industry: {selectedCompany.industry}
               </span>

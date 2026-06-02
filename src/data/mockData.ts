@@ -90,6 +90,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "Leading IT services and business consulting Solutions provider globally.",
     website: "https://www.techmahindra.com",
     logoEmoji: "🏢",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Tech_Mahindra_New_Logo.svg/512px-Tech_Mahindra_New_Logo.svg.png",
     industry: "IT Services",
     location: "Mumbai",
     companySize: "10,000+ employees",
@@ -101,6 +102,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "A global leader in next-generation digital services and consulting.",
     website: "https://www.infosys.com",
     logoEmoji: "🚀",
+    logoUrl: "https://companieslogo.com/img/orig/INFY_BIG-9b3de319.png",
     industry: "Technology",
     location: "Bangalore",
     companySize: "10,000+ employees",
@@ -112,6 +114,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "India's largest electronics retailer connecting customers with cutting-edge tech.",
     website: "https://www.reliancedigital.in",
     logoEmoji: "🛒",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Reliance_Retail_Logo.svg/512px-Reliance_Retail_Logo.svg.png",
     industry: "E-commerce",
     location: "Delhi",
     companySize: "5000-10,000 employees",
@@ -123,6 +126,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "A purpose-led organization that is building a meaningful future through innovation.",
     website: "https://www.tcs.com",
     logoEmoji: "🏆",
+    logoUrl: "https://companieslogo.com/img/orig/TCS.NS_r-a7fc190a.png",
     industry: "Technology",
     location: "Mumbai",
     companySize: "10,000+ employees",
@@ -134,6 +138,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "A leading global information technology, consulting and business process services company.",
     website: "https://www.wipro.com",
     logoEmoji: "🌐",
+    logoUrl: "https://companieslogo.com/img/orig/WIT-60de5901.png",
     industry: "Technology",
     location: "Bangalore",
     companySize: "10,000+ employees",
@@ -145,6 +150,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "India's leading private sector bank offering comprehensive financial architectures.",
     website: "https://www.hdfcbank.com",
     logoEmoji: "🏦",
+    logoUrl: "https://companieslogo.com/img/orig/HDB-e9a06419.png",
     industry: "Banking & Finance",
     location: "Mumbai",
     companySize: "10,000+ employees",
@@ -156,6 +162,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "India's customer-focused e-commerce marketplace driving digital shopping revolutions.",
     website: "https://www.flipkart.com",
     logoEmoji: "🛍️",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flipkart_logo.png/512px-Flipkart_logo.png",
     industry: "E-commerce",
     location: "Bangalore",
     companySize: "5000-10,000 employees",
@@ -167,6 +174,7 @@ export const INITIAL_COMPANIES: Company[] = [
     description: "India's top on-demand delivery network powering hyper-local food and grocery deliveries.",
     website: "https://www.swiggy.com",
     logoEmoji: "🍔",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/13/Swiggy_logo.png",
     industry: "E-commerce",
     location: "Bangalore",
     companySize: "1000-5000 employees",
@@ -612,9 +620,15 @@ export function initLocalStorage() {
       const updatedCompanies = [...currentCompanies];
       let changed = false;
       for (const c of INITIAL_COMPANIES) {
-        if (!currentCompanies.some((existing) => existing.id === c.id)) {
+        const existingIdx = updatedCompanies.findIndex((existing) => existing.id === c.id);
+        if (existingIdx === -1) {
           updatedCompanies.push(c);
           changed = true;
+        } else {
+          if (updatedCompanies[existingIdx].logoUrl !== c.logoUrl) {
+            updatedCompanies[existingIdx].logoUrl = c.logoUrl;
+            changed = true;
+          }
         }
       }
       if (changed) {

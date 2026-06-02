@@ -71,8 +71,27 @@ export default function CompaniesPage({
               >
                 <div>
                   <div className="flex items-start justify-between">
-                    <div className="text-4xl bg-[#EFF6FF] px-4 py-3 rounded-xl border border-blue-50">
-                      {c.logoEmoji || "🏢"}
+                    <div className="w-16 h-16 bg-white p-2 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden shrink-0">
+                      {c.logoUrl ? (
+                        <img
+                          src={c.logoUrl}
+                          alt={`${c.name} logo`}
+                          className="w-full h-full object-contain"
+                          referrerPolicy="no-referrer"
+                          onError={(e) => {
+                            e.currentTarget.style.display = "none";
+                            const parent = e.currentTarget.parentElement;
+                            if (parent && !parent.querySelector(".fallback-emoji")) {
+                              const fallback = document.createElement("span");
+                              fallback.className = "text-3xl fallback-emoji";
+                              fallback.innerText = c.logoEmoji || "🏢";
+                              parent.appendChild(fallback);
+                            }
+                          }}
+                        />
+                      ) : (
+                        <span className="text-3xl">{c.logoEmoji || "🏢"}</span>
+                      )}
                     </div>
 
                     {c.verified && (

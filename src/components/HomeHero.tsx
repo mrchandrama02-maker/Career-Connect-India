@@ -191,8 +191,27 @@ export default function HomeHero({
               className="bg-white border border-[#E5E7EB] p-6 rounded-xl shadow-xs hover:shadow-md transition-all group"
             >
               <div className="flex items-start justify-between">
-                <div className="bg-[#EFF6FF] px-4 py-3 rounded-xl border border-blue-50 text-2xl group-hover:scale-105 transition-transform">
-                  {c.logoEmoji || "🏢"}
+                <div className="w-14 h-14 bg-white p-2 rounded-xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                  {c.logoUrl ? (
+                    <img
+                      src={c.logoUrl}
+                      alt={`${c.name} logo`}
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        const parent = e.currentTarget.parentElement;
+                        if (parent && !parent.querySelector(".fallback-emoji")) {
+                          const fallback = document.createElement("span");
+                          fallback.className = "text-2xl fallback-emoji";
+                          fallback.innerText = c.logoEmoji || "🏢";
+                          parent.appendChild(fallback);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <span className="text-2xl">{c.logoEmoji || "🏢"}</span>
+                  )}
                 </div>
                 {c.verified && (
                   <span className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-[10px] font-bold uppercase py-0.5 px-2 rounded-full inline-flex items-center gap-0.5">

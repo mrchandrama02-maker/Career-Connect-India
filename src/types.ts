@@ -31,6 +31,7 @@ export interface Company {
   description: string;
   website: string;
   logoEmoji: string;
+  logoUrl?: string;
   industry: string;
   location: string;
   companySize: string;
