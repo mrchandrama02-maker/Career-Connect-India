@@ -599,7 +599,7 @@ export default function AdminDashboard({
           <div className={`${adminMenuCollapsed ? "hidden lg:block space-y-1.5" : "block space-y-1.5 animate-in slide-in-from-top duration-200"}`}>
 
           <button
-            onClick={() => { setActiveTab("stats"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("stats"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "stats" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -609,7 +609,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("seekers"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("seekers"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "seekers" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -619,7 +619,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("companies"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("companies"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "companies" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -629,7 +629,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("jobs"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("jobs"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "jobs" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -639,7 +639,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("reports"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("reports"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "reports" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -649,7 +649,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("analytics"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("analytics"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "analytics" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -659,7 +659,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("settings"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("settings"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "settings" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -669,7 +669,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("broadcasts"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("broadcasts"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "broadcasts" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -679,7 +679,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("security"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("security"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "security" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -689,7 +689,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("monetization"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("monetization"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "monetization" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -699,7 +699,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("mobile"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("mobile"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "mobile" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -709,7 +709,7 @@ export default function AdminDashboard({
           </button>
 
           <button
-            onClick={() => { setActiveTab("cms"); setSearchQuery(""); }}
+            onClick={() => { setActiveTab("cms"); setSearchQuery(""); setAdminMenuCollapsed(true); }}
             className={`w-full py-2.5 px-3.5 rounded-xl text-left text-xs font-semibold flex items-center gap-2.5 transition-all text-gray-500 hover:bg-[#F8FAFC] cursor-pointer ${
               activeTab === "cms" ? "bg-blue-50 text-blue-700 font-extrabold border-l-3 border-blue-600 pl-2.5 bg-gradient-to-r from-blue-50 to-white" : ""
             }`}
@@ -908,7 +908,8 @@ export default function AdminDashboard({
               </div>
 
               <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-xs">
-                <div className="overflow-x-auto">
+                {/* Desktop Responsive Table */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="bg-[#EFF6FF] border-b text-gray-600 font-bold font-mono">
@@ -981,6 +982,64 @@ export default function AdminDashboard({
                   </table>
                 </div>
 
+                {/* Mobile Responsive Cards */}
+                <div className="block md:hidden divide-y divide-gray-150">
+                  {paginatedSeekers.length === 0 ? (
+                    <div className="p-6 text-center text-gray-400 font-mono text-xs">No seekers found matching the search matrix.</div>
+                  ) : (
+                    paginatedSeekers.map(sk => (
+                      <div key={sk.id} className="p-4 space-y-3 hover:bg-slate-50/50">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="text-xl bg-gray-100 p-1.5 rounded-lg shrink-0">{sk.profilePhotoEmoji || "👨‍💻"}</span>
+                            <div className="min-w-0">
+                              <span className="font-bold text-gray-800 text-sm block truncate">{sk.name}</span>
+                              <span className="text-[10px] text-gray-400 font-mono block truncate">{sk.email}</span>
+                            </div>
+                          </div>
+                          <span className={`shrink-0 px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${
+                            sk.blocked ? "bg-red-150 text-red-700 border border-red-200" : "bg-emerald-50 text-emerald-700 border-emerald-100"
+                          }`}>
+                            {sk.blocked ? "⛔ Blocked" : "Active"}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-700 bg-slate-50 p-2.5 rounded-xl space-y-1.5">
+                          <div><span className="font-bold text-gray-400 font-mono text-[9px] mr-1">EXPERIENCE:</span>{sk.experience || 0} years experience</div>
+                          <div className="flex flex-wrap gap-1 items-center">
+                            <span className="font-bold text-gray-400 font-mono text-[9px] mr-1">SKILLS:</span>
+                            {(sk.skills || []).length === 0 ? <span className="text-gray-400 font-mono">None registered</span> : (sk.skills || []).map(skill => (
+                              <span key={skill} className="bg-blue-50 text-blue-600 text-[9px] px-1.5 py-0.5 rounded font-bold font-mono">
+                                {skill}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-end gap-2 pt-1 font-mono">
+                          <button
+                            onClick={() => {
+                              setSelectedUser(sk);
+                              setEditUserSkills(sk.skills ? sk.skills.join(", ") : "");
+                              setEditUserExp(sk.experience || 1);
+                              setEditUserEdu(sk.education || "Undergraduate Degree");
+                            }}
+                            className="text-[10px] font-bold bg-slate-50 hover:bg-slate-100 py-1.5 px-3 rounded-lg border border-gray-200 text-gray-700 cursor-pointer"
+                          >
+                            Edit Profile
+                          </button>
+                          <button
+                            onClick={() => onToggleBlockUser(sk.id)}
+                            className={`text-[10px] font-bold py-1.5 px-3 rounded-lg border cursor-pointer ${
+                              sk.blocked ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-red-50 text-red-650 border-red-200"
+                            }`}
+                          >
+                            {sk.blocked ? "Unblock" : "Block"}
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
                 {/* Pagination footer */}
                 <div className="bg-white border-t border-gray-200 p-4 flex items-center justify-between text-xs">
                   <span className="text-gray-500">
@@ -1024,7 +1083,8 @@ export default function AdminDashboard({
               </div>
 
               <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-xs">
-                <div className="overflow-x-auto">
+                {/* Desktop Responsive Table */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="bg-[#EFF6FF] border-b text-gray-600 font-bold font-mono">
@@ -1106,6 +1166,76 @@ export default function AdminDashboard({
                   </table>
                 </div>
 
+                {/* Mobile Responsive Cards */}
+                <div className="block md:hidden divide-y divide-gray-150">
+                  {paginatedCompanies.length === 0 ? (
+                    <div className="p-6 text-center text-gray-400 font-mono text-xs">No enterprise accounts match search criteria.</div>
+                  ) : (
+                    paginatedCompanies.map(c => (
+                      <div key={c.id} className="p-4 space-y-3 hover:bg-slate-50/50">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="w-10 h-10 shrink-0 bg-white p-1 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden">
+                              {c.logoUrl ? (
+                                <img
+                                  src={c.logoUrl}
+                                  alt={`${c.name} logo`}
+                                  className="w-full h-full object-contain"
+                                  referrerPolicy="no-referrer"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = "none";
+                                    const parent = e.currentTarget.parentElement;
+                                    if (parent && !parent.querySelector(".fallback-emoji")) {
+                                      const fallback = document.createElement("span");
+                                      fallback.className = "text-xl fallback-emoji";
+                                      fallback.innerText = c.logoEmoji || "🏢";
+                                      parent.appendChild(fallback);
+                                    }
+                                  }}
+                                />
+                              ) : (
+                                <span className="text-xl">{c.logoEmoji || "🏢"}</span>
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <span className="font-extrabold text-gray-800 text-sm block truncate">{c.name}</span>
+                              <span className="text-[10px] text-gray-400 font-mono block truncate">Size: {c.companySize}</span>
+                            </div>
+                          </div>
+                          <span className={`shrink-0 px-2 py-0.5 rounded text-[8px] font-extrabold uppercase border ${
+                            c.verified ? "bg-emerald-50 text-emerald-700 border-emerald-205" : "bg-amber-50 text-amber-700 border-amber-205"
+                          }`}>
+                            {c.verified ? "Verified" : "Pending"}
+                          </span>
+                        </div>
+                        <div className="text-xs text-gray-700 bg-slate-50 p-2.5 rounded-xl space-y-1 font-sans">
+                          <div><span className="font-bold text-gray-400 font-mono text-[9px] mr-1">INDUSTRY:</span>{c.industry}</div>
+                          <div><span className="font-bold text-gray-400 font-mono text-[9px] mr-1">HEADQUARTERS:</span>{c.location}</div>
+                        </div>
+                        <div className="flex items-center justify-end gap-2 pt-1 font-mono">
+                          <button
+                            onClick={() => {
+                              setSelectedCompany(c);
+                              setCompanyRating(Math.floor(Math.random() * 2) + 4);
+                            }}
+                            className="text-[10px] font-bold bg-slate-50 hover:bg-slate-100 py-1.5 px-3 rounded-lg border border-gray-200 text-gray-700 cursor-pointer"
+                          >
+                            View Details
+                          </button>
+                          <button
+                            onClick={() => onToggleVerifyCompany(c.id)}
+                            className={`text-[10px] font-bold py-1.5 px-3 rounded-lg border cursor-pointer ${
+                              c.verified ? "bg-amber-50 text-amber-600 border-amber-200" : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                            }`}
+                          >
+                            {c.verified ? "Revoke" : "Verify"}
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
                 <div className="bg-white border-t border-gray-200 p-4 flex items-center justify-between text-xs">
                   <span className="text-gray-500">
                     Showing {(companiesPage - 1) * ITEMS_PER_PAGE + 1} - {Math.min(filteredCompanies.length, companiesPage * ITEMS_PER_PAGE)} of {filteredCompanies.length} companies
@@ -1132,7 +1262,8 @@ export default function AdminDashboard({
               </div>
 
               <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-xs">
-                <div className="overflow-x-auto">
+                {/* Desktop Responsive Table */}
+                <div className="hidden md:block overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="bg-[#EFF6FF] border-b text-gray-600 font-bold font-mono">
@@ -1194,6 +1325,56 @@ export default function AdminDashboard({
                   </table>
                 </div>
 
+                {/* Mobile Responsive Cards */}
+                <div className="block md:hidden divide-y divide-gray-150">
+                  {paginatedJobs.length === 0 ? (
+                    <div className="p-6 text-center text-gray-400 font-mono text-xs">No active job indexes found.</div>
+                  ) : (
+                    paginatedJobs.map(j => (
+                      <div key={j.id} className="p-4 space-y-3 hover:bg-slate-50/50 flex flex-col">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <span className="font-bold text-gray-800 text-sm block leading-tight">{j.title}</span>
+                            <span className="text-[10px] text-gray-400 font-mono block mt-0.5">Brand: <span className="font-extrabold text-[#3B82F6]">{j.companyName}</span></span>
+                          </div>
+                          <span className={`shrink-0 px-2 py-0.5 rounded text-[8px] font-extrabold uppercase ${
+                            j.active ? "bg-blue-50 text-blue-700 border border-blue-100" : "bg-gray-100 text-gray-500"
+                          }`}>
+                            {j.active ? "Active" : "Paused"}
+                          </span>
+                        </div>
+                        <div className="bg-slate-50 p-2.5 rounded-xl space-y-1 text-xs">
+                          <div className="flex items-center justify-between text-[11px]">
+                            <span className="font-bold text-emerald-700">{j.salaryRange}</span>
+                            <span className="text-gray-500 font-mono font-medium">{j.location} • {j.jobType}</span>
+                          </div>
+                          <div className="text-[9px] text-gray-400 font-mono animate-pulse">Posted: {j.datePosted}</div>
+                        </div>
+                        <div className="flex items-center justify-end gap-2 pt-1 font-mono">
+                          <button
+                            onClick={() => onToggleJobStatus(j.id)}
+                            className={`text-[10px] font-bold py-1.5 px-3 rounded-lg border cursor-pointer ${
+                              j.active ? "bg-slate-50 text-gray-600 border-gray-200" : "bg-blue-50 text-blue-600 border-blue-100"
+                            }`}
+                          >
+                            {j.active ? "Pause" : "Approve"}
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (confirm(`Do you wish to delete this staff listing of ${j.title}?`)) {
+                                onDeleteJob(j.id);
+                              }
+                            }}
+                            className="text-[10px] font-bold bg-red-50 hover:bg-red-100 py-1.5 px-3 rounded-lg border border-red-200 text-red-600 cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
                 <div className="bg-white border-t border-gray-200 p-4 flex items-center justify-between text-xs">
                   <span className="text-gray-500">
                     Showing {(jobsPage - 1) * ITEMS_PER_PAGE + 1} - {Math.min(filteredJobs.length, jobsPage * ITEMS_PER_PAGE)} of {filteredJobs.length} listings
@@ -1214,7 +1395,8 @@ export default function AdminDashboard({
                 <span className="bg-amber-100 text-amber-800 font-extrabold text-[10px] px-3 py-1 rounded-full uppercase tracking-wider">MODERATION</span>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* Desktop Responsive Table */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="bg-amber-50/50 border-b text-gray-600 font-bold font-mono">
@@ -1259,6 +1441,43 @@ export default function AdminDashboard({
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              {/* Mobile Responsive Cards */}
+              <div className="block md:hidden divide-y divide-gray-150">
+                {reports.map((rep) => (
+                  <div key={rep.id} className="py-4 space-y-3">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="bg-amber-100 text-amber-800 font-extrabold px-2 py-0.5 rounded text-[8px] uppercase">{rep.type}</span>
+                      <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${
+                        rep.status === "Pending" ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800"
+                      }`}>
+                        {rep.status}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-gray-400 font-mono block">Topic / Target:</span>
+                      <span className="text-xs font-bold text-gray-800">{rep.reportedTarget}</span>
+                    </div>
+                    <div className="bg-amber-50/40 p-2.5 rounded-xl border border-amber-100/30 text-xs text-gray-700 space-y-1">
+                      <div><span className="font-extrabold text-amber-900 font-mono text-[9px]">Grievance:</span> "{rep.reason}"</div>
+                      <div><span className="font-extrabold text-amber-900 font-mono text-[9px]">Reporter:</span> {rep.reportedBy}</div>
+                      <div><span className="font-extrabold text-amber-900 font-mono text-[9px]">Date:</span> {rep.date}</div>
+                    </div>
+                    <div className="pt-1 flex items-center justify-end">
+                      {rep.status === "Pending" ? (
+                        <button
+                          onClick={() => handleResolveReport(rep.id)}
+                          className="w-full text-center text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white py-2.5 px-3 rounded-lg cursor-pointer shadow-sm transition-all"
+                        >
+                          Resolve Issue
+                        </button>
+                      ) : (
+                        <span className="text-gray-405 font-mono text-xs font-bold">Resolved</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
