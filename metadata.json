@@ -1,0 +1,6 @@
+{
+  "name": "Career Connect India",
+  "description": "A comprehensive job portal linking seekees, recruiters and admins seamlessly with localized positions, easy profile management, application tracking, and an administrative control suite.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
