@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { User, Company, Job, Application } from "../types";
-import { Building, Plus, FileText, CheckCircle2, XCircle, Trash2, Edit2, Calendar, Link, Users, Award, MapPin, IndianRupee, Briefcase, ChevronRight, Settings } from "lucide-react";
+import { Building, Plus, FileText, CheckCircle2, XCircle, Trash2, Edit2, Calendar, Link, Users, Award, MapPin, IndianRupee, Briefcase, ChevronRight, Settings, Camera, Upload, Image } from "lucide-react";
 
 interface RecruiterDashboardProps {
   currentUser: User;
@@ -69,6 +69,27 @@ export default function RecruiterDashboard({
   const [compSize, setCompSize] = useState(company?.companySize || "");
   const [compEmoji, setCompEmoji] = useState(company?.logoEmoji || "🏢");
   const [compLogoUrl, setCompLogoUrl] = useState(company?.logoUrl || "");
+
+  // Company logo updating modalities
+  const [logoModalOpen, setLogoModalOpen] = useState(false);
+  const [isDraggingLogo, setIsDraggingLogo] = useState(false);
+  const [logoError, setLogoError] = useState("");
+  const fileInputRefForHeaderLogo = React.useRef<HTMLInputElement>(null);
+  const fileInputRefForSettingsLogo = React.useRef<HTMLInputElement>(null);
+
+  // Sync state variables with original company prop if updated externally
+  React.useEffect(() => {
+    if (company) {
+      setCompName(company.name || "");
+      setCompDesc(company.description || "");
+      setCompWebsite(company.website || "");
+      setCompIndustry(company.industry || "");
+      setCompLocation(company.location || "");
+      setCompSize(company.companySize || "");
+      setCompEmoji(company.logoEmoji || "🏢");
+      setCompLogoUrl(company.logoUrl || "");
+    }
+  }, [company]);
 
   if (!company) {
     return (
