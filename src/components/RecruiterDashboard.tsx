@@ -657,7 +657,7 @@ Figma responsive layouts transition"
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Left Column: Applicants Selection */}
-            <div className="lg:col-span-1 space-y-3">
+            <div className={`lg:col-span-1 space-y-3 ${selectedApp ? "hidden lg:block" : "block"}`}>
               <div className="bg-white p-3 border border-[#E5E7EB] rounded-xl text-xs">
                 <h3 className="font-bold text-[#1F293A]">Candidate Inbox Profiles</h3>
                 <p className="text-gray-400 mt-0.5">Click any record below to load dossier</p>
@@ -731,10 +731,21 @@ Figma responsive layouts transition"
             </div>
 
             {/* Right Column: Active Profile Dossier Detail */}
-            <div className="lg:col-span-2">
+            <div className={`lg:col-span-2 ${selectedApp ? "block" : "hidden lg:block"}`}>
               {selectedApp ? (
                 <div className="bg-white border border-[#E5E7EB] p-6 rounded-2xl shadow-xs space-y-6 animate-in fade-in duration-150">
                   
+                  {/* Mobile Back Navigation */}
+                  <div className="lg:hidden pb-2 border-b border-gray-100 mb-2">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedApp(null)}
+                      className="text-xs font-bold text-[#3B82F6] hover:text-blue-700 flex items-center gap-1 bg-blue-50 px-3 py-2 rounded-lg cursor-pointer"
+                    >
+                      ← Back to Candidate List
+                    </button>
+                  </div>
+
                   {/* Dossier Header */}
                   <div className="flex flex-col sm:flex-row items-start justify-between gap-4 border-b pb-4">
                     <div>
