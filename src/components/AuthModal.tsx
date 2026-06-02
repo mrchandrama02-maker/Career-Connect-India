@@ -13,6 +13,8 @@ interface AuthModalProps {
   onClose: () => void;
   onLoginSuccess: (user: User) => void;
   onSignupSuccess: (user: User, company?: Company) => void;
+  initialMode?: "login" | "register";
+  initialRole?: "seeker" | "company";
 }
 
 export default function AuthModal({
@@ -20,11 +22,13 @@ export default function AuthModal({
   onClose,
   onLoginSuccess,
   onSignupSuccess,
+  initialMode = "login",
+  initialRole = "seeker",
 }: AuthModalProps) {
   if (!isOpen) return null;
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState<"seeker" | "company">("seeker");
+  const [isLogin, setIsLogin] = useState(initialMode === "login");
+  const [role, setRole] = useState<"seeker" | "company">(initialRole || "seeker");
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
@@ -34,6 +38,14 @@ export default function AuthModal({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [companyName, setCompanyName] = useState("");
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setIsLogin(initialMode === "login");
+      setRole(initialRole || "seeker");
+      resetForm();
+    }
+  }, [isOpen, initialMode, initialRole]);
 
   const resetForm = () => {
     setEmail("");

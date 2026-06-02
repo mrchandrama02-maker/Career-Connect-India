@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { User, Company, Job, Application, SavedJob } from "./types";
 import { initLocalStorage } from "./data/mockData";
+import { motion } from "motion/react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomeHero from "./components/HomeHero";
@@ -21,6 +22,14 @@ export default function App() {
   // Navigation & Modal States
   const [currentTab, setCurrentTab] = useState<string>("home");
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
+  const [authModalRole, setAuthModalRole] = useState<"seeker" | "company">("seeker");
+
+  const handleOpenAuth = (mode: "login" | "register" = "login", role: "seeker" | "company" = "seeker") => {
+    setAuthModalMode(mode);
+    setAuthModalRole(role);
+    setAuthModalOpen(true);
+  };
 
   // Global search transfers (Homepage input leads to Pre-filtered Job Browser)
   const [globalSearchTerm, setGlobalSearchTerm] = useState<string>("");
@@ -455,63 +464,89 @@ export default function App() {
         currentTab={currentTab}
         onNavigate={handleNavigate}
         onLogout={handleLogout}
-        onOpenAuth={() => setAuthModalOpen(true)}
+        onOpenAuth={(mode, role) => handleOpenAuth(mode || "login", role || "seeker")}
       />
 
       {/* Primary Section Canvas */}
       <main className="flex-grow">
         {currentTab === "home" && (
-          <HomeHero
-            jobs={jobs}
-            companies={companies}
-            currentUser={currentUser}
-            savedJobIds={savedJobs}
-            appliedJobIds={applications
-              .filter((app) => app.seekerId === currentUser?.id)
-              .map((app) => app.jobId)}
-            onNavigate={handleNavigate}
-            onSetGlobalSearch={handleSetGlobalSearch}
-            onOpenAuth={() => setAuthModalOpen(true)}
-            onApplyJob={handleApplyJob}
-            onToggleSaveJob={handleToggleSaveJob}
-            onSelectJob={(job) => {
-              setSelectedJob(job);
-              handleNavigate("jobs");
-            }}
-          />
+          <motion.div
+            key="home"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            <HomeHero
+              jobs={jobs}
+              companies={companies}
+              currentUser={currentUser}
+              savedJobIds={savedJobs}
+              appliedJobIds={applications
+                .filter((app) => app.seekerId === currentUser?.id)
+                .map((app) => app.jobId)}
+              onNavigate={handleNavigate}
+              onSetGlobalSearch={handleSetGlobalSearch}
+              onOpenAuth={() => handleOpenAuth("login")}
+              onApplyJob={handleApplyJob}
+              onToggleSaveJob={handleToggleSaveJob}
+              onSelectJob={(job) => {
+                setSelectedJob(job);
+                handleNavigate("jobs");
+              }}
+            />
+          </motion.div>
         )}
 
         {currentTab === "jobs" && (
-          <JobListingPage
-            jobs={jobs}
-            companies={companies}
-            currentUser={currentUser}
-            savedJobIds={savedJobs}
-            appliedJobIds={applications
-              .filter((app) => app.seekerId === currentUser?.id)
-              .map((app) => app.jobId)}
-            globalSearchTerm={globalSearchTerm}
-            globalSearchLoc={globalSearchLoc}
-            onClearGlobalSearch={handleClearGlobalSearch}
-            onApplyJob={handleApplyJob}
-            onToggleSaveJob={handleToggleSaveJob}
-            onOpenAuth={() => setAuthModalOpen(true)}
-            selectedJob={selectedJob}
-            onSelectJob={setSelectedJob}
-          />
+          <motion.div
+            key="jobs"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            <JobListingPage
+              jobs={jobs}
+              companies={companies}
+              currentUser={currentUser}
+              savedJobIds={savedJobs}
+              appliedJobIds={applications
+                .filter((app) => app.seekerId === currentUser?.id)
+                .map((app) => app.jobId)}
+              globalSearchTerm={globalSearchTerm}
+              globalSearchLoc={globalSearchLoc}
+              onClearGlobalSearch={handleClearGlobalSearch}
+              onApplyJob={handleApplyJob}
+              onToggleSaveJob={handleToggleSaveJob}
+              onOpenAuth={() => handleOpenAuth("login")}
+              selectedJob={selectedJob}
+              onSelectJob={setSelectedJob}
+            />
+          </motion.div>
         )}
 
         {currentTab === "companies" && (
-          <CompaniesPage
-            companies={companies}
-            jobs={jobs}
-            onSetGlobalSearch={handleSetGlobalSearch}
-            onNavigate={handleNavigate}
-          />
+          <motion.div
+            key="companies"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+          >
+            <CompaniesPage
+              companies={companies}
+              jobs={jobs}
+              onSetGlobalSearch={handleSetGlobalSearch}
+              onNavigate={handleNavigate}
+            />
+          </motion.div>
         )}
 
         {currentTab === "dashboard" && currentUser && (
-          <>
+          <motion.div
+            key="dashboard"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+          >
             {currentUser.role === "seeker" && (
               <SeekerDashboard
                 currentUser={currentUser}
@@ -560,7 +595,7 @@ export default function App() {
                 onDeleteJob={handleDeleteJob}
               />
             )}
-          </>
+          </motion.div>
         )}
       </main>
 
@@ -573,6 +608,8 @@ export default function App() {
         onClose={() => setAuthModalOpen(false)}
         onLoginSuccess={handleLoginSuccess}
         onSignupSuccess={handleSignupSuccess}
+        initialMode={authModalMode}
+        initialRole={authModalRole}
       />
 
     </div>

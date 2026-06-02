@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { Briefcase, User as UserIcon, LogOut, Shield, Building, Menu, X } from "lucide-react";
+import { Briefcase, User as UserIcon, LogOut, Shield, Building, Menu, X, ChevronDown } from "lucide-react";
 import { User } from "../types";
 import CareerConnectLogo from "./CareerConnectLogo";
 
@@ -13,7 +13,7 @@ interface NavbarProps {
   currentTab: string;
   onNavigate: (tab: string) => void;
   onLogout: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (mode?: "login" | "register", role?: "seeker" | "company") => void;
 }
 
 export default function Navbar({
@@ -24,6 +24,7 @@ export default function Navbar({
   onOpenAuth,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [employerDropdownOpen, setEmployerDropdownOpen] = useState(false);
 
   const handleNavClick = (tab: string) => {
     onNavigate(tab);
@@ -142,14 +143,75 @@ export default function Navbar({
                 </button>
               </div>
             ) : (
-              <button
-                onClick={onOpenAuth}
-                className="bg-[#3B82F6] text-white hover:bg-[#2563EB] px-5 py-2 rounded-xl text-sm font-semibold transition-all inline-flex items-center space-x-1 shadow-sm cursor-pointer hover:shadow-md"
-                id="nav-login-btn"
-              >
-                <UserIcon size={16} />
-                <span>Login / Signup</span>
-              </button>
+              <div className="flex items-center space-x-3">
+                {/* Outlined Pill Login */}
+                <button
+                  onClick={() => onOpenAuth("login")}
+                  className="border border-[#2563EB] text-[#2563EB] hover:bg-[#EFF6FF] px-6 py-1.5 rounded-full text-sm font-semibold transition-all cursor-pointer bg-white"
+                  id="nav-login-btn"
+                >
+                  Login
+                </button>
+
+                {/* Solid Coral Register */}
+                <button
+                  onClick={() => onOpenAuth("register")}
+                  className="bg-[#F05537] text-white hover:bg-[#D93F23] px-6 py-1.5 rounded-full text-sm font-semibold transition-all cursor-pointer"
+                  id="nav-register-btn"
+                >
+                  Register
+                </button>
+
+                {/* Separator Pipe */}
+                <div className="h-5 w-px bg-gray-300 mx-1 select-none"></div>
+
+                {/* Employers Dropdown Options */}
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setEmployerDropdownOpen(true)}
+                  onMouseLeave={() => setEmployerDropdownOpen(false)}
+                >
+                  <button
+                    onClick={() => setEmployerDropdownOpen(!employerDropdownOpen)}
+                    className="text-gray-600 hover:text-gray-900 text-sm font-semibold flex items-center gap-1.5 py-2 cursor-pointer transition-colors"
+                  >
+                    <span>For employers</span>
+                    <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${employerDropdownOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  {employerDropdownOpen && (
+                    <div className="absolute right-0 mt-1 w-48 bg-white border border-[#E2E8F0] rounded-xl shadow-lg py-1.5 z-50 animate-in fade-in slide-in-from-top-1 bg-opacity-100 overflow-hidden">
+                      <button
+                        onClick={() => {
+                          onOpenAuth("register", "company");
+                          setEmployerDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-gray-700 transition-colors block cursor-pointer"
+                      >
+                        💼 Post a Job
+                      </button>
+                      <button
+                        onClick={() => {
+                          onOpenAuth("register", "company");
+                          setEmployerDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-gray-700 transition-colors block cursor-pointer"
+                      >
+                        🚀 Recruiter Register
+                      </button>
+                      <button
+                        onClick={() => {
+                          onOpenAuth("login", "company");
+                          setEmployerDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-gray-700 transition-colors block cursor-pointer"
+                      >
+                        🔑 Recruiter Sign In
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
           </div>
 
@@ -230,16 +292,35 @@ export default function Navbar({
               </div>
             </>
           ) : (
-            <div className="border-t border-[#E5E7EB] pt-2 mt-2">
+            <div className="border-t border-[#E5E7EB] pt-2 mt-2 space-y-1.5">
               <button
                 onClick={() => {
-                  onOpenAuth();
+                  onOpenAuth("login", "seeker");
                   setMobileMenuOpen(false);
                 }}
-                className="w-full bg-[#3B82F6] text-white hover:bg-[#2563EB] px-4 py-2.5 rounded-lg text-base font-semibold transition-all text-center block cursor-pointer"
+                className="w-full border border-[#2563EB] text-[#2563EB] bg-white hover:bg-blue-50 px-4 py-2.5 rounded-full text-sm font-bold transition-all text-center block cursor-pointer"
                 id="mobile-nav-login"
               >
-                Login / Signup
+                Seeker Login
+              </button>
+              <button
+                onClick={() => {
+                  onOpenAuth("register", "seeker");
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full bg-[#F05537] text-white hover:bg-[#D93F23] px-4 py-2.5 rounded-full text-sm font-bold transition-all text-center block cursor-pointer"
+                id="mobile-nav-register"
+              >
+                Seeker Register
+              </button>
+              <button
+                onClick={() => {
+                  onOpenAuth("register", "company");
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full text-gray-600 hover:text-gray-900 px-4 py-2 text-xs font-semibold text-center block cursor-pointer"
+              >
+                For Employers (Recruiter Registration) 💼
               </button>
             </div>
           )}

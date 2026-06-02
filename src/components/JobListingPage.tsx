@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Job, Company, User } from "../types";
+import { motion } from "motion/react";
 import { 
   Search, 
   MapPin, 
@@ -214,6 +215,385 @@ export default function JobListingPage({
     onSelectJob(null);
   };
 
+  if (inspectingJob) {
+    const companyObj = companies.find(c => c.id === inspectingJob.companyId) || {
+      logoUrl: undefined,
+      logoEmoji: "🏢",
+      verified: false
+    };
+    const isApplied = appliedJobIds.includes(inspectingJob.id);
+
+    // Get published description
+    const getPublishedTime = (dateStr: string) => {
+      const current = new Date("2026-06-02");
+      const posted = new Date(dateStr);
+      const diffTime = Math.abs(current.getTime() - posted.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays === 0 || isNaN(diffDays)) return "Today";
+      if (diffDays === 1) return "Yesterday";
+      return `${diffDays} days ago`;
+    };
+
+    // Candidate count seeded predictably
+    const textForSeed = inspectingJob.id + inspectingJob.title;
+    let hash = 0;
+    for (let i = 0; i < textForSeed.length; i++) {
+      hash = textForSeed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const candidateSeed = Math.abs(hash % 38) + 12;
+
+    // Build responsibilities based on title
+    const getResponsibilities = (title: string): string[] => {
+      const low = title.toLowerCase();
+      if (
+        low.includes("developer") ||
+        low.includes("engineer") ||
+        low.includes("architect") ||
+        low.includes("programmer") ||
+        low.includes("coder")
+      ) {
+        return [
+          "Design, construct, and maintain clean, performant, and scalable software solutions using industry best practices.",
+          "Collaborate with cross-functional partners (design, product management, and QA) to define project milestones.",
+          "Conduct detailed code reviews, optimize internal latency, and author unit tests to protect product quality.",
+          "Deploy microservices and frontend user interfaces securely to production cloud containers."
+        ];
+      }
+      if (
+        low.includes("analyst") ||
+        low.includes("data") ||
+        low.includes("research") ||
+        low.includes("treasury") ||
+        low.includes("valuation")
+      ) {
+        return [
+          "Structure and model raw dataset pipelines to reveal actionable commercial insights.",
+          "Create high-fidelity analytical dashboards, interactive reports, and summary visualizations for management.",
+          "Identify data performance bottlenecks, optimize SQL structures, and build automated regression testing procedures.",
+          "Formulate clear business requirement matrices to align software capabilities with operational goals."
+        ];
+      }
+      if (
+        low.includes("manager") ||
+        low.includes("lead") ||
+        low.includes("scrum") ||
+        low.includes("coordinator") ||
+        low.includes("ops") ||
+        low.includes("officer") ||
+        low.includes("operations")
+      ) {
+        return [
+          "Lead agile ceremonies, govern sprint progress, and coach squad members on delivery optimization.",
+          "Formulate comprehensive project schedules, coordinate multi-functional workflows, and mitigate delivery risks.",
+          "Monitor active operations KPIs, manage key vendor relationships, and negotiate favorable commercial terms.",
+          "Draft clear progress summaries, slide decks, and integration instructions for executive stakeholders."
+        ];
+      }
+      if (
+        low.includes("writer") ||
+        low.includes("editor") ||
+        low.includes("artist") ||
+        low.includes("designer") ||
+        low.includes("graphic") ||
+        low.includes("creative")
+      ) {
+        return [
+          "Generate high-impact microcopy, brand guidelines, and visual assets across digital interfaces.",
+          "Validate content with product and engineering teams to ensure uniform brand voice and presentation.",
+          "Create, curate, and maintain a centralized library of vector logos, typography profiles, and layout designs.",
+          "Perform usability reviews and user experience testing to iteratively improve content readability."
+        ];
+      }
+      return [
+        "Execute day-to-day work tasks with exceptional precision, quality, and commitment.",
+        "Collaborate with team peers and external stakeholders to streamline service delivery operations.",
+        "Document technical workflows, setup manuals, and operations logs for future reference.",
+        "Identify performance bottlenecks and advocate for continuous practice automation."
+      ];
+    };
+
+    const responsibilitiesList = getResponsibilities(inspectingJob.title);
+
+    return (
+      <div className="bg-[#FAFBFD] min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          
+          {/* Back Action button trigger */}
+          <button
+            onClick={closeDetailsModal}
+            className="text-xs sm:text-sm font-semibold text-[#2563EB] hover:text-[#1D4ED8] flex items-center gap-1.5 mb-6 transition-colors cursor-pointer group"
+          >
+            <span className="group-hover:-translate-x-1 transition-transform">←</span> Back to all jobs
+          </button>
+
+          {/* Main 2-column detailed workspace */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* LEFT CONTAINER: Extensive position description sheet */}
+            <div className="lg:col-span-8 bg-white border border-[#E2E8F0] rounded-2xl p-6 sm:p-8 md:p-10 shadow-xs">
+              
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  
+                  {/* Rounded Icon */}
+                  <div className="w-16 h-16 bg-blue-50/50 p-3 rounded-2xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs">
+                    {companyObj.logoUrl ? (
+                      <img
+                        src={companyObj.logoUrl}
+                        alt={`${inspectingJob.companyName} logo`}
+                        className="w-full h-full object-contain"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                          const parent = e.currentTarget.parentElement;
+                          if (parent && !parent.querySelector(".fallback-emoji")) {
+                            const fallback = document.createElement("span");
+                            fallback.className = "text-2xl fallback-emoji";
+                            fallback.innerText = companyObj.logoEmoji || "🏢";
+                            parent.appendChild(fallback);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <span className="text-2xl">{companyObj.logoEmoji || "🏢"}</span>
+                    )}
+                  </div>
+
+                  <div>
+                    <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-tight tracking-tight mt-0.5">
+                      {inspectingJob.title}
+                    </h1>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm font-bold text-[#2563EB]">
+                        {inspectingJob.companyName}
+                      </span>
+                      {companyObj.verified && (
+                        <span className="bg-emerald-50 border border-emerald-100 text-[9px] text-[#059669] px-1.5 rounded-sm uppercase font-bold tracking-wider">
+                          Verified
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Star Bookmark */}
+                {(!currentUser || currentUser.role === "seeker") && (
+                  <button
+                    onClick={() => {
+                      if (!currentUser) {
+                        onOpenAuth();
+                      } else {
+                        onToggleSaveJob(inspectingJob.id);
+                      }
+                    }}
+                    className={`p-2.5 rounded-xl border transition-all self-start sm:self-center cursor-pointer ${
+                      savedJobIds.includes(inspectingJob.id)
+                        ? "bg-amber-50 border-amber-200 text-amber-550 shadow-2xs"
+                        : "bg-white border-slate-200 text-gray-400 hover:text-amber-500 hover:border-amber-200"
+                    }`}
+                    title="Bookmark this position"
+                  >
+                    {savedJobIds.includes(inspectingJob.id) ? (
+                      <Star size={18} className="fill-current text-amber-500" />
+                    ) : (
+                      <StarOff size={18} />
+                    )}
+                  </button>
+                )}
+              </div>
+
+              <hr className="border-gray-100 my-6" />
+
+              {/* Key metadata badges metric panel matching mockup */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-2">
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-[#94A3B8] uppercase block mb-1">
+                    LOCATION
+                  </span>
+                  <span className="text-xs sm:text-sm font-extrabold text-[#334155] flex items-center gap-1">
+                    <MapPin size={14} className="text-[#3B82F6] shrink-0" /> {inspectingJob.location}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-[#94A3B8] uppercase block mb-1">
+                    TYPE
+                  </span>
+                  <span className="text-xs sm:text-sm font-extrabold text-[#334155] flex items-center gap-1.5">
+                    <Briefcase size={14} className="text-[#3B82F6] shrink-0" /> {inspectingJob.jobType}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-[#94A3B8] uppercase block mb-1">
+                    SALARY
+                  </span>
+                  <span className="text-xs sm:text-sm font-extrabold text-emerald-600 flex items-center gap-0.5">
+                    <IndianRupee size={13} className="text-[#3B82F6] shrink-0" /> {inspectingJob.salaryRange}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-[#94A3B8] uppercase block mb-1">
+                    EXPERIENCE
+                  </span>
+                  <span className="text-xs sm:text-sm font-extrabold text-[#334155] flex items-center gap-1.5 font-sans">
+                    <Calendar size={14} className="text-[#3B82F6] shrink-0" /> {inspectingJob.experienceLevel}+ Years
+                  </span>
+                </div>
+              </div>
+
+              <hr className="border-gray-100 my-6" />
+
+              {/* Detailed Description block */}
+              <div className="space-y-4">
+                <h2 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+                  Job Description
+                </h2>
+                <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                  {inspectingJob.description}
+                </p>
+              </div>
+
+              {/* Responsibilities with blue checkboxes checkmarks */}
+              <div className="mt-8 space-y-4">
+                <h2 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+                  Responsibilities
+                </h2>
+                <div className="space-y-3.5">
+                  {responsibilitiesList.map((item, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <CheckCircle2 size={16} className="text-[#3B82F6] shrink-0 mt-0.5" />
+                      <span className="text-sm text-gray-600 leading-relaxed">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Requirements block */}
+              {inspectingJob.requirements && inspectingJob.requirements.length > 0 && (
+                <div className="mt-8 space-y-4">
+                  <h2 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">
+                    Requirements
+                  </h2>
+                  <div className="space-y-3.5">
+                    {inspectingJob.requirements.map((req, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <span className="w-1.5 h-1.5 bg-[#3B82F6] rounded-full shrink-0 mt-2"></span>
+                        <span className="text-sm text-gray-600 leading-relaxed">{req}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* RIGHT COLUMN: Sidebar widgets */}
+            <div className="lg:col-span-4 space-y-6">
+              
+              {/* Ready to take leap card */}
+              <div className="bg-white border border-[#E2E8F0] p-6 rounded-2xl shadow-xs">
+                <h4 className="text-[10px] font-bold text-gray-400 text-center tracking-widest uppercase mb-4">
+                  Ready to take the leap?
+                </h4>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!currentUser) {
+                      onOpenAuth();
+                    } else {
+                      onApplyJob(inspectingJob.id);
+                    }
+                  }}
+                  disabled={isApplied}
+                  className={`w-full py-3.5 font-bold rounded-xl text-xs sm:text-sm text-center flex items-center justify-center gap-2 transition-all duration-200 shadow-xs cursor-pointer ${
+                    isApplied
+                      ? "bg-emerald-50 border border-emerald-150 text-emerald-700 cursor-not-allowed"
+                      : "bg-[#2563EB] hover:bg-[#1D4ED8] text-white hover:shadow-md"
+                  }`}
+                >
+                  {isApplied ? (
+                    <span className="flex items-center gap-1.5 justify-center">
+                      <CheckCircle2 size={14} /> Applied Successfully
+                    </span>
+                  ) : (
+                    "Apply for this position"
+                  )}
+                </button>
+
+                <hr className="border-gray-100 my-5" />
+
+                {/* Stats grid */}
+                <div className="space-y-3 font-sans text-xs">
+                  <div className="flex items-center justify-between text-gray-500 font-medium">
+                    <span>Job ID</span>
+                    <span className="font-extrabold text-[#0D1525] font-mono">
+                      #{inspectingJob.id.toUpperCase().replace("_", "-")}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-gray-500 font-medium">
+                    <span>Published</span>
+                    <span className="font-bold text-[#0D1525]">
+                      {getPublishedTime(inspectingJob.datePosted)}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-gray-500 font-medium font-sans">
+                    <span>Applications</span>
+                    <span className="font-bold text-[#2563EB]">
+                      {candidateSeed} candidates
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Safety sidebar widget card */}
+              <div className="bg-[#0F172A] rounded-2xl p-6 text-white relative overflow-hidden shadow-sm">
+                
+                {/* Background graphic flare watermark/shield logo */}
+                <div className="absolute right-3 bottom-0 opacity-10 pointer-events-none text-slate-400">
+                  <Award size={130} />
+                </div>
+
+                <h3 className="text-base font-bold text-white mb-2 leading-tight tracking-tight relative z-10 flex items-center gap-1.5">
+                  Application Safety
+                </h3>
+                
+                <p className="text-xs text-slate-300 leading-relaxed font-normal mb-4 relative z-10">
+                  All corporate profiles on Career Connect India are verified by our dedicated trust and safety division. We never request credentials, payments, or processing funds.
+                </p>
+
+                <a 
+                  href="#safety-guidelines" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert("Trust & Safety: Do not share sensitive payment requests or OTPs with anyone calling under company names. Career Connect India will never ask for payment to apply or interview.");
+                  }}
+                  className="text-xs text-white underline hover:text-slate-200 transition-colors block font-semibold hover:no-underline relative z-10"
+                >
+                  Learn more about recruitment safety
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // Clean inspect modal closure
+  const isSelectedOrInspecting = false; // dummy placeholder to keep compile happy since we updated below
+
+
   return (
     <div className="bg-[#FAFBFD] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -404,9 +784,17 @@ export default function JobListingPage({
                   const isApplied = appliedJobIds.includes(job.id);
 
                   return (
-                    <div
+                    <motion.div
                       key={job.id}
-                      className="bg-white border border-[#E2E8F0] p-6 rounded-2xl shadow-xs hover:shadow-md transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-5 group"
+                      className="bg-white border border-[#E2E8F0] p-6 rounded-2xl shadow-xs transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-5 group cursor-pointer"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35 }}
+                      whileHover={{ scale: 1.01, y: -2, boxShadow: "0 15px 25px -5px rgba(0,0,0,0.03)" }}
+                      onClick={() => {
+                        onSelectJob(job);
+                        setInspectingJob(job);
+                      }}
                     >
                       {/* Left: Logo/Icon + Job core detail block */}
                       <div className="flex items-start gap-4">
@@ -438,7 +826,8 @@ export default function JobListingPage({
                         {/* Text descriptions */}
                         <div className="space-y-1">
                           <h3 
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               onSelectJob(job);
                               setInspectingJob(job);
                             }}
@@ -479,7 +868,8 @@ export default function JobListingPage({
                         
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             onSelectJob(job);
                             setInspectingJob(job);
                           }}
@@ -490,7 +880,8 @@ export default function JobListingPage({
 
                         <button
                           type="button"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             if (!currentUser) {
                               onOpenAuth();
                             } else {
@@ -509,7 +900,7 @@ export default function JobListingPage({
 
                       </div>
 
-                    </div>
+                    </motion.div>
                   );
                 })
               )}

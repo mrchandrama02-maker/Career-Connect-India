@@ -517,6 +517,510 @@ export const INITIAL_JOBS: Job[] = [
     ],
     datePosted: "2026-06-02",
     active: true
+  },
+  {
+    id: "job_15",
+    title: "Backend Systems Engineer",
+    companyId: "comp_5",
+    companyName: "Wipro Technologies",
+    location: "Hyderabad",
+    salaryRange: "9-14 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Join our core backend systems team at Wipro to scale high-throughput REST and gRPC services. You will build resilient internal APIs that power secure telecommunication clients globally.",
+    requirements: [
+      "3+ years building backend systems using Java Spring Boot, Go, or Node.js",
+      "Proficiency with distributed queues such as RabbitMQ or Apache Kafka",
+      "Excellent database design skills with SQL databases like PostgreSQL"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_16",
+    title: "iOS Application Developer",
+    companyId: "comp_7",
+    companyName: "Flipkart Commerce",
+    location: "Bangalore",
+    salaryRange: "12-18 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Fulfill core design patterns and build incredible shopping interfaces for millions of iOS consumers. Responsibilities include building elegant SwiftUI elements, maintaining persistent offline-first features, and optimizing launch latency.",
+    requirements: [
+      "4+ years of professional iOS lifecycle delivery in Swift and Objective-C",
+      "Solid familiarity with iOS profiling tools, memory management, and CoreData",
+      "Experience delivering highly interactive views using modern UI frameworks"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_17",
+    title: "DevOps & Platform Architect",
+    companyId: "comp_1",
+    companyName: "Tech Mahindra Solutions",
+    location: "Pune",
+    salaryRange: "15-22 LPA",
+    jobType: "Full-time",
+    experienceLevel: 5,
+    description: "Direct the infrastructure deployment patterns for heavy enterprise clients. You will manage automated cloud deployments, implement reliable infrastructure-as-code scripts, and reduce server resource overhead via container operations.",
+    requirements: [
+      "5+ years in DevOps operations focusing on infrastructure-as-code automation",
+      "Vast experience writing Terraform configurations, Ansible scripts, and Helm charts",
+      "Deep experience managing active Kubernetes container orchestrations"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_18",
+    title: "Corporate Treasury Analyst",
+    companyId: "comp_6",
+    companyName: "HDFC Bank Hub",
+    location: "Mumbai",
+    salaryRange: "10-14 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Analyze liquidity requirements, prepare risk assessments for various asset categories, and optimize cash management flows across domestic bank divisions. You will work closely with executive decision builders to minimize risk ratios.",
+    requirements: [
+      "3+ years in Treasury, Corporate Finance, or financial modeling environments",
+      "Strong grip on asset liability management principles and regulatory compliance",
+      "Proficient analytical modeling utilizing MS Excel and quantitative finance tools"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_19",
+    title: "Android App Engineer",
+    companyId: "comp_8",
+    companyName: "Swiggy Delivery Tech",
+    location: "Bangalore",
+    salaryRange: "11-16 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Work on the Swiggy Delivery Android Application to improve location polling, secure payment flows, and implement dynamic custom views for partner apps. You will contribute to offline-friendly delivery tracking modules.",
+    requirements: [
+      "3+ years of professional Android creation utilizing Kotlin and Jetpack Compose",
+      "Familiarity with Google Maps SDK and custom background services for GPS",
+      "Solid grip on reactive architectures using RxJava or Kotlin Coroutines"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_20",
+    title: "Senior UX Writer",
+    companyId: "comp_3",
+    companyName: "Reliance Digital",
+    location: "Remote",
+    salaryRange: "6-9 LPA",
+    jobType: "Remote",
+    experienceLevel: 3,
+    description: "Develop clear, encouraging, and human-sounding microcopy for the Reliance Digital storefront and checkout applications. Define core content guidelines and coordinate cohesive terminology with design and product divisions.",
+    requirements: [
+      "3+ years craft-writing UX copy, product guidelines, or microcopy",
+      "A strong portfolio proving clear flow descriptions, button actions, and error helpers",
+      "Basic familiarity with Figma and agile product design sprints"
+    ],
+    datePosted: "2026-05-30",
+    active: true
+  },
+  {
+    id: "job_21",
+    title: "Quality Assurance Automation Engineer",
+    companyId: "comp_2",
+    companyName: "Infosys India",
+    location: "Chennai",
+    salaryRange: "7-11 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build, scale, and execute automated regression test suites to ensure reliable e-commerce and enterprise software delivery. You will write robust test integrations to trace active APIs and simulated client behaviors.",
+    requirements: [
+      "2+ years writing test suites with Selenium, Cypress, Playwright, or Appium",
+      "Strong programming skills in JavaScript/TypeScript, Python, or Java",
+      "Complete understanding of QA methodologies, pipeline testings, and bug-tracking suites"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_22",
+    title: "Product Specialist - FinTech APIs",
+    companyId: "comp_6",
+    companyName: "HDFC Bank Hub",
+    location: "Delhi",
+    salaryRange: "14-20 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Manage the developer integration tools for corporate payment portals. You will translate banking regulations and partner developer requests into clean integration specs, SDK requirements, and visual API playgrounds.",
+    requirements: [
+      "4+ years serving as Product Manager, Technical Analyst, or Solutions Engineer in FinTech",
+      "Deep technical curiosity about REST APIs, webhooks, and open banking protocols",
+      "Excellent cross-divisional collaboration and client communication abilities"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_23",
+    title: "Enterprise Software Sales Executive",
+    companyId: "comp_4",
+    companyName: "Tata Consultancy Services",
+    location: "Gurgaon",
+    salaryRange: "8-12 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Drive scalable sales conversations with large manufacturing clients across northern India. Work directly with high-level directors to showcase technical products, formulate proposals, and secure commercial software contracts.",
+    requirements: [
+      "3+ years selling enterprise SaaS or massive software consults in India",
+      "Exceptional communication, presentation, and sales negotiation techniques",
+      "Proven track record hitting quarterly targets and structuring deals"
+    ],
+    datePosted: "2026-05-25",
+    active: true
+  },
+  {
+    id: "job_24",
+    title: "Technical Support Lead",
+    companyId: "comp_5",
+    companyName: "Wipro Technologies",
+    location: "Kolkata",
+    salaryRange: "5-8 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Direct the tier-3 technical support squad for critical medical equipment client software. You will handle incident resolutions, analyze complex system log entries, and coordinate bug reports with product engineering.",
+    requirements: [
+      "3+ years managing client-facing IT support or technical operations",
+      "Expert knowledge of Linux commands, SQL query scripts, and networking protocols",
+      "Exceptional empathy and patient customer management demeanor"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_25",
+    title: "Data Analytics Engineer",
+    companyId: "comp_7",
+    companyName: "Flipkart Commerce",
+    location: "Bangalore",
+    salaryRange: "10-15 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Convert complex customer order parameters and delivery metrics into fast, reliable charts and dashboards. Implement clean DBT data pipelines to feed accurate datasets and empower executive decision builders.",
+    requirements: [
+      "3+ years building data structures using SQL, Python, and DBT",
+      "Vast experience writing complex analytical models on Snowflake or BigQuery",
+      "Ability to parse and structure unstructured web logs into reporting pipelines"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_26",
+    title: "Scrum Master - Agile Release",
+    companyId: "comp_1",
+    companyName: "Tech Mahindra Solutions",
+    location: "Noida",
+    salaryRange: "12-16 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Facilitate agile ceremonies and scrum protocols across multiple platform engineering teams. Focus on tracking team velocity, eliminating systemic roadblocks, and coaching team players to deliver quality deliverables.",
+    requirements: [
+      "4+ years practicing Scrum Master roles inside prominent IT enterprises",
+      "Professional Scrum Master certification (PSM I/II) or Certified ScrumMaster (CSM)",
+      "Mastery of JIRA workflow customization, confluence configurations, and reporting panels"
+    ],
+    datePosted: "2026-05-28",
+    active: true
+  },
+  {
+    id: "job_27",
+    title: "Senior Node.js Developer",
+    companyId: "comp_8",
+    companyName: "Swiggy Delivery Tech",
+    location: "Remote",
+    salaryRange: "14-19 LPA",
+    jobType: "Remote",
+    experienceLevel: 4,
+    description: "Construct robust, high-performance backends to parse millions of driver operations daily. You will tune API execution speeds, design secure microservices, and ensure database queries perform under highly concentrated loads.",
+    requirements: [
+      "4+ years deploying microservices using Node.js, Express, Fastify, and TypeScript",
+      "Intimate familiarity with caching paradigms like Redis and search utilities like Elasticsearch",
+      "Outstanding background in asynchronous JavaScript programming models and server architectures"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_28",
+    title: "Brand Operations Manager",
+    companyId: "comp_3",
+    companyName: "Reliance Digital",
+    location: "Mumbai",
+    salaryRange: "9-13 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Oversee brand positioning and collaborative campaigns for high-end electronic items. Design active promotional schedules, govern physical and digital retail placements, and monitor performance outcomes across territories.",
+    requirements: [
+      "3+ years managing consumer brand strategies or physical retail promotions",
+      "Deep analytical skills to analyze market trends and track product margins",
+      "Dynamic interpersonal capability directing external suppliers and marketing groups"
+    ],
+    datePosted: "2026-05-24",
+    active: true
+  },
+  {
+    id: "job_29",
+    title: "Database Administrator",
+    companyId: "comp_2",
+    companyName: "Infosys India",
+    location: "Hyderabad",
+    salaryRange: "11-15 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Maximize enterprise database availability, secure relational systems, and direct structural tuning operations. Maintain reliable cloud servers and write automated procedures for safety backups.",
+    requirements: [
+      "4+ years managing high-availability Oracle or SQL Server database structures",
+      "Exceptional knowledge of query optimization, indexing parameters, and query execution planning",
+      "Familiarity with replication rules, cloud DB engines, and access logging regulations"
+    ],
+    datePosted: "2026-05-21",
+    active: true
+  },
+  {
+    id: "job_30",
+    title: "Visual Graphic Artist",
+    companyId: "comp_1",
+    companyName: "Tech Mahindra Solutions",
+    location: "Ahmedabad",
+    salaryRange: "4-7 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Provide engaging commercial layouts, custom icons, and video content for software product promotion campaigns. Work with web design leads to supply polished vector elements.",
+    requirements: [
+      "2+ years producing vector designs, interface graphics, and commercial assets",
+      "Great knowledge of Adobe Illustrator, Photoshop, Figma, and AfterEffects",
+      "Highly creative design mindset emphasizing strong color, grid, and layout rules"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_31",
+    title: "Golang Microservices Developer",
+    companyId: "comp_7",
+    companyName: "Flipkart Commerce",
+    location: "Bangalore",
+    salaryRange: "16-24 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Develop hyper-scalable Golang microservices that integrate into Flipkart's main checkout pipeline. Optimize memory footprints, maintain precise RPC handlers, and ensure near-zero downtime under heavy sale seasons.",
+    requirements: [
+      "4+ years coding robust Go applications in modern cloud architectures",
+      "Expert knowledge of concurrency models, Go routines, and channel processing",
+      "Deep experience utilizing Redis caching, gRPC, and PostgreSQL"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_32",
+    title: "Senior Investment Analyst",
+    companyId: "comp_6",
+    companyName: "HDFC Bank Hub",
+    location: "Mumbai",
+    salaryRange: "18-24 LPA",
+    jobType: "Full-time",
+    experienceLevel: 5,
+    description: "Perform quantitative valuations on corporate assets, monitor economic market reports, and design premium pitch materials for commercial banking groups. Support major equity acquisitions in key markets.",
+    requirements: [
+      "5+ years performing investment reviews, asset research, or valuation practices",
+      "Solid CFA or CA qualifications highly valued for this expert role",
+      "Excellent communicative skills translating financial metrics into executive actions"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_33",
+    title: "Salesforce Solution Specialist",
+    companyId: "comp_5",
+    companyName: "Wipro Technologies",
+    location: "Gurgaon",
+    salaryRange: "10-15 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Tune and customize Salesforce architectures, including configuring complex flow mechanics, building robust API linkages, and developing Lightning Web Components for business partners.",
+    requirements: [
+      "3+ years managing Salesforce platforms using Apex, Visualforce, or LWC",
+      "Salesforce Developer or Platform App Builder certificates preferred",
+      "Familiarity with cloud integrations, database structures, and CRM systems"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_34",
+    title: "Technical Content Editor",
+    companyId: "comp_2",
+    companyName: "Infosys India",
+    location: "Remote",
+    salaryRange: "5-7 LPA",
+    jobType: "Remote",
+    experienceLevel: 2,
+    description: "Formulate clean documentation templates, rewrite code integration manuals, and edit whitepapers addressing our cloud services. Translate developer outputs into legible materials for external readers.",
+    requirements: [
+      "2+ years writing technical logs, software guides, or developer api documentation",
+      "Basic experience reading code snippets in Java, Python, or JavaScript",
+      "Excellent grasp of English grammar, layout styling, and structural clarity"
+    ],
+    datePosted: "2026-05-20",
+    active: true
+  },
+  {
+    id: "job_35",
+    title: "Principal AI Research Scientist",
+    companyId: "comp_4",
+    companyName: "Tata Consultancy Services",
+    location: "Pune",
+    salaryRange: "25-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 7,
+    description: "Pioneer AI system solutions for intelligent healthcare diagnostic tools. You will lead research initiatives constructing domain-specific deep learning networks, authoring research plans, and translating prototypes to optimized software solutions.",
+    requirements: [
+      "7+ years modeling advanced AI engines across vision and natural text understanding",
+      "PhD or Master's in Mathematical Sciences, Deep Learning, or Computer Engineering",
+      "Prior publications at premier ML conferences (NeurIPS, CVPR, ICML) highly appreciated"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_36",
+    title: "Corporate Operations Coordinator",
+    companyId: "comp_3",
+    companyName: "Reliance Digital",
+    location: "Delhi",
+    salaryRange: "6-9 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Govern supply processes, organize logistics scheduling, and lead internal team coordination for main retail locations in northern India. Ensure regional showrooms operate optimally.",
+    requirements: [
+      "2+ years inside logistics, corporate office operations, or supply-chain coordination",
+      "High reliability managing spreadsheet tools and tracking inventory metrics",
+      "Dynamic interpersonal abilities to align physical store needs with warehouses"
+    ],
+    datePosted: "2026-05-18",
+    active: true
+  },
+  {
+    id: "job_37",
+    title: "Information Technology Auditor",
+    companyId: "comp_1",
+    companyName: "Tech Mahindra Solutions",
+    location: "Coimbatore",
+    salaryRange: "8-12 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Audit business application controls, verify platform access controls, and evaluate network safety parameters according to regional IT laws. Partner with IT security heads to isolate platform vulnerabilities.",
+    requirements: [
+      "3+ years in IT audit practice, systems evaluation, or information security",
+      "Credentials like CISA (Certified Information Systems Auditor) or equivalent",
+      "Rigorous analytical mindset with complete respect for data privacy regulations"
+    ],
+    datePosted: "2026-05-22",
+    active: true
+  },
+  {
+    id: "job_38",
+    title: "React Native Developer",
+    companyId: "comp_8",
+    companyName: "Swiggy Delivery Tech",
+    location: "Bangalore",
+    salaryRange: "12-17 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Build responsive cross-platform mobile app interfaces utilizing React Native. Improve frame refresh metrics, configure clean deep-link systems, and unify core component APIs across Android and iOS deployments.",
+    requirements: [
+      "4+ years deploying functional React Native mobile applications",
+      "Mastery of Redux Toolkit, reactive UI patterns, and native bridge configurations",
+      "Deep familiarity with Apple App Store and Google Play console publishing frameworks"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_39",
+    title: "Search Engine Optimization Analyst",
+    companyId: "comp_7",
+    companyName: "Flipkart Commerce",
+    location: "Chennai",
+    salaryRange: "5-8 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Audit organic keyword structures, optimize metadata layouts, and track key index results for the consumer brand divisions. Collaborate with editorial squads to increase search rank parameters.",
+    requirements: [
+      "2+ years tracking digital ranking indexes on massive consumer interfaces",
+      "Expert mastery of SEO audit suites like Ahrefs, SEMrush, and Screaming Frog",
+      "Good competence in data modeling using Excel spreadsheets and GA4 analytics"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_40",
+    title: "Solutions Sales Specialist",
+    companyId: "comp_5",
+    companyName: "Wipro Technologies",
+    location: "Kochi",
+    salaryRange: "7-11 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Present Wipro's specialized cloud consulting solutions to commercial prospects across southern India. Lead live demos, construct strategic pricing bids, and manage regional account relationships.",
+    requirements: [
+      "3+ years representing custom software consulting or standard platform accounts",
+      "Familiarity with pricing models for cloud resources, infrastructure, or SaaS systems",
+      "Great communicative skills translating IT complexities into clear business values"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_41",
+    title: "Security Compliance Officer",
+    companyId: "comp_6",
+    companyName: "HDFC Bank Hub",
+    location: "Mumbai",
+    salaryRange: "14-19 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Enforce high security operations conformity on digital financial gateways. Align system safety audits with RBI laws, lead periodic mock evaluations, and formulate response plans for safety incidents.",
+    requirements: [
+      "4+ years enforcing security standards inside commercial banks or finance firms",
+      "Intimate awareness of PCI-DSS standards, ISO 27001 models, and local rules",
+      "Professional certifications such as CISSP, CISM, or similar security validation"
+    ],
+    datePosted: "2026-06-02",
+    active: true
+  },
+  {
+    id: "job_42",
+    title: "Retail Procurement Manager",
+    companyId: "comp_3",
+    companyName: "Reliance Digital",
+    location: "Jaipur",
+    salaryRange: "8-12 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Govern inventory allocations, negotiate supply parameters with major home appliance manufacturers, and reduce resource purchase overheads for retail hubs in western India.",
+    requirements: [
+      "3+ years leading procurement workflows, retail supplies, or inventory purchases",
+      "Highly capable analyst maximizing supplier performance and tracking invoice cycles",
+      "Polished negotiation techniques and direct contracting proficiency"
+    ],
+    datePosted: "2026-05-20",
+    active: true
   }
 ];
 

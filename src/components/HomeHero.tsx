@@ -5,6 +5,7 @@
 
 import React, { useState } from "react";
 import { Search, MapPin, Briefcase, IndianRupee, Star, StarOff, CheckCircle2, Building, Flame, ArrowRight, Compass } from "lucide-react";
+import { motion } from "motion/react";
 import { Job, Company, User } from "../types";
 
 interface HomeHeroProps {
@@ -53,26 +54,38 @@ export default function HomeHero({
       
       {/* 1. Hero banner section with search inputs */}
       <section className="relative bg-gradient-to-br from-[#EFF6FF] via-[#FFFFFF] to-[#EFF6FF] py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E5E7EB]">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
+        <motion.div 
+          className="max-w-4xl mx-auto text-center space-y-6"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           
           <div className="inline-flex items-center space-x-2 bg-blue-100/75 border border-blue-200 text-[#3B82F6] px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
             <Flame size={14} className="fill-current animate-bounce" />
             <span>Discover Elite Tech & Corporate Roles in India</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-[#1F293A] tracking-tight leading-tight">
+          <motion.h1 
+            className="text-4xl sm:text-5xl font-extrabold text-[#1F293A] tracking-tight leading-tight"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
+          >
             Connect with India's Premier <span className="text-[#3B82F6]">Tech & Business</span> Opportunities
-          </h1>
+          </motion.h1>
           
           <p className="text-gray-600 text-base max-w-2xl mx-auto">
             Explore 100% verified jobs across Mumbai, Bangalore, Delhi and remote. Use our light, lightning-fast platform designed for direct developer/recruiter communication.
           </p>
 
           {/* Real-time responsive search bar */}
-          <form
+          <motion.form
             onSubmit={handleQuickSearch}
             className="bg-white p-2.5 rounded-2xl shadow-lg border border-[#E5E7EB] max-w-3xl mx-auto flex flex-col md:flex-row gap-2"
             id="home-search-form"
+            whileHover={{ y: -2, boxY: 10, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.08)" }}
+            transition={{ duration: 0.2 }}
           >
             <div className="flex-1 flex items-center px-3 border-b md:border-b-0 md:border-r border-gray-100 py-1.5">
               <Search className="text-gray-400 mr-2.5 shrink-0" size={18} />
@@ -103,13 +116,13 @@ export default function HomeHero({
             >
               Search Jobs
             </button>
-          </form>
+          </motion.form>
 
           {/* Quick links to prefilled searches */}
           <div className="pt-2 text-xs text-gray-500">
             <span className="font-semibold text-[#1F293A] mr-2">Popular tags:</span>
-            {["React", "Python", "Bangalore", "Remote", "HR Recruiting"].map((tag) => (
-              <button
+            {["React", "Python", "Bangalore", "Remote", "HR Recruiting"].map((tag, idx) => (
+              <motion.button
                 key={tag}
                 type="button"
                 onClick={() => {
@@ -120,14 +133,19 @@ export default function HomeHero({
                   }
                   onNavigate("jobs");
                 }}
-                className="mr-2 mb-2 bg-[#EFF6FF] text-[#3B82F6] border border-blue-100 hover:border-[#3B82F6] hover:bg-[#3B82F6] hover:text-white px-2.5 py-1 rounded-md transition-colors font-medium text-xs cursor-pointer"
+                className="mr-2 mb-2 bg-[#EFF6FF] text-[#3B82F6] border border-blue-100 hover:border-[#3B82F6] hover:bg-[#3B82F6] hover:text-white px-2.5 py-1 rounded-md transition-colors font-medium text-xs cursor-pointer inline-block"
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, x: -6 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 + idx * 0.05 }}
               >
                 {tag}
-              </button>
+              </motion.button>
             ))}
           </div>
 
-        </div>
+        </motion.div>
       </section>
 
       {/* 2. Three Columns Statistics Card Grid */}
@@ -185,10 +203,15 @@ export default function HomeHero({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {topCompanies.map((c) => (
-            <div
+          {topCompanies.map((c, idx) => (
+            <motion.div
               key={c.id}
-              className="bg-white border border-[#E5E7EB] p-6 rounded-xl shadow-xs hover:shadow-md transition-all group"
+              className="bg-white border border-[#E5E7EB] p-6 rounded-xl shadow-xs transition-all group cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: idx * 0.08 }}
+              whileHover={{ y: -6, scale: 1.012, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.03)" }}
             >
               <div className="flex items-start justify-between">
                 <div className="w-14 h-14 bg-white p-2 rounded-xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
@@ -214,7 +237,7 @@ export default function HomeHero({
                   )}
                 </div>
                 {c.verified && (
-                  <span className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-[10px] font-bold uppercase py-0.5 px-2 rounded-full inline-flex items-center gap-0.5">
+                  <span className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-[10px] font-bold uppercase py-0.5 px-2 rounded-full inline-flex items-center gap-0.5 animate-pulse-once">
                     <CheckCircle2 size={10} className="fill-current" /> Verified
                   </span>
                 )}
@@ -228,7 +251,8 @@ export default function HomeHero({
                   {c.companySize}
                 </span>
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     onSetGlobalSearch("", c.location);
                     onNavigate("jobs");
                   }}
@@ -237,7 +261,7 @@ export default function HomeHero({
                   Jobs in {c.location}
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -266,20 +290,29 @@ export default function HomeHero({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {featuredJobs.map((job) => {
+          {featuredJobs.map((job, idx) => {
             const isApplied = appliedJobIds.includes(job.id);
             const isSaved = savedJobIds.includes(job.id);
             
             return (
-              <div
+              <motion.div
                 key={job.id}
-                className="bg-white border border-[#E5E7EB] p-6 rounded-xl hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-white border border-[#E5E7EB] p-6 rounded-xl transition-all flex flex-col justify-between cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.45, delay: idx * 0.08 }}
+                whileHover={{ y: -4, scale: 1.01, boxShadow: "0 15px 25px -5px rgba(0, 0, 0, 0.04)" }}
+                onClick={() => onSelectJob(job)}
               >
                 <div>
                   <div className="flex justify-between items-start">
                     <div>
                       <h3
-                        onClick={() => onSelectJob(job)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectJob(job);
+                        }}
                         className="font-bold text-[#1F293A] text-lg hover:text-[#3B82F6] cursor-pointer transition-colors line-clamp-1"
                       >
                         {job.title}
@@ -289,11 +322,12 @@ export default function HomeHero({
                         {job.companyName}
                       </p>
                     </div>
-
+ 
                     {/* Bookmark Toggle */}
                     {(!currentUser || currentUser.role === "seeker") && (
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (!currentUser) {
                             onOpenAuth();
                           } else {
@@ -311,7 +345,7 @@ export default function HomeHero({
                       </button>
                     )}
                   </div>
-
+ 
                   <div className="flex flex-wrap gap-2 mt-4">
                     <span className="text-[11px] bg-[#EFF6FF] text-[#3B82F6] font-semibold px-2 py-0.5 rounded-md flex items-center gap-0.5">
                       <MapPin size={10} /> {job.location}
@@ -326,23 +360,27 @@ export default function HomeHero({
                       Exp: {job.experienceLevel}+ Yr
                     </span>
                   </div>
-
+ 
                   <p className="text-sm text-gray-500 mt-3 line-clamp-2 leading-relaxed">
                     {job.description}
                   </p>
                 </div>
-
+ 
                 <div className="mt-5 pt-4 border-t border-gray-100 flex items-center justify-between whitespace-nowrap">
                   <button
-                    onClick={() => onSelectJob(job)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectJob(job);
+                    }}
                     className="text-xs text-[#3B82F6] font-bold hover:underline cursor-pointer"
                   >
                     View Details
                   </button>
-
+ 
                   {(!currentUser || currentUser.role === "seeker") && (
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         if (!currentUser) {
                           onOpenAuth();
                         } else if (!isApplied) {
@@ -360,7 +398,7 @@ export default function HomeHero({
                     </button>
                   )}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
