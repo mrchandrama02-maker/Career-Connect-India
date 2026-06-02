@@ -28,17 +28,6 @@ export default function Footer() {
             <p className="text-xs text-gray-400 leading-relaxed">
               Empowering India's professional workforce with premium career connections. Seamlessly linking candidates with top-tier technical and managerial recruiters.
             </p>
-            
-            {/* Styled Pills for trust */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-blue-400 border border-slate-700/80">
-                <ShieldCheck size={11} className="text-[#3B82F6]" />
-                🔒 Secure Platform
-              </span>
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-emerald-400 border border-slate-700/80">
-                ⚡ 100% Local Storage
-              </span>
-            </div>
 
             {/* Social Media Indicators */}
             <div className="flex items-center space-x-4 pt-1">
@@ -152,22 +141,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-[#1E293B] mt-12 pt-8 flex flex-col md:flex-row items-center justify-between text-[11px] text-gray-500 space-y-4 md:space-y-0">
-          <div>
-            <p className="font-medium">
-              © 2026 Career Connect India. All rights reserved. 
-              <span className="mx-2 text-slate-700">|</span> 
-              <a href="/admin" className="text-gray-400 hover:text-[#0A66C2] hover:underline font-bold transition-all transition-colors duration-200">
-                Admin Portal Key
-              </a>
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-1.5 font-mono text-[10px] bg-slate-900 px-3.5 py-1.5 rounded-full border border-slate-800/80">
-            <span>Crafted with</span>
-            <Heart size={10} className="text-red-500 fill-current animate-pulse" />
-            <span>for professional engineering recruitment.</span>
-          </div>
+        <div className="border-t border-[#1E293B] mt-12 pt-8 text-center text-[11px] text-gray-500">
+          <p className="font-medium">
+            © 2026 Career Connect India. All rights reserved.
+          </p>
         </div>
 
       </div>

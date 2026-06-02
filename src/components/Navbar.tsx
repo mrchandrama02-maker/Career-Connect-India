@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { Briefcase, User as UserIcon, LogOut, Shield, Building, Menu, X, Sun, Moon } from "lucide-react";
+import { Briefcase, User as UserIcon, LogOut, Shield, Building, Menu, X } from "lucide-react";
 import { User } from "../types";
 import CareerConnectLogo from "./CareerConnectLogo";
 
@@ -14,8 +14,6 @@ interface NavbarProps {
   onNavigate: (tab: string) => void;
   onLogout: () => void;
   onOpenAuth: () => void;
-  isDarkMode: boolean;
-  onToggleDarkMode: () => void;
 }
 
 export default function Navbar({
@@ -24,8 +22,6 @@ export default function Navbar({
   onNavigate,
   onLogout,
   onOpenAuth,
-  isDarkMode,
-  onToggleDarkMode,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -48,10 +44,7 @@ export default function Navbar({
               <CareerConnectLogo className="h-10 w-10 group-hover:scale-105 transition-transform" />
               <div>
                 <span className="font-bold text-lg text-[#1F293A] tracking-tight block">
-                  Career Connect <span className="text-[#3B82F6]">India</span>
-                </span>
-                <span className="text-[10px] text-gray-500 font-mono tracking-widest block font-medium">
-                  CCI PROFESSIONAL HUB
+                  Career Connect India
                 </span>
               </div>
             </button>
@@ -126,14 +119,6 @@ export default function Navbar({
 
           {/* User Section (Desktop) */}
           <div className="hidden md:flex items-center space-x-3">
-            <button
-              onClick={onToggleDarkMode}
-              className="p-2 text-gray-500 hover:text-[#3B82F6] hover:bg-white/90 rounded-xl transition-colors cursor-pointer"
-              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-              id="dark-mode-toggle"
-            >
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
             {currentUser ? (
               <div className="flex items-center space-x-3 bg-white px-3 py-1.5 rounded-xl border border-[#E5E7EB]">
                 <div className="text-xl">
@@ -170,14 +155,6 @@ export default function Navbar({
 
           {/* Mobile hamburger button */}
           <div className="flex items-center md:hidden space-x-1">
-            <button
-              onClick={onToggleDarkMode}
-              className="p-2 text-gray-500 hover:text-[#3B82F6] hover:bg-white/90 rounded-xl transition-colors cursor-pointer"
-              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-              id="dark-mode-toggle-mobile"
-            >
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg text-gray-600 hover:text-[#3B82F6] hover:bg-white"

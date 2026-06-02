@@ -69,26 +69,11 @@ export default function App() {
     showToast(`Simulated Email sent to ${to}`, "info");
   };
 
-  // Dark Mode state initialization & handlers
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem("cci_dark_mode") === "true";
-  });
-
-  const handleToggleDarkMode = () => {
-    setIsDarkMode((prev) => {
-      const newVal = !prev;
-      localStorage.setItem("cci_dark_mode", String(newVal));
-      return newVal;
-    });
-  };
-
+  // Dark Mode disabled - Keeping app cleanly in light mode
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isDarkMode]);
+    localStorage.setItem("cci_dark_mode", "false");
+    document.documentElement.classList.remove("dark");
+  }, []);
 
   // 1. Initial hydration and setup
   useEffect(() => {
@@ -471,8 +456,6 @@ export default function App() {
         onNavigate={handleNavigate}
         onLogout={handleLogout}
         onOpenAuth={() => setAuthModalOpen(true)}
-        isDarkMode={isDarkMode}
-        onToggleDarkMode={handleToggleDarkMode}
       />
 
       {/* Primary Section Canvas */}
