@@ -19,6 +19,52 @@ import AuthModal from "./components/AuthModal";
 import { Sparkles, CheckCircle2, AlertTriangle, ShieldAlert } from "lucide-react";
 
 export default function App() {
+  // Global search transfers (Homepage input leads to Pre-filtered Job Browser)
+  const [globalSearchTerm, setGlobalSearchTerm] = useState<string>("");
+  const [globalSearchLoc, setGlobalSearchLoc] = useState<string>("");
+
+  // Core Database States
+  const [users, setUsers] = useState<User[]>(() => {
+    if (typeof window !== "undefined") {
+      initLocalStorage();
+    }
+    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_users") : null;
+    return raw ? JSON.parse(raw) : [];
+  });
+
+  const [companies, setCompanies] = useState<Company[]>(() => {
+    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_companies") : null;
+    return raw ? JSON.parse(raw) : [];
+  });
+
+  const [jobs, setJobs] = useState<Job[]>(() => {
+    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_jobs") : null;
+    return raw ? JSON.parse(raw) : [];
+  });
+
+  const [applications, setApplications] = useState<Application[]>(() => {
+    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_applications") : null;
+    return raw ? JSON.parse(raw) : [];
+  });
+
+  const [currentUser, setCurrentUser] = useState<User | null>(() => {
+    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_current_user") : null;
+    return raw ? JSON.parse(raw) : null;
+  });
+
+  const [savedJobs, setSavedJobs] = useState<string[]>(() => {
+    const rawSaved = typeof window !== "undefined" ? localStorage.getItem("cci_saved_jobs") : null;
+    const rawSessionUser = typeof window !== "undefined" ? localStorage.getItem("cci_current_user") : null;
+    const sessionUser = rawSessionUser ? JSON.parse(rawSessionUser) : null;
+    if (sessionUser && sessionUser.role === "seeker") {
+      const loadedSaved = rawSaved ? JSON.parse(rawSaved) : [];
+      return loadedSaved
+        .filter((item: SavedJob) => item.seekerId === sessionUser.id)
+        .map((item: SavedJob) => item.jobId);
+    }
+    return [];
+  });
+
   // Navigation & Modal States
   const [currentTab, setCurrentTab] = useState<string>("home");
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
@@ -31,22 +77,8 @@ export default function App() {
     setAuthModalOpen(true);
   };
 
-  // Global search transfers (Homepage input leads to Pre-filtered Job Browser)
-  const [globalSearchTerm, setGlobalSearchTerm] = useState<string>("");
-  const [globalSearchLoc, setGlobalSearchLoc] = useState<string>("");
-
   // Inspect selection
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-
-  // Core Database States
-  const [users, setUsers] = useState<User[]>([]);
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [applications, setApplications] = useState<Application[]>([]);
-  const [savedJobs, setSavedJobs] = useState<string[]>([]); // Array of job IDs saved by current seeker
-
-  // Logged-in session State
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   // Advanced Multi-Toast notifications state
   interface ToastItem {
@@ -84,40 +116,91 @@ export default function App() {
     document.documentElement.classList.remove("dark");
   }, []);
 
-  // 1. Initial hydration and setup
-  useEffect(() => {
-    // Seed database if not existing
-    initLocalStorage();
+  // Synchronize state with URL Hash
+  const syncStateWithHash = () => {
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
 
-    // Fetch collections
-    const rawUsers = localStorage.getItem("cci_users");
-    const rawCompanies = localStorage.getItem("cci_companies");
-    const rawJobs = localStorage.getItem("cci_jobs");
-    const rawApps = localStorage.getItem("cci_applications");
-    const rawSaved = localStorage.getItem("cci_saved_jobs");
-    const rawSessionUser = localStorage.getItem("cci_current_user");
-
-    const loadedUsers = rawUsers ? JSON.parse(rawUsers) : [];
-    const loadedCompanies = rawCompanies ? JSON.parse(rawCompanies) : [];
-    const loadedJobs = rawJobs ? JSON.parse(rawJobs) : [];
-    const loadedApplications = rawApps ? JSON.parse(rawApps) : [];
-    const sessionUser = rawSessionUser ? JSON.parse(rawSessionUser) : null;
-
-    setUsers(loadedUsers);
-    setCompanies(loadedCompanies);
-    setJobs(loadedJobs);
-    setApplications(loadedApplications);
-    setCurrentUser(sessionUser);
-
-    // If seeker active, get their saved wishlists
-    if (sessionUser && sessionUser.role === "seeker") {
-      const loadedSaved = rawSaved ? JSON.parse(rawSaved) : [];
-      const userSavedIds = loadedSaved
-        .filter((item: SavedJob) => item.seekerId === sessionUser.id)
-        .map((item: SavedJob) => item.jobId);
-      setSavedJobs(userSavedIds);
+    if (hash === "#home" || hash === "#" || hash === "") {
+      setCurrentTab("home");
+      setSelectedJob(null);
+    } else if (hash === "#jobs") {
+      setCurrentTab("jobs");
+      setSelectedJob(null);
+    } else if (hash === "#companies") {
+      setCurrentTab("companies");
+      setSelectedJob(null);
+    } else if (hash === "#dashboard") {
+      const rawSessionUser = localStorage.getItem("cci_current_user");
+      const sessionUser = rawSessionUser ? JSON.parse(rawSessionUser) : null;
+      if (!sessionUser) {
+        // Safe fallback and trigger modal
+        window.history.replaceState(null, "", "#home");
+        setCurrentTab("home");
+        setSelectedJob(null);
+        setAuthModalOpen(true);
+        triggerToast("Authorized credentials are required to load Dashboard files.", "warning");
+      } else {
+        setCurrentTab("dashboard");
+        setSelectedJob(null);
+      }
+    } else if (hash.startsWith("#job=")) {
+      const jobId = hash.replace("#job=", "");
+      const rawJobs = localStorage.getItem("cci_jobs");
+      const loadedJobs = rawJobs ? JSON.parse(rawJobs) : [];
+      const foundJob = loadedJobs.find((j: Job) => j.id === jobId);
+      if (foundJob) {
+        setSelectedJob(foundJob);
+        setCurrentTab("jobs");
+      } else {
+        // Fallback to jobs if not found
+        setCurrentTab("jobs");
+        setSelectedJob(null);
+      }
+    } else {
+      setCurrentTab("home");
+      setSelectedJob(null);
     }
+  };
+
+  // Helper navigate helper updating history
+  const navigateToHash = (newHash: string) => {
+    window.history.pushState(null, "", newHash);
+    syncStateWithHash();
+  };
+
+  // Setup History listener
+  useEffect(() => {
+    // Initial load sync
+    syncStateWithHash();
+
+    const handlePopState = () => {
+      syncStateWithHash();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    window.addEventListener("hashchange", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener("hashchange", handlePopState);
+    };
   }, []);
+
+  // Sync saved wishlists on user change
+  useEffect(() => {
+    if (currentUser) {
+      if (currentUser.role === "seeker") {
+        const rawSaved = localStorage.getItem("cci_saved_jobs");
+        const loadedSaved = rawSaved ? JSON.parse(rawSaved) : [];
+        const userSavedIds = loadedSaved
+          .filter((item: SavedJob) => item.seekerId === currentUser.id)
+          .map((item: SavedJob) => item.jobId);
+        setSavedJobs(userSavedIds);
+      }
+    } else {
+      setSavedJobs([]);
+    }
+  }, [currentUser]);
 
   // 2. Authentication handlers
   const handleLoginSuccess = (user: User) => {
@@ -135,7 +218,7 @@ export default function App() {
     }
 
     triggerToast(`Welcome back, ${user.name}! Accessing panel assets...`, "success");
-    setCurrentTab("dashboard");
+    navigateToHash("#dashboard");
   };
 
   const handleSignupSuccess = (user: User, company?: Company) => {
@@ -152,7 +235,7 @@ export default function App() {
     }
 
     triggerToast(`Congratulations ${user.name}, your account is active! Setup completed!`, "success");
-    setCurrentTab("dashboard");
+    navigateToHash("#dashboard");
   };
 
   const handleLogout = () => {
@@ -160,7 +243,7 @@ export default function App() {
     setSavedJobs([]);
     localStorage.removeItem("cci_current_user");
     triggerToast("Logged out successfully. All local sandbox tokens cleared.", "info");
-    setCurrentTab("home");
+    navigateToHash("#home");
   };
 
   // Navigations with security checks (prompting modal if dashboard requested on guest)
@@ -170,8 +253,16 @@ export default function App() {
       triggerToast("Authorized credentials are required to load Dashboard files.", "warning");
       return;
     }
-    setCurrentTab(tab);
+    navigateToHash("#" + tab);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSelectJob = (job: Job | null) => {
+    if (job) {
+      navigateToHash(`#job=${job.id}`);
+    } else {
+      navigateToHash("#jobs");
+    }
   };
 
   // Global search transfers
@@ -490,8 +581,7 @@ export default function App() {
               onApplyJob={handleApplyJob}
               onToggleSaveJob={handleToggleSaveJob}
               onSelectJob={(job) => {
-                setSelectedJob(job);
-                handleNavigate("jobs");
+                handleSelectJob(job);
               }}
             />
           </motion.div>
@@ -519,7 +609,7 @@ export default function App() {
               onToggleSaveJob={handleToggleSaveJob}
               onOpenAuth={() => handleOpenAuth("login")}
               selectedJob={selectedJob}
-              onSelectJob={setSelectedJob}
+              onSelectJob={handleSelectJob}
             />
           </motion.div>
         )}
@@ -557,8 +647,7 @@ export default function App() {
                 onToggleSaveJob={handleToggleSaveJob}
                 onApplyJob={handleApplyJob}
                 onSelectJob={(job) => {
-                  setSelectedJob(job);
-                  handleNavigate("jobs");
+                  handleSelectJob(job);
                 }}
               />
             )}
