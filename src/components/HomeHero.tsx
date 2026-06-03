@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { Search, MapPin, Briefcase, IndianRupee, Star, StarOff, CheckCircle2, Building, Flame, ArrowRight, Compass } from "lucide-react";
 import { motion } from "motion/react";
 import { Job, Company, User } from "../types";
+import CompanyLogo from "./CompanyLogo";
 
 interface HomeHeroProps {
   jobs: Job[];
@@ -214,28 +215,13 @@ export default function HomeHero({
               whileHover={{ y: -6, scale: 1.012, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.03)" }}
             >
               <div className="flex items-start justify-between">
-                <div className="w-14 h-14 bg-white p-2 rounded-xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                  {c.logoUrl ? (
-                    <img
-                      src={c.logoUrl}
-                      alt={`${c.name} logo`}
-                      className="w-full h-full object-contain"
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                        const parent = e.currentTarget.parentElement;
-                        if (parent && !parent.querySelector(".fallback-emoji")) {
-                          const fallback = document.createElement("span");
-                          fallback.className = "text-2xl fallback-emoji";
-                          fallback.innerText = c.logoEmoji || "🏢";
-                          parent.appendChild(fallback);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <span className="text-2xl">{c.logoEmoji || "🏢"}</span>
-                  )}
-                </div>
+                <CompanyLogo
+                  logoUrl={c.logoUrl}
+                  logoEmoji={c.logoEmoji}
+                  name={c.name}
+                  className="w-14 h-14 bg-white p-2 rounded-xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform"
+                  sizeClassName="text-2xl"
+                />
                 {c.verified && (
                   <span className="bg-emerald-50 border border-emerald-200 text-emerald-600 text-[10px] font-bold uppercase py-0.5 px-2 rounded-full inline-flex items-center gap-0.5 animate-pulse-once">
                     <CheckCircle2 size={10} className="fill-current" /> Verified

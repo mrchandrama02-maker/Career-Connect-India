@@ -12,6 +12,7 @@ import {
   RefreshCw, PlusCircle, Globe, MailCheck, Edit3, Smartphone, Laptop, Sparkles, X, FileSpreadsheet
 } from "lucide-react";
 import { Chart, registerables } from "chart.js";
+import CompanyLogo from "./CompanyLogo";
 
 Chart.register(...registerables);
 
@@ -1104,28 +1105,13 @@ export default function AdminDashboard({
                         paginatedCompanies.map(c => (
                           <tr key={c.id} className="hover:bg-slate-50/50">
                             <td className="p-4 flex items-center gap-2">
-                              <div className="w-10 h-10 shrink-0 bg-white p-1 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden">
-                                {c.logoUrl ? (
-                                  <img
-                                    src={c.logoUrl}
-                                    alt={`${c.name} logo`}
-                                    className="w-full h-full object-contain"
-                                    referrerPolicy="no-referrer"
-                                    onError={(e) => {
-                                      e.currentTarget.style.display = "none";
-                                      const parent = e.currentTarget.parentElement;
-                                      if (parent && !parent.querySelector(".fallback-emoji")) {
-                                        const fallback = document.createElement("span");
-                                        fallback.className = "text-xl fallback-emoji";
-                                        fallback.innerText = c.logoEmoji || "🏢";
-                                        parent.appendChild(fallback);
-                                      }
-                                    }}
-                                  />
-                                ) : (
-                                  <span className="text-xl">{c.logoEmoji || "🏢"}</span>
-                                )}
-                              </div>
+                              <CompanyLogo
+                                logoUrl={c.logoUrl}
+                                logoEmoji={c.logoEmoji}
+                                name={c.name}
+                                className="w-10 h-10 shrink-0 bg-white p-1 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden"
+                                sizeClassName="text-xl"
+                              />
                               <div>
                                 <span className="font-extrabold text-gray-800 text-sm block">{c.name}</span>
                                 <span className="text-[10px] text-gray-400 font-mono block">Size: {c.companySize}</span>
@@ -1175,28 +1161,13 @@ export default function AdminDashboard({
                       <div key={c.id} className="p-4 space-y-3 hover:bg-slate-50/50">
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2 min-w-0">
-                            <div className="w-10 h-10 shrink-0 bg-white p-1 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden">
-                              {c.logoUrl ? (
-                                <img
-                                  src={c.logoUrl}
-                                  alt={`${c.name} logo`}
-                                  className="w-full h-full object-contain"
-                                  referrerPolicy="no-referrer"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = "none";
-                                    const parent = e.currentTarget.parentElement;
-                                    if (parent && !parent.querySelector(".fallback-emoji")) {
-                                      const fallback = document.createElement("span");
-                                      fallback.className = "text-xl fallback-emoji";
-                                      fallback.innerText = c.logoEmoji || "🏢";
-                                      parent.appendChild(fallback);
-                                    }
-                                  }}
-                                />
-                              ) : (
-                                <span className="text-xl">{c.logoEmoji || "🏢"}</span>
-                              )}
-                            </div>
+                            <CompanyLogo
+                              logoUrl={c.logoUrl}
+                              logoEmoji={c.logoEmoji}
+                              name={c.name}
+                              className="w-10 h-10 shrink-0 bg-white p-1 rounded-xl border border-gray-200 flex items-center justify-center overflow-hidden"
+                              sizeClassName="text-xl"
+                            />
                             <div className="min-w-0">
                               <span className="font-extrabold text-gray-800 text-sm block truncate">{c.name}</span>
                               <span className="text-[10px] text-gray-400 font-mono block truncate">Size: {c.companySize}</span>
@@ -2178,28 +2149,13 @@ export default function AdminDashboard({
             </button>
 
             <div className="text-center space-y-2 border-b border-gray-100 pb-4 flex flex-col items-center">
-              <div className="w-20 h-20 bg-white p-2 rounded-3xl inline-flex items-center justify-center border border-gray-300 overflow-hidden shrink-0">
-                {selectedCompany.logoUrl ? (
-                  <img
-                    src={selectedCompany.logoUrl}
-                    alt={`${selectedCompany.name} logo`}
-                    className="w-full h-full object-contain"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                      const parent = e.currentTarget.parentElement;
-                      if (parent && !parent.querySelector(".fallback-emoji")) {
-                        const fallback = document.createElement("span");
-                        fallback.className = "text-5xl fallback-emoji";
-                        fallback.innerText = selectedCompany.logoEmoji || "🏢";
-                        parent.appendChild(fallback);
-                      }
-                    }}
-                  />
-                ) : (
-                  <span className="text-5xl">{selectedCompany.logoEmoji || "🏢"}</span>
-                )}
-              </div>
+              <CompanyLogo
+                logoUrl={selectedCompany.logoUrl}
+                logoEmoji={selectedCompany.logoEmoji}
+                name={selectedCompany.name}
+                className="w-20 h-20 bg-white p-2 rounded-3xl inline-flex items-center justify-center border border-gray-300 overflow-hidden shrink-0"
+                sizeClassName="text-5xl"
+              />
               <h4 className="text-base font-black text-gray-900 tracking-tight mt-2">{selectedCompany.name}</h4>
               <span className="text-[10px] text-blue-600 font-mono font-bold bg-[#EFF6FF] border border-blue-100 rounded-full px-3 py-0.5 inline-block uppercase">
                 Industry: {selectedCompany.industry}

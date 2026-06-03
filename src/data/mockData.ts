@@ -2170,8 +2170,17 @@ export function initLocalStorage() {
           updatedCompanies.push(c);
           changed = true;
         } else {
-          if (updatedCompanies[existingIdx].logoUrl !== c.logoUrl) {
-            updatedCompanies[existingIdx].logoUrl = c.logoUrl;
+          const existing = updatedCompanies[existingIdx];
+          let itemChanged = false;
+          if (existing.logoUrl !== c.logoUrl) { existing.logoUrl = c.logoUrl; itemChanged = true; }
+          if (existing.logoEmoji !== c.logoEmoji) { existing.logoEmoji = c.logoEmoji; itemChanged = true; }
+          if (existing.name !== c.name) { existing.name = c.name; itemChanged = true; }
+          if (existing.description !== c.description) { existing.description = c.description; itemChanged = true; }
+          if (existing.website !== c.website) { existing.website = c.website; itemChanged = true; }
+          if (existing.industry !== c.industry) { existing.industry = c.industry; itemChanged = true; }
+          if (existing.location !== c.location) { existing.location = c.location; itemChanged = true; }
+          if (existing.companySize !== c.companySize) { existing.companySize = c.companySize; itemChanged = true; }
+          if (itemChanged) {
             changed = true;
           }
         }

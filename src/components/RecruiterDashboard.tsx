@@ -6,6 +6,7 @@
 import React, { useState } from "react";
 import { User, Company, Job, Application } from "../types";
 import { Building, Plus, FileText, CheckCircle2, XCircle, Trash2, Edit2, Calendar, Link, Users, Award, MapPin, IndianRupee, Briefcase, ChevronRight, Settings, Camera, Upload, Image } from "lucide-react";
+import CompanyLogo from "./CompanyLogo";
 
 interface RecruiterDashboardProps {
   currentUser: User;
@@ -253,26 +254,14 @@ export default function RecruiterDashboard({
             title="Click to update corporate logo"
             className="group relative w-20 h-20 bg-white p-2 rounded-2xl border border-[#E5E7EB] hover:border-blue-400 shadow-xs flex items-center justify-center overflow-hidden cursor-pointer transition-all shrink-0"
           >
-            {company.logoUrl ? (
-              <img
-                src={company.logoUrl}
-                alt={`${company.name} logo`}
-                className="w-full h-full object-contain group-hover:scale-95 transition-transform"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  const parent = e.currentTarget.parentElement;
-                  if (parent && !parent.querySelector(".fallback-emoji")) {
-                    const fallback = document.createElement("span");
-                    fallback.className = "text-4xl fallback-emoji";
-                    fallback.innerText = company.logoEmoji || "🏢";
-                    parent.appendChild(fallback);
-                  }
-                }}
-              />
-            ) : (
-              <span className="text-4xl group-hover:scale-95 transition-transform">{company.logoEmoji || "🏢"}</span>
-            )}
+            <CompanyLogo
+              logoUrl={company.logoUrl}
+              logoEmoji={company.logoEmoji || "🏢"}
+              name={company.name}
+              className="w-full h-full flex items-center justify-center"
+              imgClassName="w-full h-full object-contain group-hover:scale-95 transition-transform"
+              sizeClassName="text-4xl group-hover:scale-95 transition-transform"
+            />
             <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity duration-150">
               <Camera size={18} className="animate-bounce" />
               <span className="text-[9px] font-bold uppercase tracking-wider mt-1 scale-90">Edit Logo</span>
@@ -1034,26 +1023,14 @@ Figma responsive layouts transition"
               <div className="flex flex-col items-center gap-1.5 shrink-0">
                 <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">Brand Preview</span>
                 <div className="w-24 h-24 bg-white p-2 rounded-2xl border border-gray-200 shadow-xs flex items-center justify-center overflow-hidden relative group">
-                  {compLogoUrl ? (
-                    <img 
-                      src={compLogoUrl} 
-                      alt="Brand preview" 
-                      className="w-full h-full object-contain"
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                        const parent = e.currentTarget.parentElement;
-                        if (parent && !parent.querySelector(".preview-fallback-emoji")) {
-                          const fallback = document.createElement("span");
-                          fallback.className = "text-4xl preview-fallback-emoji";
-                          fallback.innerText = compEmoji || "🏢";
-                          parent.appendChild(fallback);
-                        }
-                      }}
-                    />
-                  ) : (
-                    <span className="text-4xl">{compEmoji || "🏢"}</span>
-                  )}
+                  <CompanyLogo
+                    logoUrl={compLogoUrl}
+                    logoEmoji={compEmoji || "🏢"}
+                    name="Brand preview"
+                    className="w-full h-full flex items-center justify-center"
+                    imgClassName="w-full h-full object-contain"
+                    sizeClassName="text-4xl"
+                  />
                 </div>
               </div>
 

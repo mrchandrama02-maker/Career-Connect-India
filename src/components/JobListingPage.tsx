@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { Job, Company, User } from "../types";
 import { motion } from "motion/react";
+import CompanyLogo from "./CompanyLogo";
 import { 
   Search, 
   MapPin, 
@@ -355,28 +356,13 @@ export default function JobListingPage({
                 <div className="flex items-start gap-4">
                   
                   {/* Rounded Icon */}
-                  <div className="w-16 h-16 bg-blue-50/50 p-3 rounded-2xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs">
-                    {companyObj.logoUrl ? (
-                      <img
-                        src={companyObj.logoUrl}
-                        alt={`${inspectingJob.companyName} logo`}
-                        className="w-full h-full object-contain"
-                        referrerPolicy="no-referrer"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                          const parent = e.currentTarget.parentElement;
-                          if (parent && !parent.querySelector(".fallback-emoji")) {
-                            const fallback = document.createElement("span");
-                            fallback.className = "text-2xl fallback-emoji";
-                            fallback.innerText = companyObj.logoEmoji || "🏢";
-                            parent.appendChild(fallback);
-                          }
-                        }}
-                      />
-                    ) : (
-                      <span className="text-2xl">{companyObj.logoEmoji || "🏢"}</span>
-                    )}
-                  </div>
+                  <CompanyLogo
+                    logoUrl={companyObj.logoUrl}
+                    logoEmoji={companyObj.logoEmoji}
+                    name={inspectingJob.companyName}
+                    className="w-16 h-16 bg-blue-50/50 p-3 rounded-2xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs"
+                    sizeClassName="text-2xl"
+                  />
 
                   <div>
                     <h1 className="text-xl sm:text-2xl font-extrabold text-[#0F172A] leading-tight tracking-tight mt-0.5">
@@ -896,28 +882,13 @@ export default function JobListingPage({
                       <div className="flex items-start gap-4">
                         
                         {/* Company Logo Square Container */}
-                        <div className="w-14 h-14 bg-white p-2.5 rounded-xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs">
-                          {companyObj.logoUrl ? (
-                            <img
-                              src={companyObj.logoUrl}
-                              alt={`${job.companyName} logo`}
-                              className="w-full h-full object-contain"
-                              referrerPolicy="no-referrer"
-                              onError={(e) => {
-                                e.currentTarget.style.display = "none";
-                                const parent = e.currentTarget.parentElement;
-                                if (parent && !parent.querySelector(".fallback-emoji")) {
-                                  const fallback = document.createElement("span");
-                                  fallback.className = "text-xl fallback-emoji";
-                                  fallback.innerText = companyObj.logoEmoji || "🏢";
-                                  parent.appendChild(fallback);
-                                }
-                              }}
-                            />
-                          ) : (
-                            <span className="text-xl">{companyObj.logoEmoji || "🏢"}</span>
-                          )}
-                        </div>
+                        <CompanyLogo
+                          logoUrl={companyObj.logoUrl}
+                          logoEmoji={companyObj.logoEmoji}
+                          name={job.companyName}
+                          className="w-14 h-14 bg-white p-2.5 rounded-xl border border-gray-150 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs"
+                          sizeClassName="text-xl"
+                        />
 
                         {/* Text descriptions */}
                         <div className="space-y-1">
