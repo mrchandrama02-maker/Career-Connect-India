@@ -83,12 +83,253 @@ export const INITIAL_SEEKERS: User[] = [
   }
 ];
 
-export const INITIAL_COMPANIES: Company[] = [];
+export const INITIAL_COMPANIES: Company[] = [
+  {
+    id: "comp_1",
+    name: "Flipkart",
+    description: "India's largest e-commerce marketplace serving 200M+ customers with 150M+ product listings.",
+    website: "https://www.flipkart.com/careers",
+    logoEmoji: "🛍️",
+    logoUrl: "https://logo.clearbit.com/flipkart.com",
+    industry: "E-commerce / Retail Technology",
+    location: "Bangalore, Karnataka, India",
+    companySize: "10,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_2",
+    name: "Amazon India",
+    description: "Global leader in e-commerce, AWS cloud computing, and digital innovation serving millions in India.",
+    website: "https://www.amazon.jobs",
+    logoEmoji: "📦",
+    logoUrl: "https://logo.clearbit.com/amazon.in",
+    industry: "E-commerce / Cloud Computing",
+    location: "Hyderabad, Telangana, India",
+    companySize: "100,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_3",
+    name: "Google India",
+    description: "Organizing world's information through search, AI, cloud, and digital services for billions of users.",
+    website: "https://careers.google.com",
+    logoEmoji: "🔍",
+    logoUrl: "https://logo.clearbit.com/google.com",
+    industry: "IT Services / Technology / Internet",
+    location: "Bangalore, Karnataka, India",
+    companySize: "10,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_4",
+    name: "Microsoft India",
+    description: "Empowering every person and organization on the planet to achieve more through technology.",
+    website: "https://microsoft.com/careers",
+    logoEmoji: "💻",
+    logoUrl: "https://logo.clearbit.com/microsoft.com",
+    industry: "IT Services / Software",
+    location: "Hyderabad, Telangana, India",
+    companySize: "10,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_5",
+    name: "Tata Consultancy Services (TCS)",
+    description: "Global leader in IT services, consulting, and business solutions with presence in 55+ countries.",
+    website: "https://www.tcs.com/careers",
+    logoEmoji: "🏆",
+    logoUrl: "https://logo.clearbit.com/tcs.com",
+    industry: "IT Services / Consulting",
+    location: "Mumbai, Maharashtra, India",
+    companySize: "600,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_6",
+    name: "Infosys India",
+    description: "Global leader in next-generation digital services and consulting, enabling digital transformation.",
+    website: "https://www.infosys.com/careers",
+    logoEmoji: "🚀",
+    logoUrl: "https://logo.clearbit.com/infosys.com",
+    industry: "IT Services / Consulting",
+    location: "Bangalore, Karnataka, India",
+    companySize: "300,000+ employees",
+    verified: true
+  },
+  {
+    id: "comp_7",
+    name: "Razorpay",
+    description: "India's leading full-stack financial solutions company processing billions in transactions.",
+    website: "https://razorpay.com/careers",
+    logoEmoji: "💳",
+    logoUrl: "https://logo.clearbit.com/razorpay.com",
+    industry: "Fintech / Payments Technology",
+    location: "Bangalore, Karnataka, India",
+    companySize: "1000-5000 employees",
+    verified: true
+  },
+  {
+    id: "comp_8",
+    name: "Swiggy",
+    description: "India's largest food ordering and delivery platform connecting 200K+ restaurant partners.",
+    website: "https://careers.swiggy.com",
+    logoEmoji: "🍔",
+    logoUrl: "https://logo.clearbit.com/swiggy.com",
+    industry: "Food Tech / E-commerce / Logistics",
+    location: "Bangalore, Karnataka, India",
+    companySize: "5000-10,000 employees",
+    verified: true
+  },
+  {
+    id: "comp_9",
+    name: "Ola",
+    description: "India's largest mobility platform offering ride-hailing, EVs, and financial services.",
+    website: "https://www.olacabs.com/careers",
+    logoEmoji: "🚖",
+    logoUrl: "https://logo.clearbit.com/olacabs.com",
+    industry: "Mobility Tech / Transportation",
+    location: "Bangalore, Karnataka, India",
+    companySize: "5000-10,000 employees",
+    verified: true
+  },
+  {
+    id: "comp_10",
+    name: "PhonePe",
+    description: "India's leading digital payments platform with 500M+ registered users and 200M+ monthly actives.",
+    website: "https://www.phonepe.com/careers",
+    logoEmoji: "📱",
+    logoUrl: "https://logo.clearbit.com/phonepe.com",
+    industry: "Fintech / Digital Payments",
+    location: "Bangalore, Karnataka, India",
+    companySize: "1000-5000 employees",
+    verified: true
+  },
+  {
+    id: "comp_11",
+    name: "CRED",
+    description: "Premium fintech platform for credit card bill payments and exclusive community rewards.",
+    website: "https://cred.club/careers",
+    logoEmoji: "💎",
+    logoUrl: "https://logo.clearbit.com/cred.club",
+    industry: "Fintech",
+    location: "Bangalore, Karnataka, India",
+    companySize: "500-1000 employees",
+    verified: true
+  },
+  {
+    id: "comp_12",
+    name: "Zomato",
+    description: "Global food ordering and restaurant discovery platform serving millions of customers worldwide.",
+    website: "https://www.zomato.com/careers",
+    logoEmoji: "🍕",
+    logoUrl: "https://logo.clearbit.com/zomato.com",
+    industry: "Food Tech",
+    location: "Gurgaon, Haryana, India",
+    companySize: "5000-10,000 employees",
+    verified: true
+  },
+  {
+    id: "comp_13",
+    name: "Uber India",
+    description: "Global ride-hailing and mobility platform transforming urban transportation worldwide.",
+    website: "https://www.uber.com/careers",
+    logoEmoji: "🚗",
+    logoUrl: "https://logo.clearbit.com/uber.com",
+    industry: "Mobility Tech",
+    location: "Bangalore, Karnataka, India",
+    companySize: "5000-10,000 employees",
+    verified: true
+  },
+  {
+    id: "comp_14",
+    name: "Netflix India",
+    description: "World's leading streaming entertainment service with 260M+ paid memberships globally.",
+    website: "https://jobs.netflix.com",
+    logoEmoji: "🎬",
+    logoUrl: "https://logo.clearbit.com/netflix.com",
+    industry: "Entertainment / OTT",
+    location: "Mumbai, Maharashtra, India",
+    companySize: "1000-5000 employees (Global)",
+    verified: true
+  },
+  {
+    id: "comp_15",
+    name: "LinkedIn India",
+    description: "World's largest professional network with 1B+ members across 200+ countries.",
+    website: "https://careers.linkedin.com",
+    logoEmoji: "🤝",
+    logoUrl: "https://logo.clearbit.com/linkedin.com",
+    industry: "Social Media / Professional Network",
+    location: "Bangalore, Karnataka, India",
+    companySize: "5000-10,000 employees (Global)",
+    verified: true
+  },
+  {
+    id: "comp_16",
+    name: "Goldman Sachs India",
+    description: "Leading global investment banking, securities, and investment management firm.",
+    website: "https://www.goldmansachs.com/careers",
+    logoEmoji: "📈",
+    logoUrl: "https://logo.clearbit.com/goldmansachs.com",
+    industry: "Investment Banking",
+    location: "Bangalore, Karnataka, India",
+    companySize: "10,000+ employees (India)",
+    verified: true
+  },
+  {
+    id: "comp_17",
+    name: "Adobe India",
+    description: "Global leader in digital media and marketing software, powering creativity and document work.",
+    website: "https://www.adobe.com/careers",
+    logoEmoji: "🎨",
+    logoUrl: "https://logo.clearbit.com/adobe.com",
+    industry: "Software Products",
+    location: "Noida, Uttar Pradesh, India",
+    companySize: "5000-10,000 employees (India)",
+    verified: true
+  },
+  {
+    id: "comp_18",
+    name: "Atlassian India",
+    description: "Maker of Jira, Confluence, Trello, and other collaboration and productivity tools.",
+    website: "https://www.atlassian.com/company/careers",
+    logoEmoji: "⚓",
+    logoUrl: "https://logo.clearbit.com/atlassian.com",
+    industry: "Software Products / SaaS",
+    location: "Bangalore, Karnataka, India",
+    companySize: "5000-10,000 employees (Global)",
+    verified: true
+  },
+  {
+    id: "comp_19",
+    name: "Dream11",
+    description: "India's largest fantasy sports platform with 200M+ users playing cricket, football, and more.",
+    website: "https://dream11.com/careers",
+    logoEmoji: "🏏",
+    logoUrl: "https://logo.clearbit.com/dream11.com",
+    industry: "Gaming / Fantasy Sports",
+    location: "Mumbai, Maharashtra, India",
+    companySize: "1000-5000 employees",
+    verified: true
+  },
+  {
+    id: "comp_20",
+    name: "Unacademy",
+    description: "India's largest learning platform for competitive exams, with 100M+ learners and top educators.",
+    website: "https://unacademy.com/careers",
+    logoEmoji: "🎓",
+    logoUrl: "https://logo.clearbit.com/unacademy.com",
+    industry: "EdTech",
+    location: "Bangalore, Karnataka, India",
+    companySize: "1000-5000 employees",
+    verified: true
+  }
+];
 
 export const INITIAL_COMPANY_USERS: User[] = [
   {
     id: "user_comp_1",
-    email: "recruiter1@techmahindra.com",
+    email: "recruiter1@flipkart.com",
     password: "password123",
     role: "company",
     name: "Anil Goel",
@@ -98,60 +339,60 @@ export const INITIAL_COMPANY_USERS: User[] = [
   },
   {
     id: "user_comp_2",
-    email: "recruiter2@infosys.com",
+    email: "recruiter2@amazon.com",
     password: "password123",
     role: "company",
-    name: "Sudha Murthy",
+    name: "Rohan Verma",
     companyId: "comp_2",
     profilePhotoEmoji: "👩‍💼",
     blocked: false
   },
   {
     id: "user_comp_3",
-    email: "recruiter3@reliance.com",
+    email: "recruiter3@google.com",
     password: "password123",
     role: "company",
-    name: "Mukesh recruiter",
+    name: "Kirti Sen",
     companyId: "comp_3",
     profilePhotoEmoji: "👨‍💼",
     blocked: false
   },
   {
     id: "user_comp_4",
-    email: "recruiter4@tcs.com",
+    email: "recruiter4@microsoft.com",
     password: "password123",
     role: "company",
-    name: "Anjali Sen",
+    name: "Anjali Gupta",
     companyId: "comp_4",
     profilePhotoEmoji: "👩‍💼",
     blocked: false
   },
   {
     id: "user_comp_5",
-    email: "recruiter5@wipro.com",
+    email: "recruiter5@tcs.com",
     password: "password123",
     role: "company",
-    name: "Rohan Das",
+    name: "Sudha Murthy",
     companyId: "comp_5",
     profilePhotoEmoji: "👨‍💼",
     blocked: false
   },
   {
     id: "user_comp_6",
-    email: "recruiter6@hdfc.com",
+    email: "recruiter6@infosys.com",
     password: "password123",
     role: "company",
-    name: "Karan Saxena",
+    name: "Nandan Nilekani",
     companyId: "comp_6",
     profilePhotoEmoji: "💼",
     blocked: false
   },
   {
     id: "user_comp_7",
-    email: "recruiter7@flipkart.com",
+    email: "recruiter7@razorpay.com",
     password: "password123",
     role: "company",
-    name: "Kirti Malhotra",
+    name: "Harshil Mathur",
     companyId: "comp_7",
     profilePhotoEmoji: "👩‍💻",
     blocked: false
@@ -161,14 +402,935 @@ export const INITIAL_COMPANY_USERS: User[] = [
     email: "recruiter8@swiggy.com",
     password: "password123",
     role: "company",
-    name: "Rohit Verma",
+    name: "Sriharsha Majety",
     companyId: "comp_8",
     profilePhotoEmoji: "🙋‍♂️",
+    blocked: false
+  },
+  {
+    id: "user_comp_9",
+    email: "recruiter9@ola.com",
+    password: "password123",
+    role: "company",
+    name: "Bhavish Aggarwal",
+    companyId: "comp_9",
+    profilePhotoEmoji: "🚖",
+    blocked: false
+  },
+  {
+    id: "user_comp_10",
+    email: "recruiter10@phonepe.com",
+    password: "password123",
+    role: "company",
+    name: "Sameer Nigam",
+    companyId: "comp_10",
+    profilePhotoEmoji: "📱",
+    blocked: false
+  },
+  {
+    id: "user_comp_11",
+    email: "recruiter11@cred.club",
+    password: "password123",
+    role: "company",
+    name: "Kunal Shah",
+    companyId: "comp_11",
+    profilePhotoEmoji: "💎",
+    blocked: false
+  },
+  {
+    id: "user_comp_12",
+    email: "recruiter12@zomato.com",
+    password: "password123",
+    role: "company",
+    name: "Deepinder Goyal",
+    companyId: "comp_12",
+    profilePhotoEmoji: "🍕",
+    blocked: false
+  },
+  {
+    id: "user_comp_13",
+    email: "recruiter13@uber.com",
+    password: "password123",
+    role: "company",
+    name: "Dara Khosrowshahi",
+    companyId: "comp_13",
+    profilePhotoEmoji: "🚗",
+    blocked: false
+  },
+  {
+    id: "user_comp_14",
+    email: "recruiter14@netflix.com",
+    password: "password123",
+    role: "company",
+    name: "Reed Hastings",
+    companyId: "comp_14",
+    profilePhotoEmoji: "🍿",
+    blocked: false
+  },
+  {
+    id: "user_comp_15",
+    email: "recruiter15@linkedin.com",
+    password: "password123",
+    role: "company",
+    name: "Ryan Roslansky",
+    companyId: "comp_15",
+    profilePhotoEmoji: "🤝",
+    blocked: false
+  },
+  {
+    id: "user_comp_16",
+    email: "recruiter16@goldman.com",
+    password: "password123",
+    role: "company",
+    name: "David Solomon",
+    companyId: "comp_16",
+    profilePhotoEmoji: "📈",
+    blocked: false
+  },
+  {
+    id: "user_comp_17",
+    email: "recruiter17@adobe.com",
+    password: "password123",
+    role: "company",
+    name: "Shantanu Narayen",
+    companyId: "comp_17",
+    profilePhotoEmoji: "🎨",
+    blocked: false
+  },
+  {
+    id: "user_comp_18",
+    email: "recruiter18@atlassian.com",
+    password: "password123",
+    role: "company",
+    name: "Mike Cannon-Brookes",
+    companyId: "comp_18",
+    profilePhotoEmoji: "⛵",
+    blocked: false
+  },
+  {
+    id: "user_comp_19",
+    email: "recruiter19@dream11.com",
+    password: "password123",
+    role: "company",
+    name: "Harsh Jain",
+    companyId: "comp_19",
+    profilePhotoEmoji: "🏏",
+    blocked: false
+  },
+  {
+    id: "user_comp_20",
+    email: "recruiter20@unacademy.com",
+    password: "password123",
+    role: "company",
+    name: "Gaurav Munjal",
+    companyId: "comp_20",
+    profilePhotoEmoji: "🎓",
     blocked: false
   }
 ];
 
-export const INITIAL_JOBS: Job[] = [];
+export const INITIAL_JOBS: Job[] = [
+  // 1. Flipkart
+  {
+    id: "job_flipkart_1",
+    title: "Senior Frontend Engineer - Flipkart Marketplace",
+    companyId: "comp_1",
+    companyName: "Flipkart",
+    location: "Bangalore",
+    salaryRange: "18-26 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Lead development of Flipkart's seller dashboard. Build scalable React apps serving 50M+ users. Mentor junior developers and drive architecture.",
+    requirements: [
+      "React 18+ with Hooks and Context API mastery",
+      "Next.js for server-side rendering and performance optimization",
+      "Redux Toolkit or Zustand for state management",
+      "Tailwind CSS and responsive design implementation",
+      "TypeScript for type-safe code development"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_flipkart_2",
+    title: "Product Manager - Flipkart Mobile App",
+    companyId: "comp_1",
+    companyName: "Flipkart",
+    location: "Bangalore",
+    salaryRange: "22-32 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Drive product strategy for Flipkart's mobile app used by 100M+ customers. Define roadmap, lead A/B testing, and make data-driven decisions.",
+    requirements: [
+      "Product lifecycle management (ideation to launch)",
+      "SQL, Excel, Tableau for data analysis",
+      "Agile methodology and JIRA/Confluence",
+      "User story writing and backlog prioritization"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 2. Amazon
+  {
+    id: "job_amazon_1",
+    title: "Software Development Engineer - Fulfillment Tech",
+    companyId: "comp_2",
+    companyName: "Amazon India",
+    location: "Hyderabad",
+    salaryRange: "22-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Design scalable distributed systems for Amazon's fulfillment network. Process millions of orders daily. Work with global engineering teams.",
+    requirements: [
+      "Java 11+ or Kotlin with Spring Boot framework",
+      "Microservices architecture and RESTful APIs",
+      "AWS services (EC2, S3, Lambda, DynamoDB)",
+      "Distributed systems and message queues (Kafka)"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_amazon_2",
+    title: "Operations Manager - Last Mile Delivery",
+    companyId: "comp_2",
+    companyName: "Amazon India",
+    location: "Mumbai",
+    salaryRange: "15-22 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Lead last-mile delivery operations across Mumbai. Manage 50+ delivery partners and 500+ associates. Optimize routes and improve customer satisfaction.",
+    requirements: [
+      "Last-mile logistics and supply chain management",
+      "Data-driven decision making using Excel and analytics",
+      "Team leadership and vendor management",
+      "Process improvement and Six Sigma methodologies"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 3. Google India
+  {
+    id: "job_google_1",
+    title: "Software Engineer III - Search Infrastructure",
+    companyId: "comp_3",
+    companyName: "Google India",
+    location: "Bangalore",
+    salaryRange: "30-45 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build scalable distributed systems powering Google Search. Work on indexing, query processing, and ranking algorithms serving billions of searches.",
+    requirements: [
+      "C++ or Java with multithreading and memory optimization",
+      "Advanced data structures and algorithms",
+      "Distributed systems and consensus protocols",
+      "Linux systems programming and performance tuning"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_google_2",
+    title: "Product Manager - Google Pay (India)",
+    companyId: "comp_3",
+    companyName: "Google India",
+    location: "Hyderabad",
+    salaryRange: "35-50 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Lead product strategy for Google Pay's India operations serving 500M+ UPI transactions monthly. Work with NPCI, RBI, and banking partners.",
+    requirements: [
+      "Product strategy and roadmap planning experience",
+      "UPI/Payments ecosystem deep understanding (NPCI, RBI)",
+      "Data-driven decision making with SQL and analytics",
+      "Stakeholder management and cross-functional leadership"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 4. Microsoft India
+  {
+    id: "job_microsoft_1",
+    title: "Software Engineer - Azure Cloud Platform",
+    companyId: "comp_4",
+    companyName: "Microsoft India",
+    location: "Hyderabad",
+    salaryRange: "28-42 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Design and develop scalable cloud services for Microsoft Azure platform. Work on compute, storage, or networking infrastructure for millions of users.",
+    requirements: [
+      "C# or Go programming language with strong OOP fundamentals",
+      "Cloud computing concepts (IaaS, PaaS, multi-tenancy)",
+      "Kubernetes and Docker container orchestration",
+      "RESTful API design and OpenAPI specification"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_microsoft_2",
+    title: "Technical Program Manager - Office 365 Suite",
+    companyId: "comp_4",
+    companyName: "Microsoft India",
+    location: "Bangalore",
+    salaryRange: "32-48 LPA",
+    jobType: "Full-time",
+    experienceLevel: 5,
+    description: "Lead cross-functional programs for Microsoft Office 365 product suite. Coordinate engineering, product, and design teams for major releases.",
+    requirements: [
+      "Technical program management in enterprise software",
+      "Agile and Scrum methodologies with SAFe certification",
+      "Risk assessment and mitigation strategies",
+      "Executive-level stakeholder communication"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 5. TCS
+  {
+    id: "job_tcs_1",
+    title: "Java Full Stack Developer - Banking Domain",
+    companyId: "comp_5",
+    companyName: "Tata Consultancy Services (TCS)",
+    location: "Mumbai",
+    salaryRange: "8-14 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Develop enterprise-grade web applications for leading banking clients. Work on frontend and backend components using Java and React.",
+    requirements: [
+      "Java 8+ with Spring Boot and Hibernate framework",
+      "React.js with Hooks and Redux state management",
+      "RESTful API development and integration",
+      "MySQL/PostgreSQL database design and queries"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_tcs_2",
+    title: "Database Administrator - Oracle/DB2",
+    companyId: "comp_5",
+    companyName: "Tata Consultancy Services (TCS)",
+    location: "Chennai",
+    salaryRange: "9-15 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Manage and optimize large-scale enterprise databases for Fortune 500 clients. Ensure high availability, backup recovery, and performance.",
+    requirements: [
+      "Oracle DB or IBM DB2 database administration",
+      "SQL performance tuning and query optimization",
+      "Backup and recovery strategies (RMAN, TSM)",
+      "Database security management and auditing"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 6. Infosys
+  {
+    id: "job_infosys_1",
+    title: "Cloud Engineer - AWS/Azure",
+    companyId: "comp_6",
+    companyName: "Infosys India",
+    location: "Pune",
+    salaryRange: "12-18 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Design and implement cloud infrastructure for enterprise clients. Automate deployment using Infrastructure as Code (IaC).",
+    requirements: [
+      "AWS (EC2, S3, VPC, IAM) or Azure (VM, Storage, Networking)",
+      "Terraform or CloudFormation for IaC",
+      "CI/CD pipelines (Jenkins/GitHub Actions)",
+      "Docker and Kubernetes containerization"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_infosys_2",
+    title: "Business Analyst - Banking Domain",
+    companyId: "comp_6",
+    companyName: "Infosys India",
+    location: "Bangalore",
+    salaryRange: "10-16 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Bridge business requirements and technical solutions for banking clients. Gather requirements, create BRDs, and coordinate with development teams.",
+    requirements: [
+      "Banking domain knowledge (Retail/Corporate/Investment)",
+      "Requirements gathering and BRD/FRD creation",
+      "Agile methodology and Scrum ceremonies",
+      "SQL for data analysis and validation"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 7. Razorpay
+  {
+    id: "job_razorpay_1",
+    title: "Backend Engineer - Payments Platform",
+    companyId: "comp_7",
+    companyName: "Razorpay",
+    location: "Bangalore",
+    salaryRange: "18-28 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build scalable payment processing systems handling millions of transactions. Work on routing, reconciliation, fraud detection, and settlement.",
+    requirements: [
+      "Java or Go with microservices architecture",
+      "Spring Boot or Gin framework",
+      "PostgreSQL and Redis for data persistence",
+      "Kafka or RabbitMQ for event streaming"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_razorpay_2",
+    title: "Technical Support Engineer",
+    companyId: "comp_7",
+    companyName: "Razorpay",
+    location: "Bangalore",
+    salaryRange: "8-12 LPA",
+    jobType: "Full-time",
+    experienceLevel: 1,
+    description: "Provide technical support to merchants integrating Razorpay payment APIs. Troubleshoot issues, debug API calls, and resolve integration problems.",
+    requirements: [
+      "API troubleshooting and debugging skills",
+      "REST API understanding (requests, responses, headers)",
+      "SQL query writing for data investigation",
+      "Excellent problem-solving and analytical thinking"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 8. Swiggy
+  {
+    id: "job_swiggy_1",
+    title: "Software Development Engineer - Delivery",
+    companyId: "comp_8",
+    companyName: "Swiggy",
+    location: "Bangalore",
+    salaryRange: "16-25 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build scalable delivery assignment and real-time tracking systems. Optimize delivery partner allocation algorithms and reduce delivery time.",
+    requirements: [
+      "Java/Kotlin with Spring Boot framework",
+      "Microservices architecture and event-driven design",
+      "Redis for caching and real-time data",
+      "Kafka for event streaming and message processing"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_swiggy_2",
+    title: "Data Analyst - Growth",
+    companyId: "comp_8",
+    companyName: "Swiggy",
+    location: "Gurgaon",
+    salaryRange: "12-18 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Analyze user behavior and growth metrics. Drive data-informed decisions for user acquisition, retention, and engagement strategies.",
+    requirements: [
+      "SQL for complex queries and data extraction",
+      "Python (Pandas, NumPy) for data manipulation",
+      "Data visualization (Tableau/Power BI/Metabase)",
+      "A/B testing methodology and statistical analysis"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 9. Ola
+  {
+    id: "job_ola_1",
+    title: "Mobile Developer (Android & iOS)",
+    companyId: "comp_9",
+    companyName: "Ola",
+    location: "Bangalore",
+    salaryRange: "14-22 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build and maintain Ola's driver and rider mobile applications serving 100M+ users. Implement new features and optimize app performance.",
+    requirements: [
+      "Kotlin with Android SDK and Jetpack Compose",
+      "MVVM architecture and Coroutines/Flow",
+      "Swift with UIKit and SwiftUI",
+      "Google Maps SDK or MapKit integration"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_ola_2",
+    title: "DevOps Engineer",
+    companyId: "comp_9",
+    companyName: "Ola",
+    location: "Chennai",
+    salaryRange: "12-18 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Manage cloud infrastructure and CI/CD pipelines for microservices. Ensure high availability and automated deployments for millions of users.",
+    requirements: [
+      "AWS/GCP cloud services (EC2, EKS, S3, RDS)",
+      "Kubernetes and Docker containerization",
+      "Jenkins or GitLab CI for CI/CD pipelines",
+      "Terraform or Pulumi for Infrastructure as Code"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 10. PhonePe
+  {
+    id: "job_phonepe_1",
+    title: "Software Development Engineer - Payments",
+    companyId: "comp_10",
+    companyName: "PhonePe",
+    location: "Bangalore",
+    salaryRange: "20-32 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build highly available payment processing systems handling 200M+ UPI transactions daily. Ensure 99.99% uptime and data consistency.",
+    requirements: [
+      "Java with Spring Boot framework",
+      "Distributed systems design (consensus, replication, sharding)",
+      "UPI protocol and NPCI standards understanding",
+      "Redis and Kafka for high-throughput processing"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_phonepe_2",
+    title: "Fraud Analyst - Risk Management",
+    companyId: "comp_10",
+    companyName: "PhonePe",
+    location: "Bangalore",
+    salaryRange: "10-16 LPA",
+    jobType: "Full-time",
+    experienceLevel: 1,
+    description: "Monitor transaction patterns to detect fraud. Build rule-based fraud detection systems and investigate suspicious transactions.",
+    requirements: [
+      "Fraud detection pattern recognition and analysis",
+      "SQL for data querying and investigation",
+      "Basic Python scripting for data analysis",
+      "Risk management frameworks understanding"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 11. CRED
+  {
+    id: "job_cred_1",
+    title: "Frontend Developer - Web App",
+    companyId: "comp_11",
+    companyName: "CRED",
+    location: "Bangalore",
+    salaryRange: "22-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build premium, high-performance web experiences for CRED's exclusive community. Focus on animations, micro-interactions, and visual precision.",
+    requirements: [
+      "React.js with TypeScript and deep hooks insight",
+      "Next.js for server-side layout rendering",
+      "Framer Motion for beautiful animations",
+      "Tailwind CSS for responsive luxury styling"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_cred_2",
+    title: "Product Designer (UI/UX)",
+    companyId: "comp_11",
+    companyName: "CRED",
+    location: "Bangalore",
+    salaryRange: "18-28 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Design premium, delightful experiences for CRED's fintech products. Create high-fidelity mockups, prototypes, and reusable design tokens.",
+    requirements: [
+      "Figma expertise and advanced prototyping",
+      "Design systems creation and cross-framework synchronization",
+      "User research and iterative usability testing",
+      "Micro-animations design using Lottie or After Effects"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 12. Zomato
+  {
+    id: "job_zomato_1",
+    title: "Software Development SDE II - Food Delivery",
+    companyId: "comp_12",
+    companyName: "Zomato",
+    location: "Gurgaon",
+    salaryRange: "15-25 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build scalable food ordering and delivery tracking systems. Optimize restaurant discovery and real-time order tracking with high concurrency.",
+    requirements: [
+      "Java or Go with microservices optimization",
+      "Spring Boot or Echo framework",
+      "PostgreSQL and Redis for high speed caching",
+      "Elasticsearch for lightning-fast search indexing"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_zomato_2",
+    title: "Marketing Manager - Brand Strategy",
+    companyId: "comp_12",
+    companyName: "Zomato",
+    location: "Delhi",
+    salaryRange: "12-20 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Lead brand marketing campaigns for Zomato's consumer business. Drive user acquisition, social media buzz, and premium brand recall.",
+    requirements: [
+      "Digital marketing strategy and copywriting",
+      "Social media campaign and community management",
+      "Performance marketing metric analysis",
+      "Brand positioning and creative storytelling"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 13. Uber India
+  {
+    id: "job_uber_1",
+    title: "Software Engineer - Marketplace Dispatch",
+    companyId: "comp_13",
+    companyName: "Uber India",
+    location: "Bangalore",
+    salaryRange: "25-40 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build scalable marketplace systems for ride matching, dynamic pricing, and dispatch optimization serving millions of riders daily.",
+    requirements: [
+      "Go or Python programming master",
+      "Microservices architecture and robust message distribution",
+      "Redis for caching geospatial dispatch parameters",
+      "Kafka for real-time streaming coordinate models"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_uber_2",
+    title: "Data Scientist - Pricing Algorithms",
+    companyId: "comp_13",
+    companyName: "Uber India",
+    location: "Bangalore",
+    salaryRange: "20-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Develop dynamic pricing models to balance supply and demand. Analyze rider and driver behavior to optimize marketplace efficiency.",
+    requirements: [
+      "Python with scikit-learn, pandas, numpy",
+      "SQL for deep data query optimization",
+      "Machine learning models (XGBoost, Random Forest)",
+      "A/B testing and causal inference methods"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 14. Netflix India
+  {
+    id: "job_netflix_1",
+    title: "Software Engineer - Content Delivery Network",
+    companyId: "comp_14",
+    companyName: "Netflix India",
+    location: "Mumbai",
+    salaryRange: "35-55 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Build and optimize content delivery networks (CDN) to stream movies and shows to millions of viewers with low latency and high quality.",
+    requirements: [
+      "Java or Go with heavy multithreading execution",
+      "CDN and video streaming protocols (HLS, DASH)",
+      "Cloud platform architectures (AWS / OpenConnect CDN)",
+      "Network programming with TCP, UDP, QUIC protocols"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_netflix_2",
+    title: "Content Acquisition Manager - Originals",
+    companyId: "comp_14",
+    companyName: "Netflix India",
+    location: "Mumbai",
+    salaryRange: "25-40 LPA",
+    jobType: "Full-time",
+    experienceLevel: 5,
+    description: "Manage original content productions for India market. Identify talent, oversee production houses, and ensure timely delivery of premium shows.",
+    requirements: [
+      "Content strategy, scouting and executive script analysis",
+      "Vendor and production house budget coordination",
+      "Hindi and English bilingual communication excellence",
+      "Strong commercial contracts negotiation"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 15. LinkedIn India
+  {
+    id: "job_linkedin_1",
+    title: "Software Engineer - Feed Platform",
+    companyId: "comp_15",
+    companyName: "LinkedIn India",
+    location: "Bangalore",
+    salaryRange: "28-45 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build and scale LinkedIn's feed platform serving personalized content to millions of users daily. Work on relevance algorithms and ranking.",
+    requirements: [
+      "Java with Spring framework backend infrastructure",
+      "Kafka for transaction event stream processing",
+      "NoSQL database management (Cassandra, Voldemort)",
+      "High scalability and system design for caching"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_linkedin_2",
+    title: "Sales Solutions Consultant",
+    companyId: "comp_15",
+    companyName: "LinkedIn India",
+    location: "Mumbai",
+    salaryRange: "20-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Help enterprise clients leverage LinkedIn's talent and marketing solutions. Drive revenue growth and build long-term corporate relationships.",
+    requirements: [
+      "B2B software sales or technical solution consulting",
+      "SaaS product architectures deep grasp",
+      "CRM tool expertise (Salesforce)",
+      "Highly professional client presenting and negotiation"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 16. Goldman Sachs India
+  {
+    id: "job_goldman_1",
+    title: "Software Engineer - Low Latency Trading Systems",
+    companyId: "comp_16",
+    companyName: "Goldman Sachs India",
+    location: "Bangalore",
+    salaryRange: "25-45 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build low-latency, high-frequency trading systems for global financial markets. Work on order management, execution algorithms, and risk systems.",
+    requirements: [
+      "Java or C++ with execution speed optimization",
+      "Low-latency garbage collection and memory tuning",
+      "Advanced concurrency and lock-free programming",
+      "Linux system signals and socket programming"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_goldman_2",
+    title: "Investment Banking Analyst",
+    companyId: "comp_16",
+    companyName: "Goldman Sachs India",
+    location: "Mumbai",
+    salaryRange: "20-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 1,
+    description: "Support M&A, financing, and restructuring transactions. Build complex financial models, prepare pitch books, and conduct rigorous industry research.",
+    requirements: [
+      "Financial modeling (DCF, LBO, merger valuation)",
+      "Valuation techniques and comparative company analysis",
+      "Advanced Microsoft Excel modeling mastery",
+      "Strong analytical and quantitative reasoning skills"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 17. Adobe India
+  {
+    id: "job_adobe_1",
+    title: "Computer Scientist - Creative Cloud Apps",
+    companyId: "comp_17",
+    companyName: "Adobe India",
+    location: "Noida",
+    salaryRange: "25-45 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build next-generation features for Adobe Creative Cloud products (Photoshop, Illustrator). Work on vector mechanics, image processing, and gorgeous UI.",
+    requirements: [
+      "C++ with modern standards (C++17 or newer)",
+      "JavaScript/TypeScript and React for web integration",
+      "WebAssembly compilation for processing speeds",
+      "Graphics algorithms and vectors layouts"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_adobe_2",
+    title: "Product Manager - Document Cloud Suite",
+    companyId: "comp_17",
+    companyName: "Adobe India",
+    location: "Noida",
+    salaryRange: "30-50 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Lead product strategy for Adobe Document Cloud (Acrobat, Sign, PDF SDK services). Drive AI/ML features definition and global growth metrics.",
+    requirements: [
+      "SaaS product management and roadmap ownership",
+      "AI/ML utility integrations and PDF parsing workflows",
+      "Exceptional user metrics analysis and feature validation",
+      "Cross-functional team coordination and sprint leading"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 18. Atlassian India
+  {
+    id: "job_atlassian_1",
+    title: "Senior Backend Engineer - Jira Cloud Security",
+    companyId: "comp_18",
+    companyName: "Atlassian India",
+    location: "Bangalore",
+    salaryRange: "30-50 LPA",
+    jobType: "Full-time",
+    experienceLevel: 4,
+    description: "Build scalable backend services for Jira platform serving millions of users. Work on microservices security, APIs compliance, and database performance.",
+    requirements: [
+      "Java 17/21 or Kotlin with microservices backend",
+      "AWS Cloud architecture with IAM and KMS focus",
+      "NoSQL column architectures (Cassandra, DynamoDB)",
+      "GraphQL API design and testing workflows"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_atlassian_2",
+    title: "Technical Content Developer",
+    companyId: "comp_18",
+    companyName: "Atlassian India",
+    location: "Bangalore",
+    salaryRange: "15-25 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Create and maintain documentation for Atlassian products. Write developer tutorials, REST API docs, and user manuals for Jira, Confluence, and Trello.",
+    requirements: [
+      "Technical writing, markdown layouts and guides design",
+      "REST API documentation (Swagger / OpenAPI)",
+      "Atlassian tools family deep familiarity (Jira, Confluence)",
+      "Clear technical translation of complex microservice structures"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 19. Dream11
+  {
+    id: "job_dream11_1",
+    title: "Software Backend SDE II - High Scale Gaming",
+    companyId: "comp_19",
+    companyName: "Dream11",
+    location: "Mumbai",
+    salaryRange: "20-35 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build scalable backend systems handling millions of concurrent users during live matches. Work on real-time scoring, contest logic, and cash wallets.",
+    requirements: [
+      "Java or Go with deep OOP/concurrency knowledge",
+      "Redis for real-time high throughput memory caching",
+      "Kafka for low latency live match feed data streaming",
+      "Highly available distributed event processing models"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_dream11_2",
+    title: "Data Platform SDE II - Analytics Pipeline",
+    companyId: "comp_19",
+    companyName: "Dream11",
+    location: "Mumbai",
+    salaryRange: "18-30 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Build data pipelines to process billions of user actions. Enable analytics for user behavior, fantasy engagement metrics, and marketing intelligence.",
+    requirements: [
+      "Python or Scala for massive data engineering pipelines",
+      "Apache Spark and Hadoop big data file systems",
+      "Workflow scheduling with Apache Airflow or Prefect",
+      "BigQuery or Snowflake cluster modeling"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+
+  // 20. Unacademy
+  {
+    id: "job_unacademy_1",
+    title: "Software Engineer SDE II - Live Streams",
+    companyId: "comp_20",
+    companyName: "Unacademy",
+    location: "Bangalore",
+    salaryRange: "18-30 LPA",
+    jobType: "Full-time",
+    experienceLevel: 2,
+    description: "Build and scale Unacademy's live classroom platform. Work on WebRTC channels, live messaging, student polls, and interactive quiz tools.",
+    requirements: [
+      "Node.js or Python backend with custom microservices",
+      "WebRTC socket orchestration and video streaming protocols",
+      "MongoDB database modeling with Redis key clustering",
+      "Dockerized AWS container clusters deployment"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  },
+  {
+    id: "job_unacademy_2",
+    title: "Principal Educator - Computer Science & Coding",
+    companyId: "comp_20",
+    companyName: "Unacademy",
+    location: "Remote",
+    salaryRange: "15-25 LPA",
+    jobType: "Full-time",
+    experienceLevel: 3,
+    description: "Create and deliver high-quality video content for computer science courses (programming, DSA, system design). Engage with students and mentor.",
+    requirements: [
+      "Exceptional subject command in CS & algorithms",
+      "Engaging screen presentation and whiteboard writing",
+      "Prior student coaching or university teaching record",
+      "Bilingual fluency in Hindi and English"
+    ],
+    datePosted: "2026-06-01",
+    active: true
+  }
+];
 
 /*
   {
@@ -959,6 +2121,16 @@ export function initLocalStorage() {
     ...INITIAL_SEEKERS,
     ...INITIAL_COMPANY_USERS
   ];
+
+  // Seeding the newly requested 20 premier companies and 40 active jobs dataset in Version 2.0
+  if (!localStorage.getItem("cci_seeded_premier_data_v2")) {
+    localStorage.setItem("cci_companies", JSON.stringify(INITIAL_COMPANIES));
+    localStorage.setItem("cci_jobs", JSON.stringify(INITIAL_JOBS));
+    localStorage.setItem("cci_users", JSON.stringify(defaultUsers));
+    localStorage.setItem("cci_applications", JSON.stringify([]));
+    localStorage.setItem("cci_saved_jobs", JSON.stringify([]));
+    localStorage.setItem("cci_seeded_premier_data_v2", "true");
+  }
 
   // 1. Seed & Merge Users
   const existingUsersStr = localStorage.getItem("cci_users");
