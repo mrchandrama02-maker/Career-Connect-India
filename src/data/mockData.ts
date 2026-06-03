@@ -83,104 +83,7 @@ export const INITIAL_SEEKERS: User[] = [
   }
 ];
 
-export const INITIAL_COMPANIES: Company[] = [
-  {
-    id: "comp_1",
-    name: "Tech Mahindra Solutions",
-    description: "Leading IT services and business consulting Solutions provider globally.",
-    website: "https://www.techmahindra.com",
-    logoEmoji: "🏢",
-    logoUrl: "https://cdn.corenexis.com/files/c/2156823720.webp",
-    industry: "IT Services",
-    location: "Mumbai",
-    companySize: "10,000+ employees",
-    verified: true
-  },
-  {
-    id: "comp_2",
-    name: "Infosys India",
-    description: "A global leader in next-generation digital services and consulting.",
-    website: "https://www.infosys.com",
-    logoEmoji: "🚀",
-    logoUrl: "https://companieslogo.com/img/orig/INFY_BIG-9b3de319.png",
-    industry: "Technology",
-    location: "Bangalore",
-    companySize: "10,000+ employees",
-    verified: true
-  },
-  {
-    id: "comp_3",
-    name: "Reliance Digital",
-    description: "India's largest electronics retailer connecting customers with cutting-edge tech.",
-    website: "https://www.reliancedigital.in",
-    logoEmoji: "🛒",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Reliance_Retail_Logo.svg/512px-Reliance_Retail_Logo.svg.png",
-    industry: "E-commerce",
-    location: "Delhi",
-    companySize: "5000-10,000 employees",
-    verified: true
-  },
-  {
-    id: "comp_4",
-    name: "Tata Consultancy Services",
-    description: "A purpose-led organization that is building a meaningful future through innovation.",
-    website: "https://www.tcs.com",
-    logoEmoji: "🏆",
-    logoUrl: "https://companieslogo.com/img/orig/TCS.NS_r-a7fc190a.png",
-    industry: "Technology",
-    location: "Mumbai",
-    companySize: "10,000+ employees",
-    verified: true
-  },
-  {
-    id: "comp_5",
-    name: "Wipro Technologies",
-    description: "A leading global information technology, consulting and business process services company.",
-    website: "https://www.wipro.com",
-    logoEmoji: "🌐",
-    logoUrl: "https://companieslogo.com/img/orig/WIT-60de5901.png",
-    industry: "Technology",
-    location: "Bangalore",
-    companySize: "10,000+ employees",
-    verified: true
-  },
-  {
-    id: "comp_6",
-    name: "HDFC Bank Hub",
-    description: "India's leading private sector bank offering comprehensive financial architectures.",
-    website: "https://www.hdfcbank.com",
-    logoEmoji: "🏦",
-    logoUrl: "https://companieslogo.com/img/orig/HDB-e9a06419.png",
-    industry: "Banking & Finance",
-    location: "Mumbai",
-    companySize: "10,000+ employees",
-    verified: true
-  },
-  {
-    id: "comp_7",
-    name: "Flipkart Commerce",
-    description: "India's customer-focused e-commerce marketplace driving digital shopping revolutions.",
-    website: "https://www.flipkart.com",
-    logoEmoji: "🛍️",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flipkart_logo.png/512px-Flipkart_logo.png",
-    industry: "E-commerce",
-    location: "Bangalore",
-    companySize: "5000-10,000 employees",
-    verified: true
-  },
-  {
-    id: "comp_8",
-    name: "Swiggy Delivery Tech",
-    description: "India's top on-demand delivery network powering hyper-local food and grocery deliveries.",
-    website: "https://www.swiggy.com",
-    logoEmoji: "🍔",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/1/13/Swiggy_logo.png",
-    industry: "E-commerce",
-    location: "Bangalore",
-    companySize: "1000-5000 employees",
-    verified: true
-  }
-];
+export const INITIAL_COMPANIES: Company[] = [];
 
 export const INITIAL_COMPANY_USERS: User[] = [
   {
@@ -265,7 +168,9 @@ export const INITIAL_COMPANY_USERS: User[] = [
   }
 ];
 
-export const INITIAL_JOBS: Job[] = [
+export const INITIAL_JOBS: Job[] = [];
+
+/*
   {
     id: "job_1",
     title: "Senior React Developer",
@@ -1023,6 +928,7 @@ export const INITIAL_JOBS: Job[] = [
     active: true
   }
 ];
+*/
 
 export const ADMIN_ACCOUNT: User = {
   id: "admin_user",
@@ -1034,56 +940,19 @@ export const ADMIN_ACCOUNT: User = {
   blocked: false
 };
 
-export const INITIAL_APPLICATIONS: Application[] = [
-  {
-    id: "app_1",
-    jobId: "job_1",
-    jobTitle: "Senior React Developer",
-    companyId: "comp_1",
-    companyName: "Tech Mahindra Solutions",
-    seekerId: "seeker_1",
-    seekerName: "Rajesh Sharma",
-    seekerEmail: "rajesh@gmail.com",
-    seekerExperience: 3,
-    seekerSkills: ["React", "Python"],
-    resumeName: "Rajesh_Sharma_CV.pdf",
-    status: "Shortlisted",
-    dateApplied: "2026-05-16"
-  },
-  {
-    id: "app_2",
-    jobId: "job_3",
-    jobTitle: "Frontend Developer",
-    companyId: "comp_3",
-    companyName: "Reliance Digital",
-    seekerId: "seeker_3",
-    seekerName: "Amit Kumar",
-    seekerEmail: "amit@gmail.com",
-    seekerExperience: 4,
-    seekerSkills: ["HTML", "CSS", "JavaScript", "React"],
-    resumeName: "Amit_Kumar_Frontend.pdf",
-    status: "Applied",
-    dateApplied: "2026-05-21"
-  },
-  {
-    id: "app_3",
-    jobId: "job_7",
-    jobTitle: "HR Recruiter",
-    companyId: "comp_1",
-    companyName: "Tech Mahindra Solutions",
-    seekerId: "seeker_4",
-    seekerName: "Neha Singh",
-    seekerEmail: "neha@gmail.com",
-    seekerExperience: 5,
-    seekerSkills: ["Recruitment", "Onboarding"],
-    resumeName: "Neha_Singh_HR.pdf",
-    status: "Applied",
-    dateApplied: "2026-05-29"
-  }
-];
+export const INITIAL_APPLICATIONS: Application[] = [];
 
 export function initLocalStorage() {
   if (typeof window === "undefined") return;
+
+  // Run-once migration to delete all existing companies, jobs, applications and saved jobs as requested
+  if (!localStorage.getItem("cci_deleted_all_jobs_and_companies_v1")) {
+    localStorage.setItem("cci_companies", JSON.stringify([]));
+    localStorage.setItem("cci_jobs", JSON.stringify([]));
+    localStorage.setItem("cci_applications", JSON.stringify([]));
+    localStorage.setItem("cci_saved_jobs", JSON.stringify([]));
+    localStorage.setItem("cci_deleted_all_jobs_and_companies_v1", "true");
+  }
 
   const defaultUsers = [
     ADMIN_ACCOUNT,
