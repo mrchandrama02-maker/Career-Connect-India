@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from "react";
-import { Search, MapPin, Briefcase, IndianRupee, Star, StarOff, CheckCircle2, Building, Flame, ArrowRight, Compass } from "lucide-react";
+import { Search, MapPin, Briefcase, IndianRupee, Star, StarOff, CheckCircle2, Building, Flame, ArrowRight, Compass, HelpCircle } from "lucide-react";
 import { motion } from "motion/react";
 import { Job, Company, User } from "../types";
 import CompanyLogo from "./CompanyLogo";
@@ -38,6 +38,45 @@ export default function HomeHero({
 }: HomeHeroProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchLoc, setSearchLoc] = useState("");
+
+  const [heroTitle, setHeroTitle] = useState<string>(() => {
+    return localStorage.getItem("cci_cms_hero_title") || "Connect with India's Premier Tech & Business Opportunities";
+  });
+  const [heroSubtext, setHeroSubtext] = useState<string>(() => {
+    return localStorage.getItem("cci_cms_hero_subtext") || "Explore 100% verified jobs across Mumbai, Bangalore, Delhi and remote. Use our light, lightning-fast platform designed for direct developer/recruiter communication.";
+  });
+
+  const [faqList, setFaqList] = useState<any[]>(() => {
+    const raw = localStorage.getItem("cci_faqs");
+    return raw ? JSON.parse(raw) : [
+      { id: "faq_1", question: "How can seekers apply with 1-click?", answer: "Upload a standard dynamic CV file to your dashboard and push Apply on open listings." },
+      { id: "faq_2", question: "Is verification mandatory for recruiters?", answer: "Admin verification elevates exposure and flags the verified badge badge on job postings." }
+    ];
+  });
+
+  const [blogList, setBlogList] = useState<any[]>(() => {
+    const raw = localStorage.getItem("cci_blogs");
+    return raw ? JSON.parse(raw) : [
+      { id: "blog_1", title: "Modern Hiring Trends in Bangalore", author: "Administration Suite", date: "2026-06-01", summary: "Exploring remote and high-yield engineering roles." }
+    ];
+  });
+
+  React.useEffect(() => {
+    const reloadCmsData = () => {
+      setHeroTitle(localStorage.getItem("cci_cms_hero_title") || "Connect with India's Premier Tech & Business Opportunities");
+      setHeroSubtext(localStorage.getItem("cci_cms_hero_subtext") || "Explore 100% verified jobs across Mumbai, Bangalore, Delhi and remote. Use our light, lightning-fast platform designed for direct developer/recruiter communication.");
+      
+      const rawFaqs = localStorage.getItem("cci_faqs");
+      if (rawFaqs) setFaqList(JSON.parse(rawFaqs));
+      
+      const rawBlogs = localStorage.getItem("cci_blogs");
+      if (rawBlogs) setBlogList(JSON.parse(rawBlogs));
+    };
+
+    window.addEventListener("storage", reloadCmsData);
+    reloadCmsData();
+    return () => window.removeEventListener("storage", reloadCmsData);
+  }, []);
 
   const handleQuickSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,11 +112,11 @@ export default function HomeHero({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1, duration: 0.4 }}
           >
-            Connect with India's Premier <span className="text-[#3B82F6]">Tech & Business</span> Opportunities
+            {heroTitle}
           </motion.h1>
           
           <p className="text-gray-600 text-base max-w-2xl mx-auto">
-            Explore 100% verified jobs across Mumbai, Bangalore, Delhi and remote. Use our light, lightning-fast platform designed for direct developer/recruiter communication.
+            {heroSubtext}
           </p>
 
           {/* Real-time responsive search bar */}
@@ -491,6 +530,72 @@ export default function HomeHero({
           </div>
         </div>
       </section>
+
+      {/* 7. Dynamic Superintendent Industry Blogs Section */}
+      {blogList.length > 0 && (
+        <section className="bg-slate-50 border-t border-b border-[#E5E7EB] py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto space-y-10">
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-bold text-[#1F293A]">
+                Dynamic Portal Announcements & Insights
+              </h2>
+              <p className="text-xs text-gray-400 uppercase font-mono tracking-widest">
+                Publisher: platform superintendent suite • Realtime broadcasts
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {blogList.map((blog) => (
+                <div key={blog.id} className="bg-white p-6 rounded-2xl border border-[#E5E7EB] hover:shadow-md transition-all flex flex-col justify-between" id={`live-blog-item-${blog.id}`}>
+                  <div className="space-y-3">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-700 uppercase tracking-wider font-mono">
+                      {blog.author || "Editorial Branch"}
+                    </span>
+                    <h3 className="text-base font-extrabold text-[#1F293A] leading-tight">
+                      {blog.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
+                      {blog.summary}
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+                    <span>DATE: {blog.date}</span>
+                    <span className="text-[#3B82F6] font-semibold cursor-pointer hover:underline">Read Article →</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 8. Dynamic FAQ Section */}
+      {faqList.length > 0 && (
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl font-bold text-[#1F293A]">
+              Frequently Asked Questions (Superintendent Control)
+            </h2>
+            <p className="text-xs text-gray-400 uppercase font-mono tracking-widest">
+              Got matching questions? Dynamic guidelines updated live
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqList.map((faq) => (
+              <div key={faq.id} className="bg-white p-6 rounded-2xl border border-[#E5E7EB] space-y-2" id={`live-faq-item-${faq.id}`}>
+                <h4 className="font-extrabold text-[#1F293A] text-sm flex items-start gap-2.5">
+                  <HelpCircle size={16} className="text-blue-500 shrink-0 mt-0.5" />
+                  <span>{faq.question}</span>
+                </h4>
+                <p className="text-xs text-gray-600 leading-relaxed pl-6">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
     </div>
   );

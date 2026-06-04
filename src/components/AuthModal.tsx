@@ -133,6 +133,18 @@ export default function AuthModal({
     setErrorMsg("");
     setSuccessMsg("");
 
+    // Check if new account registration is gated by superintendent config
+    const sysConf = localStorage.getItem("cci_sys_settings");
+    if (sysConf) {
+      try {
+        const parsed = JSON.parse(sysConf);
+        if (parsed.gated) {
+          setErrorMsg("Gated Registration: New account creation is currently restricted by platform supervisors. Please contact custom support or check again later.");
+          return;
+        }
+      } catch (_) {}
+    }
+
     // 1. Basic sanitization and validations
     const userEmail = email.trim();
     const userPassword = password;

@@ -65,6 +65,17 @@ export default function App() {
     return [];
   });
 
+  const [maintenance, setMaintenance] = useState<boolean>(() => {
+    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_sys_settings") : null;
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        return !!parsed.maintenance;
+      } catch (_) {}
+    }
+    return false;
+  });
+
   // Navigation & Modal States
   const [currentTab, setCurrentTab] = useState<string>("home");
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
@@ -114,6 +125,54 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("cci_dark_mode", "false");
     document.documentElement.classList.remove("dark");
+  }, []);
+
+  // Dynamic Sync and Realtime Database Updates Listener Across Tabs
+  useEffect(() => {
+    const handleStorageReload = () => {
+      // Reload db states
+      const rawUsers = localStorage.getItem("cci_users");
+      if (rawUsers) setUsers(JSON.parse(rawUsers));
+
+      const rawCompanies = localStorage.getItem("cci_companies");
+      if (rawCompanies) setCompanies(JSON.parse(rawCompanies));
+
+      const rawJobs = localStorage.getItem("cci_jobs");
+      if (rawJobs) setJobs(JSON.parse(rawJobs));
+
+      const rawApps = localStorage.getItem("cci_applications");
+      if (rawApps) setApplications(JSON.parse(rawApps));
+
+      const rawCurrentUser = localStorage.getItem("cci_current_user");
+      const parsedCurrentUser = rawCurrentUser ? JSON.parse(rawCurrentUser) : null;
+      setCurrentUser(parsedCurrentUser);
+
+      const rawSaved = localStorage.getItem("cci_saved_jobs");
+      const loadedSaved = rawSaved ? JSON.parse(rawSaved) : [];
+      if (parsedCurrentUser && parsedCurrentUser.role === "seeker") {
+        setSavedJobs(
+          loadedSaved
+            .filter((item: SavedJob) => item.seekerId === parsedCurrentUser.id)
+            .map((item: SavedJob) => item.jobId)
+        );
+      } else {
+        setSavedJobs([]);
+      }
+
+      // Sync maintenance mode
+      const rawSettings = localStorage.getItem("cci_sys_settings");
+      if (rawSettings) {
+        try {
+          const parsed = JSON.parse(rawSettings);
+          setMaintenance(!!parsed.maintenance);
+        } catch (_) {}
+      } else {
+        setMaintenance(false);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageReload);
+    return () => window.removeEventListener("storage", handleStorageReload);
   }, []);
 
   // Synchronize state with URL Hash
@@ -233,6 +292,20 @@ export default function App() {
       const rawCompanies = localStorage.getItem("cci_companies");
       if (rawCompanies) setCompanies(JSON.parse(rawCompanies));
     }
+
+    // Load welcome email template from superintendent settings
+    let welcomeMessage = `Dear ${user.name},\n\nWelcome to Career Connect India! Your professional credentials portal is active.\n\nWarm regards,\nCCI Operations Suite`;
+    const sysConfVal = localStorage.getItem("cci_sys_settings");
+    if (sysConfVal) {
+      try {
+        const parsed = JSON.parse(sysConfVal);
+        if (parsed.welcomeTemplate) {
+          welcomeMessage = parsed.welcomeTemplate.replace("Dear Applicant", `Dear ${user.name}`);
+        }
+      } catch (_) {}
+    }
+
+    simulateEmail(user.email, "Welcome to Career Connect India!", welcomeMessage);
 
     triggerToast(`Congratulations ${user.name}, your account is active! Setup completed!`, "success");
     navigateToHash("#dashboard");
@@ -515,6 +588,107 @@ export default function App() {
 
     triggerToast("Company corporate dossier removed completely.", "warning");
   };
+
+  if (maintenance && !(currentUser && currentUser.role === "admin")) {
+    return (
+      <div className="min-h-screen bg-slate-50 text-[#1F293A] flex flex-col justify-between selection:bg-blue-100 selection:text-blue-850 animate-in fade-in duration-300" id="cci-maintenance-root">
+        {/* Toast Notification Container for Maintenance Mode */}
+        <div className="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2 max-w-sm w-full pointer-events-none">
+          {toasts.map((toast) => (
+            <div
+              key={toast.id}
+              className={`p-3.5 rounded-xl shadow-lg border text-xs flex items-center gap-3 animate-in slide-in-from-bottom duration-300 pointer-events-auto ${
+                toast.type === "success"
+                  ? "bg-[#10B981] text-white border-emerald-500"
+                  : toast.type === "error"
+                  ? "bg-[#EF4444] text-white border-red-500"
+                  : toast.type === "warning"
+                  ? "bg-[#F59E0B] text-white border-amber-500"
+                  : "bg-[#3B82F6] text-white border-blue-500"
+              }`}
+              id={`system-toast-panel-${toast.id}`}
+            >
+              <CheckCircle2 className="text-white shrink-0" size={16} />
+              <span className="font-semibold">{toast.msg}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Header with admin login option */}
+        <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full h-18 flex items-center justify-between border-b border-gray-100 bg-white/50 backdrop-blur-md">
+          <div className="flex items-center space-x-2">
+            <span className="text-xl font-black text-gray-805 tracking-tight flex items-center gap-1.5 font-mono">
+              💼 <span className="text-blue-600 font-extrabold text-sm uppercase">CCI</span>
+            </span>
+          </div>
+          <button
+            onClick={() => handleOpenAuth("login", "seeker")}
+            className="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-4 py-2 rounded-xl transition-all"
+          >
+            System Login
+          </button>
+        </header>
+
+        {/* Maintenance Message Card */}
+        <main className="flex-grow flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white max-w-lg w-full p-8 rounded-3xl shadow-xl border border-gray-200/80 text-center space-y-6"
+          >
+            <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mx-auto border border-amber-100 shadow-inner animate-pulse">
+              <AlertTriangle size={32} />
+            </div>
+
+            <div className="space-y-2">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800 uppercase tracking-wider font-mono">
+                Maintenance Mode Active
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight leading-tight">
+                Scheduled Upgrade Underway
+              </h2>
+            </div>
+
+            <p className="text-gray-600 text-sm leading-relaxed max-w-md mx-auto">
+              CCI operations are temporarily offline while our superintendent executes vital directory updates and performance optimizations. Candidate records and live postings will resume immediately once tasks complete.
+            </p>
+
+            <div className="bg-slate-50 rounded-2xl p-4 border border-gray-150 inline-block text-left text-xs font-mono text-gray-500 space-y-1">
+              <div className="flex justify-between gap-8">
+                <span>SYSTEM STATUS:</span>
+                <span className="text-amber-600 font-bold">OPTIMIZATION IN PROGRESS</span>
+              </div>
+              <div className="flex justify-between gap-8">
+                <span>ESTIMATED TIME:</span>
+                <span className="text-gray-700 font-semibold">15 MINS</span>
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <p className="text-[10px] text-gray-400">
+                Are you a platform supervisor? Click "System Login" above to authenticate your sessions.
+              </p>
+            </div>
+          </motion.div>
+        </main>
+
+        {/* Footer */}
+        <footer className="text-center py-6 text-xs text-gray-400 border-t border-gray-100">
+          © 2026 Career Connect India • Unified Superintendent Control
+        </footer>
+
+        {/* Auth modal so admins can login *even* in maintenance mode page! */}
+        <AuthModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          onLoginSuccess={handleLoginSuccess}
+          onSignupSuccess={handleSignupSuccess}
+          initialMode={authModalMode}
+          initialRole={authModalRole}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-[#1F293A] flex flex-col justify-between selection:bg-blue-100 selection:text-blue-800" id="cci-master-root">
