@@ -28,22 +28,31 @@ export default function App() {
     if (typeof window !== "undefined") {
       initLocalStorage();
     }
-    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_users") : null;
-    return raw ? JSON.parse(raw) : [];
+    const raw = typeof window !== "undefined" ? localStorage.getItem("users") : null;
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        return parsed.map((u: any) => ({
+          ...u,
+          role: u.role === "recruiter" ? "company" : u.role
+        }));
+      } catch (_) {}
+    }
+    return [];
   });
 
   const [companies, setCompanies] = useState<Company[]>(() => {
-    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_companies") : null;
+    const raw = typeof window !== "undefined" ? localStorage.getItem("companies") : null;
     return raw ? JSON.parse(raw) : [];
   });
 
   const [jobs, setJobs] = useState<Job[]>(() => {
-    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_jobs") : null;
+    const raw = typeof window !== "undefined" ? localStorage.getItem("jobs") : null;
     return raw ? JSON.parse(raw) : [];
   });
 
   const [applications, setApplications] = useState<Application[]>(() => {
-    const raw = typeof window !== "undefined" ? localStorage.getItem("cci_applications") : null;
+    const raw = typeof window !== "undefined" ? localStorage.getItem("applications") : null;
     return raw ? JSON.parse(raw) : [];
   });
 
@@ -131,17 +140,31 @@ export default function App() {
   useEffect(() => {
     const handleStorageReload = () => {
       // Reload db states
-      const rawUsers = localStorage.getItem("cci_users");
-      if (rawUsers) setUsers(JSON.parse(rawUsers));
+      const rawUsers = localStorage.getItem("users");
+      if (rawUsers) {
+        try {
+          const parsed = JSON.parse(rawUsers);
+          setUsers(parsed.map((u: any) => ({
+            ...u,
+            role: u.role === "recruiter" ? "company" : u.role
+          })));
+        } catch (_) {}
+      }
 
-      const rawCompanies = localStorage.getItem("cci_companies");
-      if (rawCompanies) setCompanies(JSON.parse(rawCompanies));
+      const rawCompanies = localStorage.getItem("companies");
+      if (rawCompanies) {
+        try { setCompanies(JSON.parse(rawCompanies)); } catch (_) {}
+      }
 
-      const rawJobs = localStorage.getItem("cci_jobs");
-      if (rawJobs) setJobs(JSON.parse(rawJobs));
+      const rawJobs = localStorage.getItem("jobs");
+      if (rawJobs) {
+        try { setJobs(JSON.parse(rawJobs)); } catch (_) {}
+      }
 
-      const rawApps = localStorage.getItem("cci_applications");
-      if (rawApps) setApplications(JSON.parse(rawApps));
+      const rawApps = localStorage.getItem("applications");
+      if (rawApps) {
+        try { setApplications(JSON.parse(rawApps)); } catch (_) {}
+      }
 
       const rawCurrentUser = localStorage.getItem("cci_current_user");
       const parsedCurrentUser = rawCurrentUser ? JSON.parse(rawCurrentUser) : null;
@@ -354,6 +377,11 @@ export default function App() {
     const updatedUsers = users.map((u) => (u.id === updatedProfile.id ? updatedProfile : u));
     setUsers(updatedUsers);
     localStorage.setItem("cci_users", JSON.stringify(updatedUsers));
+    const customUsersList = updatedUsers.map(u => ({
+      ...u,
+      role: u.role === "company" ? "recruiter" : u.role
+    }));
+    localStorage.setItem("users", JSON.stringify(customUsersList));
 
     // Sync session
     setCurrentUser(updatedProfile);
@@ -528,6 +556,11 @@ export default function App() {
     const updatedUsers = users.map((u) => (u.id === userId ? { ...u, blocked: !u.blocked } : u));
     setUsers(updatedUsers);
     localStorage.setItem("cci_users", JSON.stringify(updatedUsers));
+    const customUsersList = updatedUsers.map(u => ({
+      ...u,
+      role: u.role === "company" ? "recruiter" : u.role
+    }));
+    localStorage.setItem("users", JSON.stringify(customUsersList));
 
     const targeted = users.find((u) => u.id === userId);
     const wasBlocked = targeted ? !targeted.blocked : false;
@@ -549,6 +582,11 @@ export default function App() {
     const updatedUsers = users.filter((u) => u.id !== userId);
     setUsers(updatedUsers);
     localStorage.setItem("cci_users", JSON.stringify(updatedUsers));
+    const customUsersList = updatedUsers.map(u => ({
+      ...u,
+      role: u.role === "company" ? "recruiter" : u.role
+    }));
+    localStorage.setItem("users", JSON.stringify(customUsersList));
 
     // Cleanup corresponding applications
     const seekerAppsClean = applications.filter((app) => app.seekerId !== userId);
@@ -563,6 +601,7 @@ export default function App() {
     const updatedCompanies = companies.map((c) => (c.id === companyId ? { ...c, verified: !c.verified } : c));
     setCompanies(updatedCompanies);
     localStorage.setItem("cci_companies", JSON.stringify(updatedCompanies));
+    localStorage.setItem("companies", JSON.stringify(updatedCompanies));
 
     const targeted = companies.find((c) => c.id === companyId);
     const isVerified = targeted ? !targeted.verified : false;
@@ -580,11 +619,13 @@ export default function App() {
     const updatedCompanies = companies.filter((c) => c.id !== companyId);
     setCompanies(updatedCompanies);
     localStorage.setItem("cci_companies", JSON.stringify(updatedCompanies));
+    localStorage.setItem("companies", JSON.stringify(updatedCompanies));
 
     // Also close and delete active job listings connected to that company parameters
     const updatedJobs = jobs.filter((j) => j.companyId !== companyId);
     setJobs(updatedJobs);
     localStorage.setItem("cci_jobs", JSON.stringify(updatedJobs));
+    localStorage.setItem("jobs", JSON.stringify(updatedJobs));
 
     triggerToast("Company corporate dossier removed completely.", "warning");
   };

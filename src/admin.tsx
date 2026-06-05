@@ -99,10 +99,41 @@ function AdminApp() {
   // Load and hydrate database on mount
   const reloadData = () => {
     initLocalStorage();
-    setUsers(JSON.parse(localStorage.getItem("cci_users") || "[]"));
-    setCompanies(JSON.parse(localStorage.getItem("cci_companies") || "[]"));
-    setJobs(JSON.parse(localStorage.getItem("cci_jobs") || "[]"));
-    setApplications(JSON.parse(localStorage.getItem("cci_applications") || "[]"));
+    
+    // Read directly from requested standard keys
+    const rawUsersRaw = localStorage.getItem("users") || "[]";
+    let loadedUsers: User[] = [];
+    try {
+      const parsed = JSON.parse(rawUsersRaw);
+      // Normalize 'recruiter' representation to internal 'company' representation for AdminDashboard
+      loadedUsers = parsed.map((u: any) => ({
+        ...u,
+        role: u.role === "recruiter" ? "company" : u.role
+      }));
+    } catch (_) {}
+
+    const rawJobsRaw = localStorage.getItem("jobs") || "[]";
+    let loadedJobs: Job[] = [];
+    try { loadedJobs = JSON.parse(rawJobsRaw); } catch (_) {}
+
+    const rawAppsRaw = localStorage.getItem("applications") || "[]";
+    let loadedApps: Application[] = [];
+    try { loadedApps = JSON.parse(rawAppsRaw); } catch (_) {}
+
+    const rawCompaniesRaw = localStorage.getItem("companies") || "[]";
+    let loadedCompanies: Company[] = [];
+    try { loadedCompanies = JSON.parse(rawCompaniesRaw); } catch (_) {}
+
+    setUsers(loadedUsers);
+    setJobs(loadedJobs);
+    setApplications(loadedApps);
+    setCompanies(loadedCompanies);
+
+    // Sync back to cci_ keys to maintain dual compatibility so that index.html is also updated in real-time
+    localStorage.setItem("cci_users", JSON.stringify(loadedUsers));
+    localStorage.setItem("cci_jobs", JSON.stringify(loadedJobs));
+    localStorage.setItem("cci_applications", JSON.stringify(loadedApps));
+    localStorage.setItem("cci_companies", JSON.stringify(loadedCompanies));
   };
 
   useEffect(() => {
@@ -214,7 +245,14 @@ function AdminApp() {
     // Auto-protect from blocking own demo seeker identities
     const updated = users.map((u) => (u.id === userId ? { ...u, blocked: !u.blocked } : u));
     setUsers(updated);
+    
+    // Save to dual keys
     localStorage.setItem("cci_users", JSON.stringify(updated));
+    const normalizedUsers = updated.map((u: any) => ({
+      ...u,
+      role: u.role === "company" ? "recruiter" : u.role
+    }));
+    localStorage.setItem("users", JSON.stringify(normalizedUsers));
 
     const updatedUser = updated.find((u) => u.id === userId);
     const actionStr = updatedUser?.blocked ? "Blocked candidate account" : "Unblocked candidate account";
@@ -234,7 +272,14 @@ function AdminApp() {
     const targetUser = users.find(u => u.id === userId);
     const updated = users.filter((u) => u.id !== userId);
     setUsers(updated);
+    
+    // Save to dual keys
     localStorage.setItem("cci_users", JSON.stringify(updated));
+    const normalizedUsers = updated.map((u: any) => ({
+      ...u,
+      role: u.role === "company" ? "recruiter" : u.role
+    }));
+    localStorage.setItem("users", JSON.stringify(normalizedUsers));
     
     logAdminAction("Permanently deleted user account", `Deleted ${targetUser?.name || "Unknown"} (${targetUser?.email})`);
     showToast("User credential logs cleared permanently.", "warning");
@@ -245,7 +290,10 @@ function AdminApp() {
 
     const updated = companies.map((c) => (c.id === companyId ? { ...c, verified: !c.verified } : c));
     setCompanies(updated);
+    
+    // Save to dual keys
     localStorage.setItem("cci_companies", JSON.stringify(updated));
+    localStorage.setItem("companies", JSON.stringify(updated));
 
     const matched = updated.find((c) => c.id === companyId);
     const actionStr = matched?.verified ? "Verified company registration" : "Revoked company verification badge";
@@ -268,11 +316,13 @@ function AdminApp() {
     const updatedCompanies = companies.filter((c) => c.id !== companyId);
     setCompanies(updatedCompanies);
     localStorage.setItem("cci_companies", JSON.stringify(updatedCompanies));
+    localStorage.setItem("companies", JSON.stringify(updatedCompanies));
 
     // Also remove any job listings published by this company
     const updatedJobs = jobs.filter((j) => j.companyId !== companyId);
     setJobs(updatedJobs);
     localStorage.setItem("cci_jobs", JSON.stringify(updatedJobs));
+    localStorage.setItem("jobs", JSON.stringify(updatedJobs));
 
     logAdminAction("Deleted company profile and active jobs", `Company: ${matchedCompany?.name}`);
     showToast("Company profile and active jobs deleted completely.", "warning");
@@ -283,7 +333,10 @@ function AdminApp() {
 
     const updated = jobs.map((j) => (j.id === jobId ? { ...j, active: !j.active } : j));
     setJobs(updated);
+    
+    // Save to dual keys
     localStorage.setItem("cci_jobs", JSON.stringify(updated));
+    localStorage.setItem("jobs", JSON.stringify(updated));
 
     const matched = updated.find((j) => j.id === jobId);
     const actionStr = matched?.active ? "Approved & Activated job post" : "Paused & Suspended job post";
@@ -303,7 +356,10 @@ function AdminApp() {
     const matchedJob = jobs.find(j => j.id === jobId);
     const updated = jobs.filter((j) => j.id !== jobId);
     setJobs(updated);
+    
+    // Save to dual keys
     localStorage.setItem("cci_jobs", JSON.stringify(updated));
+    localStorage.setItem("jobs", JSON.stringify(updated));
 
     logAdminAction("Permanently deleted job listing", `Job Title: "${matchedJob?.title}"`);
     showToast("Job post record deleted permanently.", "warning");

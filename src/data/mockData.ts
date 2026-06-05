@@ -2226,12 +2226,36 @@ export function initLocalStorage() {
     localStorage.setItem("cci_saved_jobs", JSON.stringify([]));
   }
 
-  // 6. Synchronize cci_users to the custom users key with requested schema
-  const updatedCciUsers = localStorage.getItem("cci_users");
-  if (updatedCciUsers) {
-    try {
-      const parsedUsers = JSON.parse(updatedCciUsers);
-      const mappedForUsersKey = parsedUsers.map((u: any) => ({
+  // 6. Robust Bidirectional Synchronization & Role Schema Normalize (recruiter <-> company)
+  try {
+    const rawUsers = localStorage.getItem("users");
+    const rawCciUsers = localStorage.getItem("cci_users");
+
+    let finalUsersList: any[] = [];
+    if (rawUsers) {
+      finalUsersList = JSON.parse(rawUsers);
+      // Synchronize back if cci_users is missing some users that registered dynamically
+      if (rawCciUsers) {
+        const cciUsersList = JSON.parse(rawCciUsers);
+        for (const u of finalUsersList) {
+          if (!cciUsersList.some((existing: any) => existing.id === u.id || existing.email.toLowerCase() === u.email.toLowerCase())) {
+            cciUsersList.push({
+              ...u,
+              role: u.role === "recruiter" ? "company" : u.role
+            });
+          }
+        }
+        localStorage.setItem("cci_users", JSON.stringify(cciUsersList));
+      }
+    } else if (rawCciUsers) {
+      finalUsersList = JSON.parse(rawCciUsers);
+    }
+
+    // Now convert and save uniformly across both keys
+    const usersStrNormalized = localStorage.getItem("cci_users");
+    if (usersStrNormalized) {
+      const parsed = JSON.parse(usersStrNormalized);
+      const mappedForUsersKey = parsed.map((u: any) => ({
         id: u.id,
         name: u.name,
         email: u.email,
@@ -2239,11 +2263,39 @@ export function initLocalStorage() {
         role: u.role === "company" ? "recruiter" : u.role,
         companyName: u.companyName || (u.companyId ? "Verified Recruiter" : undefined),
         createdAt: u.createdAt || "2026-06-02",
-        profile: u.profile || { skills: "", experience: "", resume: "" }
+        profile: u.profile || { skills: "", experience: "", resume: "" },
+        blocked: typeof u.blocked === "boolean" ? u.blocked : false
       }));
       localStorage.setItem("users", JSON.stringify(mappedForUsersKey));
-    } catch (e) {
-      // ignore
     }
+
+    // Synchronize Jobs
+    const rawJobs = localStorage.getItem("jobs");
+    const rawCciJobs = localStorage.getItem("cci_jobs");
+    if (rawJobs) {
+      localStorage.setItem("cci_jobs", rawJobs);
+    } else if (rawCciJobs) {
+      localStorage.setItem("jobs", rawCciJobs);
+    }
+
+    // Synchronize Companies
+    const rawCompanies = localStorage.getItem("companies");
+    const rawCciCompanies = localStorage.getItem("cci_companies");
+    if (rawCompanies) {
+      localStorage.setItem("cci_companies", rawCompanies);
+    } else if (rawCciCompanies) {
+      localStorage.setItem("companies", rawCciCompanies);
+    }
+
+    // Synchronize Applications
+    const rawApps = localStorage.getItem("applications");
+    const rawCciApps = localStorage.getItem("cci_applications");
+    if (rawApps) {
+      localStorage.setItem("cci_applications", rawApps);
+    } else if (rawCciApps) {
+      localStorage.setItem("applications", rawCciApps);
+    }
+  } catch (err) {
+    console.warn("Storage sync reconciliation failed", err);
   }
 }

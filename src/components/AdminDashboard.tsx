@@ -546,6 +546,11 @@ export default function AdminDashboard({
     });
 
     localStorage.setItem("cci_users", JSON.stringify(updatedUsers));
+    const customUsersList = updatedUsers.map(u => ({
+      ...u,
+      role: u.role === "company" ? "recruiter" : u.role
+    }));
+    localStorage.setItem("users", JSON.stringify(customUsersList));
     appendAuditLog("Modified candidate portfolio override", `Candidate: ${selectedUser.name}`);
     notify("Operational candidate portfolio changes updated successfully.", "success");
     setSelectedUser(null);
