@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { User, Company, Job, Application } from "./types";
 import { initLocalStorage } from "./data/mockData";
+import { syncAllEntities } from "./data/sync";
 import AdminDashboard from "./components/AdminDashboard";
 import CareerConnectLogo from "./components/CareerConnectLogo";
 import { Lock, Mail, ShieldAlert, CheckCircle2, LogOut, ArrowLeft, Sparkles, ShieldCheck, HelpCircle } from "lucide-react";
@@ -138,6 +139,12 @@ function AdminApp() {
 
   useEffect(() => {
     reloadData();
+
+    // Background pull from central server on mount to retrieve registrations from other devices
+    syncAllEntities(() => {
+      reloadData();
+    }).catch((err) => console.warn("[CCI Sync] Central database pull failed", err));
+
     // Watch for cross-window adjustments
     window.addEventListener("storage", reloadData);
     return () => window.removeEventListener("storage", reloadData);

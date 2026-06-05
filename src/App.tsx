@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { User, Company, Job, Application, SavedJob } from "./types";
 import { initLocalStorage } from "./data/mockData";
+import { syncAllEntities } from "./data/sync";
 import { motion } from "motion/react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -136,7 +137,7 @@ export default function App() {
     document.documentElement.classList.remove("dark");
   }, []);
 
-  // Dynamic Sync and Realtime Database Updates Listener Across Tabs
+  // Dynamic Sync and Realtime Database Updates Listener Across Tabs and Devices
   useEffect(() => {
     const handleStorageReload = () => {
       // Reload db states
@@ -193,6 +194,14 @@ export default function App() {
         setMaintenance(false);
       }
     };
+
+    // Run synchronous reload first for fast visual responsiveness
+    handleStorageReload();
+
+    // Dynamically pull all latest records from central server in background
+    syncAllEntities(() => {
+      handleStorageReload();
+    }).catch((err) => console.warn("[CCI Sync] Background pull failed:", err));
 
     window.addEventListener("storage", handleStorageReload);
     return () => window.removeEventListener("storage", handleStorageReload);
